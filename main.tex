@@ -1,0 +1,824 @@
+\documentclass{IEEEoj}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{xurl}   % allow long reference URLs to break across lines
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
+\usepackage[hidelinks]{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\AtBeginDocument{\definecolor{ojcolor}{cmyk}{0.93,0.59,0.15,0.02}}
+\def\OJlogo{\vspace{-4pt}\hskip-4pt\includegraphics[height=18pt]{ojcoms.png}}
+
+\pgfplotsset{compat=1.18}
+\sisetup{detect-all}
+
+% Table readability: looser rows, consistent numeric columns
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{R}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+\receiveddate{XX Month, XXXX}
+\reviseddate{XX Month, XXXX}
+\accepteddate{XX Month, XXXX}
+\publisheddate{XX Month, XXXX}
+\currentdate{XX Month, XXXX}
+\doiinfo{OJCOMS.XXXX.XXXXXXX}
+
+\title{Lunar Communications Link Design: \\ A First-Principles Tutorial}
+
+\author{EDUARDO~BAENA,~\IEEEmembership{Member,~IEEE,}
+        HARINI~ISATHYA,
+        BARATHI~ASHOK,
+        SARANATH~ANIYENGAR,
+        ANDREW~BENINCASA,
+        PAOLO~TESTOLINA,
+        DIMITRIOS~KOUTSONIKOLAS,~\IEEEmembership{Senior~Member,~IEEE,}
+        JOSEP~JORNET,~\IEEEmembership{Senior~Member,~IEEE,}
+        AND~TOMMASO~MELODIA,~\IEEEmembership{Fellow,~IEEE}}
+\affil{Institute for Networked Intelligent Systems, Northeastern University, Boston, MA 02115, USA}
+\corresp{CORRESPONDING AUTHOR: Eduardo Baena (e-mail: e.baena@northeastern.edu).}
+\authornote{Manuscript submitted to the IEEE Open Journal of the Communications Society. This work received no external funding.}
+\markboth{Lunar Communications Link Design: A First-Principles Tutorial}{Baena \textit{et al.}}
+
+
+\begin{abstract}
+Lunar communications infrastructure is under active development: NASA's LCRNS is under contract, ESA's Moonlight targets 2030, China operates two relay satellites, and more than one hundred missions are planned this decade. Yet the link-design methodology for this environment has not been derived in the open literature. The fundamental difference from terrestrial or Earth-orbit satellite design is that on the Moon the slant range is fixed by orbital mechanics, not by site selection, and it spans five orders of magnitude within a single network. The relay orbit therefore determines the antenna aperture, which in turn determines the pointing requirement; this geometry-driven cascade constrains every lunar link and provides the organising principle of this tutorial. Starting from the link equation, we derive a scaling law that reduces first-order aperture sizing to three inputs---orbit, data rate, and carrier frequency---and validate it through a canonical Ka-band budget and parametric analysis across five canonical link types. The survey sections then identify which terrestrial design assumptions remain valid in the lunar environment and which do not: the Earth--Moon round-trip delay exceeds the thresholds for which standard protocol timers were designed, the binary coverage regime precludes signal-quality-based handover, the lunar diurnal cycle imposes a power constraint that varies network topology over time, and the far-side Shielded Zone inverts the regulatory relationship between communications services and radio astronomy. The tutorial provides a decision-flow procedure, a terminology mapping, and a taxonomy of the assumptions that cease to hold, so that an engineer approaching lunar link design can identify the dominant constraint and the design principle that replaces it.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Lunar communications, link budget, delay-tolerant networking, non-terrestrial networks, LunaNet, cislunar, position navigation and timing, spectrum allocation.
+\end{IEEEkeywords}
+
+\maketitle
+
+
+\section{Introduction}
+\IEEEPARstart{L}{unar} communications infrastructure is under active development by several national space agencies and commercial providers. NASA's Lunar Communications Relay and Navigation System (LCRNS) procures relay and navigation services from commercial providers~\cite{lcrns_esper2025,nasa_im_contract}. The Moonlight programme of the European Space Agency targets a five-satellite constellation~\cite{esa_moonlight_overview,esa_moonlight_csc}. China operates the Queqiao relay satellites in support of far-side lunar missions~\cite{chen_ce4_relay,cnsa_queqiao2}. More than 100~lunar missions are planned for the present decade~\cite{pwc_lunar_market}.
+
+For communications engineers accustomed to terrestrial or Earth-orbit satellite systems, the lunar environment introduces a number of differences that bear directly on link design. Slant ranges span from a few kilometres for surface-to-surface links to \SI{384000}{km} for the Earth--Moon trunk, a spread of five orders of magnitude within a single network. The Earth--Moon round-trip time of \SI{2.56}{\second} exceeds the design assumptions of standard TCP, of 5G~NR hybrid automatic repeat request on the trunk link, and of online certificate validation. Surface nodes must survive a lunar night of \SI{14.77}{days}, which constrains power availability and causes the network topology to vary over the lunar day. The lunar far side is protected as a radio-quiet zone for astronomy, which inverts the usual regulatory relationship between active communications services and passive services.
+
+The slant range, which is the dominant term of the free-space path loss, is determined by orbital mechanics rather than by link-design choice. The relay orbit determines the range, and the range in turn determines the antenna aperture required to deliver a given data rate at a given carrier frequency. This relationship, referred to in what follows as the aperture-range scaling, is the organizing principle of this tutorial. The paper derives it from first principles, applies it to a representative worked example, and generalizes it through parametric analysis.
+
+\subsection{Related Review Articles}
+The lunar communications literature has grown rapidly but remains partitioned by subdomain. Marine Roig \emph{et al.}~\cite{marine_roig_survey} and Alqodah \emph{et al.}~\cite{alqodah_review} survey lunar and cislunar network architectures from a 6G perspective, cataloguing missions, standards, and proposed constellations. Islam \emph{et al.}~\cite{islam_dtn_survey} and Liyanaarachchi \emph{et al.}~\cite{liyanaarachchi_cislunar} address the delay-tolerant networking and 6G dimensions respectively, while Jamshed \emph{et al.}~\cite{jamshed_ntn_tutorial} and Nguyen \emph{et al.}~\cite{nguyen_ntn_ojcoms2024} treat non-terrestrial networks in the broader satellite-aerial context. A comprehensive PRISMA-based survey by Marine Roig \emph{et al.}~\cite{marine_roig_survey_2026} covers 175~publications across seven research domains, and a quantitative comparison of end-to-end and delay-tolerant protocols for the Earth--Moon path~\cite{e2e_vs_dtn_2026} evaluates QUIC against DTN with QUICCL/LTP under a common testbed. These works catalogue what has been proposed and flown but do not connect orbital mechanics to communications system design: they report aperture values and data rates for specific missions without deriving them from the link equation, so the physical relationship between orbit selection, aperture, pointing, and power remains implicit. The present paper makes that relationship explicit through a scaling law derived from first principles, enabling system-level trades---orbit versus aperture, frequency versus pointing, data rate versus spacecraft power---that the mission-specific literature cannot support. The closest methodological antecedent is Saeed \emph{et al.}~\cite{saeed_ojcoms2021}, who derive link-budget equations term by term for integrated satellite-aerial networks and illustrate them with parametric curves; the present paper extends that approach to the lunar domain, where the five-orders-of-magnitude span in slant range and the orbital-mechanics constraint on aperture introduce a coupling that the satellite-aerial case does not exhibit, and where the terrestrial design assumptions that the satellite-aerial case preserves---continuous connectivity, online authentication, fading-based handover---cease to hold at identifiable numerical thresholds.
+
+\subsection{Contributions}
+The contribution of this paper is to derive the aperture-range scaling law from the link equation and to organise the lunar link-design problem around it. The law states that the required antenna aperture product scales linearly with slant range and with wavelength, and as the square root of the data rate; because the slant range is fixed by the relay orbit, the orbit selection becomes the single design decision from which aperture, pointing, and frequency follow. A canonical Earth--Moon trunk budget at Ka-band validates the law with all parameters in a single table, and parametric curves of margin against range, frequency, and aperture generalise it to five canonical lunar link types, each characterised by its dominant constraint. The survey sections then identify the terrestrial communications assumptions that cease to hold in the lunar environment and the numerical thresholds at which they do so, and the design guidance is reduced to a decision-flow procedure. Open research problems are identified and cross-referenced to the sections that motivate them.
+
+\subsection{Terminology Bridge}
+An engineer trained on terrestrial cellular systems already has a name for every element of a lunar network, and that is the difficulty: the words transfer but the assumptions behind them do not. Table~\ref{tab:terminology} lists the concepts for which the transfer is least safe and states, for each, the specific assumption that fails. Terms whose definition survives the transfer unchanged are omitted, because they need no bridge. The entries run from the access edge to the regulatory layer, and each points to the section in which the failure is quantified, so the table also serves as a map of the paper. Two further mappings are deferred to the sections in which their subject matter is treated: radio-layer mechanisms in deep-space against 3GPP practice in Section~\ref{sec:assets}, and the vocabularies of the three standards families that jointly govern a lunar network in Section~\ref{sec:protocol}.
+
+\begin{table*}[!t]
+\caption{Terrestrial Concepts Whose Underlying Assumptions Fail on the Moon}
+\label{tab:terminology}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Terrestrial concept & Lunar counterpart & Assumption that fails \\
+\midrule
+User equipment & Rover, EVA suit, emplaced instrument & A single device class spans four orders of magnitude in power and mobility; a \SI{5}{W} fixed seismometer and a crewed suit share no link-design assumptions (\S\ref{sec:capacity}) \\
+Base station & Lander, deployed mast, or relay satellite & The role is transient and power-limited, and the served range follows from the relay orbit rather than from site planning (\S\ref{sec:ntn}) \\
+Core network & Local surface core, or an Earth-side core \SI{1.28}{\second} away & A co-located, always-reachable core cannot be assumed, which forces either local termination or store-and-forward operation (\S\ref{sec:protocol}) \\
+Backhaul & Trunk link to Earth & No wireline exists: the backhaul is itself a range-limited wireless link, so the terrestrial split between access and backhaul collapses (\S\ref{sec:worked}) \\
+Cell & Coverage cell & Terrain rather than interference sets the boundary, so frequency reuse is not the binding constraint and the planning tool is a ray tracer over an elevation model (\S\ref{sec:capacity}) \\
+Handover & Handover within planned overlap & The serving signal holds at full strength until the ridge occludes it, so overlap must be sized from terrain geometry rather than inferred from a fading margin; where the deployment provides none, the link ends without warning (\S\ref{sec:capacity}) \\
+HARQ and ARQ & Retransmission terminated at the relay & The round-trip delay to Earth exceeds the timers these schemes assume, so reliability must be restored hop by hop (\S\ref{sec:protocol}) \\
+GNSS & Lunar PNT service & Positioning and timing are provisioned services rather than ambient infrastructure, and no Earth constellation is visible from the far side (\S\ref{sec:pnt}) \\
+Spectrum licence & ITU-R allocation and Shielded Zone protection & On the far side the emitter rather than the receiver is the regulated party (\S\ref{sec:spectrum}) \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Paper Organization}
+Section~\ref{sec:assets} inventories the assets that have flown or are under contract and maps radio practice in the two engineering traditions the field draws on. Section~\ref{sec:fundamentals} derives the link equation and the aperture-range scaling. Section~\ref{sec:worked} presents the canonical worked example. Section~\ref{sec:parametric} generalizes the result through parametric curves and introduces the five canonical lunar links. Section~\ref{sec:environment} summarizes the environmental constraints. Section~\ref{sec:guidelines} states the design guidelines and the decision-flow procedure. Sections~\ref{sec:capacity} through~\ref{sec:spectrum} survey capacity and mobility, constellation design and position-navigation-timing, the transfer of 3GPP non-terrestrial network concepts, protocol design for intermittent links, and security, power and spectrum. Section~\ref{sec:measurement} discusses the measurement gap, Section~\ref{sec:open} presents future research directions, and Section~\ref{sec:conclusion} concludes.
+
+
+\section{Lunar Communication Assets Today}
+\label{sec:assets}
+
+The methodology of the following sections is calibrated against hardware that has flown or is under contract, so this section inventories that hardware and extracts from it the four quantities that enter a link budget: orbit, band, aperture and delivered rate. Table~\ref{tab:assets} collects them. Two properties of the inventory organise the discussion. Every asset flown to date operates as a scheduled point-to-point link rather than as a network, with capacity allocated by a plan generated on Earth and no autonomous routing on board. And the aperture and band entries are not independent choices: each follows from the orbit, which is the coupling the remainder of this paper derives.
+
+\begin{table*}[!t]
+\caption{Lunar Communication Assets Flown, Operating or Under Contract}
+\label{tab:assets}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Asset & Orbit or location & Bands & Aperture & Rate delivered or specified \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Orbital relays, flown or operating}}\\
+Queqiao~\cite{chen_ce4_relay} & Earth--Moon L2 halo & X to surface, S to Earth & \SI{4.2}{m} & \SI{555}{kbps} return from lander; \SI{10}{Mbps} to Earth \\
+Queqiao-2~\cite{cnsa_queqiao2} & Elliptical frozen, period near \SI{26}{hours}, retrograde & X and UHF to surface, S and Ka to Earth & \SI{4.2}{m} & \SI{2}{Mbps} to Earth \\
+LRO~\cite{lro_ka_analysis} & Polar, \SI{50}{km} & S \SI{2.2}{GHz}, Ka \SI{25.65}{GHz} & \SI{0.75}{m} & \SI{100}{Mbps} Ka downlink \\
+KPLO~\cite{kim_kplo_dtn} & Polar, \SI{100}{km} & S, X & --- & \SI{8.5}{Mbps} X downlink; delay-tolerant payload \\
+\addlinespace[2pt]
+\multicolumn{5}{@{}l}{\emph{Orbital relays, planned or under contract}}\\
+Gateway~\cite{gateway_comm} & NRHO & S, Ka, optical & \SI{1}{m}; \SI{1.25}{m} & Up to \SI{25}{Mbps} on the lunar link \\
+LCRNS~\cite{lcrns_ref_const,nasa_lunar_relay_srd} & Five ELFOs, period near \SI{30}{hours} & S, Ka, X, optical & --- & \SI{1}{}--\SI{50}{Mbps} Ka; \SI{15}{bps} emergency mode \\
+Moonlight~\cite{esa_moonlight_overview,esa_moonlight_csc} & One communications ELFO at \SI{12}{hours}, four navigation ELFOs at \SI{24}{hours} & S, Ka, X & --- & Up to \SI{200}{Mbps} per user at Ka \\
+Lunar Pathfinder~\cite{sstl_pathfinder_guide} & Elliptical frozen & S, X & --- & Precursor relay service \\
+LNSS~\cite{jaxa_lnss} & Eight satellites, two ELFOs at \SI{12}{hours} & S, X, Ka, optical & --- & Navigation payload; target HDOP 1.3 \\
+\addlinespace[2pt]
+\multicolumn{5}{@{}l}{\emph{Surface payloads, flown}}\\
+Nokia LSCS~\cite{nokia_im2_outcome} & Surface & LTE near \SI{2.5}{GHz} & --- & Powered on; no link to user terminals \\
+Lunar Node-1~\cite{nasa_ln1} & Surface & S & --- & One-way ranging beacon to the DSN \\
+\addlinespace[2pt]
+\multicolumn{5}{@{}l}{\emph{Optical terminals}}\\
+LLCD~\cite{boroson_llcd} & Lunar orbit to Earth & \SI{1550}{nm} & \SI{0.107}{m} & \SI{622}{Mbps} down, \SI{20}{Mbps} up \\
+O2O~\cite{nasa_o2o} & Cislunar to Earth & \SI{1550}{nm} & \SI{0.10}{m} & \SI{260}{Mbps} down, \SI{20}{Mbps} up \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Orbital Relays}
+The two relays that have supported far-side operations bracket the design space. Queqiao occupies an Earth--Moon L2 halo orbit at a distance from the Moon between \SI{47000}{} and \SI{79000}{km}, and closes its surface links with a \SI{4.2}{m} deployable reflector against forward and return rates of \SI{125}{bps} and at most \SI{555}{kbps}~\cite{chen_ce4_relay}. The asymmetry is instructive: the same aperture that returns half a megabit per second from the surface delivers only a few hundred bits per second in the forward direction, because the transmitting end of the forward link is an Earth station working across the full Earth--Moon range while the return link is closed by the relay's own reflector. Queqiao-2 retains the \SI{4.2}{m} aperture but exchanges the halo orbit for an elliptical frozen orbit with a period near \SI{26}{hours}, trading continuous far-side visibility for shorter slant ranges and hence higher rates~\cite{cnsa_queqiao2}.
+
+Two orbiters not built as relays have nonetheless supplied the field with its operational evidence. LRO carries a \SI{0.75}{m} combined S- and Ka-band aperture and returns \SI{100}{Mbps} at Ka, and its accumulated Ka signal-level record is the largest empirical lunar link data set in existence~\cite{lro_ka_analysis}. KPLO carried a delay-tolerant networking payload of under \SI{1}{kg} and \SI{5}{W} that exercised the Bundle Protocol, the Licklider Transmission Protocol and file delivery between the Moon and Earth, including streamed video~\cite{kim_kplo_dtn}, which remains the only in-flight demonstration of the protocol stack that Section~\ref{sec:protocol} analyses. CAPSTONE added the complementary result at the navigation layer by performing two-way crosslink ranging with LRO from an NRHO using a software-defined radio of approximately \SI{2}{W}, establishing that a lunar crosslink can be closed between small platforms.
+
+\subsection{Contracted Constellations}
+The contracted systems converge on the elliptical frozen orbit, and they do so for the reason developed in Section~\ref{sec:pnt}: apolune placed over the southern hemisphere buys dwell time over the south pole from a small number of satellites. The LCRNS reference design places five satellites in such orbits with periods near \SI{30}{hours} and specifies Ka-band user rates from \SI{1}{} to \SI{50}{Mbps}, alongside an emergency mode of \SI{15}{bps} that fixes the lower bound of the design envelope~\cite{lcrns_ref_const,nasa_lunar_relay_srd}. Its requirements document also bounds latency rather than throughput, admitting under \SI{1}{\second} for real-time delivery to the network interface, which is the quantity that Section~\ref{sec:protocol} shows to be unattainable end to end from Earth.
+
+Moonlight separates the two functions across the constellation, assigning one communications satellite to a \SI{12}{hour} orbit and four navigation satellites to \SI{24}{hour} orbits~\cite{esa_moonlight_overview,esa_moonlight_csc}, and it defines user terminal classes spanning from below \SI{1}{Mbps} to \SI{200}{Mbps} on the return link. That span of more than two orders of magnitude in rate across a common relay is the practical expression of the aperture-range scaling: the relay is fixed, so the rate a user obtains is set almost entirely by the aperture the user can carry. The JAXA navigation system adopts the same orbit family with eight satellites in two planes~\cite{jaxa_lnss}, and a Chinese relay constellation for the international lunar research station has been announced without published orbital or radio parameters.
+
+\subsection{Surface Networks}
+The single attempt to operate a cellular network on the lunar surface establishes the state of the art precisely because it was incomplete. The Nokia system integrated base station, radio and core functions into one enclosure and was intended to serve a rover and a hopper at ranges up to \SI{2}{km}. It powered on, and telemetry confirmed that base station, radio and core were functional, but no link to the user terminals was established and no user traffic crossed the cellular interface, because the lander came to rest on its side and the resulting power and thermal state left the terminals inoperable~\cite{nokia_im2_outcome}. The consequence for this paper is that no measured surface cellular link budget exists, and the numbers in Section~\ref{sec:capacity} rest on the study that preceded the flight rather than on data returned by it. Lunar Node-1 did return surface radio data, transmitting as an S-band ranging beacon to the DSN, though as a navigation rather than a communications payload~\cite{nasa_ln1}.
+
+The demand model that surface designs are sized against comes from the same study. It admits two astronauts on extravehicular activity with at most four simultaneous cameras at \SI{3}{}--\SI{12}{Mbps} each, giving an uplink requirement near \SI{13}{Mbps} for a single camera stream and \SI{26}{Mbps} for two, and it confines the spectrum to bands near \SI{2.5}{} and \SI{3.5}{GHz} because allocations below \SI{2}{GHz} are withheld to protect radio astronomy~\cite{nokia_lunar_3gpp}.
+
+\subsection{Optical Terminals}
+Optical communication is the one lunar capability that has been demonstrated well beyond what the contracted RF systems specify. LLCD returned \SI{622}{Mbps} from lunar orbit through a \SI{0.107}{m} aperture radiating \SI{0.5}{W} average power at \SI{1550}{nm}~\cite{boroson_llcd}, a rate an order of magnitude above the Ka-band services now under contract, from an aperture an order of magnitude smaller than the relay reflectors of Table~\ref{tab:assets}. European ground stations received the same downlink at reduced rates limited by detector technology rather than by the space terminal~\cite{giggenbach_locl}, and the planned Orion terminal specifies \SI{260}{Mbps} from a comparable \SI{0.10}{m} aperture~\cite{nasa_o2o}.
+
+The cost of that efficiency is pointing, and the LLCD figures quantify it: the terminal line of sight was stabilised to better than \SI{2.5}{\micro\radian} against a requirement of \SI{4}{\micro\radian} RMS, with a transmit beam of roughly \SI{15}{\micro\radian}~\cite{boroson_llcd}. Deep-space RF antennas operate with pointing errors measured in milliradians~\cite{dsn_810_005}, so the optical terminal demands roughly three orders of magnitude tighter control for the same link. This is the sensitivity that the optical variant of Section~\ref{sec:parametric} exhibits, and it is why an optical budget that closes comfortably in aperture can fail on the platform rather than on the radio. No optical link has yet been demonstrated between two spacecraft in lunar orbit, so the inter-satellite case remains analysis rather than measurement.
+
+\subsection{The Interoperability Baseline}
+Interoperability is specified rather than negotiated. The LunaNet interoperability specification mandates version~7 of the Bundle Protocol together with its security extension, fixes the proximity and direct-to-Earth band plan, and defines real-time and store-and-forward service types without setting a numerical boundary between them~\cite{lnis_v5}. Frequency assignment follows the Space Frequency Coordination Group, which reserves \SI{2483.5}{}--\SI{2500}{MHz} for in-situ navigation with guard bands separating it from the adjacent terrestrial mobile allocation, and applies an occupied-bandwidth rule that directs links wider than \SI{6}{MHz} to Ka-band~\cite{sfcg_rec32}. The space link and file delivery layers follow CCSDS, which has adopted the delay-tolerant protocols as a companion series~\cite{ccsds_bp,ccsds_ltp,ccsds_lunar_standards}. A lunar radio design is therefore constrained at the outset in band, bandwidth and protocol, and the free parameters the designer retains are the ones the next section enumerates.
+
+\subsection{Radio Practice Across the Two Families}
+The assets of Table~\ref{tab:assets} are built on deep-space radio practice, whereas the surface network is built on 3GPP practice, and the two differ in the mechanisms they use for the same purpose. Table~\ref{tab:rosetta_radio} maps those mechanisms. The pattern is that terrestrial radio closes a feedback loop around a measurement, while space radio operates open loop from a prediction, and the reason is the delay: a loop whose round trip exceeds the coherence time of the quantity it tracks cannot stabilise it. Since lunar geometry is deterministic, the prediction that replaces the measurement is available, which is what makes the substitution workable rather than merely necessary.
+
+\begin{table*}[!t]
+\caption{Radio-Layer Mechanisms in Deep-Space and 3GPP Practice}
+\label{tab:rosetta_radio}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Function & Deep-space and CCSDS practice & 3GPP NR practice & Consequence for a lunar link \\
+\midrule
+Rate selection & Fixed for the contact from a predicted budget & Adaptive modulation and coding driven by channel-quality reports & On the trunk the report is stale by the round trip, so the rate must be set from predicted geometry rather than from a measurement \\
+Power control & Constant EIRP with a static margin & Closed loop, adjusted per slot~\cite{3gpp_tr_38821} & The loop cannot close within the delay, so the margin absorbs statically what the loop would otherwise track \\
+Doppler handling & Pre-compensated from the ephemeris & Pre-compensated at the terminal from its own position fix and the satellite ephemeris & The ephemeris is available but the position fix is not, so the correction must be derived from two-way ranging with the relay \\
+Multiple access & Scheduled contacts, half-duplex exchange between two craft~\cite{ccsds_prox1} & Shared per-slot access among many terminals & With few terminals and no interference limit, access is a scheduling problem over visibility windows rather than a capacity-sharing problem \\
+Antenna & Mechanically steered high-gain reflector & Electronically steered array & Gain is bought with pointing, so the beamwidth that closes the link becomes a platform requirement rather than a radio parameter \\
+Ranging & Integrated into the communications carrier & Dedicated positioning reference signals~\cite{prs_ntn_plans2023} & Ranging and communications share one carrier and one aperture, so navigation and data compete for the same power \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+
+\section{Link Equation and Aperture-Range Scaling}
+\label{sec:fundamentals}
+
+\subsection{Orbital Geometry and Slant Range}
+Lunar communications involve five distinct slant ranges, each fixed by orbital mechanics rather than by the link designer. Table~\ref{tab:ranges} lists these ranges together with the geometry that determines them. The relay orbits most commonly considered are the elliptical lunar frozen orbit (ELFO), the near-rectilinear halo orbit (NRHO) and the Earth--Moon L2 halo orbit. The ELFO provides stable long-duration coverage of a single lunar hemisphere with periods ranging from approximately \SI{12}{hours} to \SI{30}{hours} depending on the semi-major axis; the Queqiao-2 relay satellite occupies a high-apolune retrograde variant with a period near \SI{26}{hours}~\cite{cnsa_queqiao2}. The NRHO, selected for the Lunar Gateway, has a perilune altitude of approximately \SI{1629}{km} and an apolune altitude of approximately \SI{69363}{km} with a period of approximately \SI{6.56}{days}~\cite{gateway_comm}. The L2 halo orbit provides continuous far-side coverage.
+
+\begin{table}[!t]
+\caption{Lunar Link Types and Their Slant Ranges}
+\label{tab:ranges}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lrR@{}}
+\toprule
+Link type & Range & Determined by \\
+\midrule
+Surface-to-surface & 1--10\,km & Terrain, mast height \\
+Surface-to-relay & 3\,000--70\,000\,km & Relay orbit \\
+Relay-to-relay & 10\,000--60\,000\,km & Relative orbit geometry \\
+Relay-to-Earth & 384\,000\,km & Earth--Moon distance \\
+Surface-to-Earth & 384\,000\,km & Earth--Moon distance \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{The Link Equation}
+The ratio of received energy per bit to noise spectral density is
+\begin{equation}
+\label{eq:ebn0}
+\frac{E_b}{N_0} = \frac{P_t \, G_t \, G_r}{k \, T_{\mathrm{sys}} \, R_b} \left(\frac{\lambda}{4\pi R}\right)^{2} L_{\mathrm{o}},
+\end{equation}
+in which $P_t$ is the transmit power in watts, $G_t$ and $G_r$ are the transmit and receive antenna gains, $k = 1.38 \times 10^{-23}$~J/K is the Boltzmann constant, $T_{\mathrm{sys}}$ is the system noise temperature in kelvin, $R_b$ is the data rate in bits per second, $\lambda = c/f$ is the wavelength, $R$ is the slant range, and $L_{\mathrm{o}}$ aggregates the losses that are not attributable to free-space spreading, namely atmospheric, pointing, polarization and implementation losses. Expressed in decibels, \eqref{eq:ebn0} becomes
+\begin{equation}
+\label{eq:linkdb}
+\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} = \mathrm{EIRP} + \left[\frac{G}{T}\right]_{r} - L_{\mathrm{FS}} - L_{\mathrm{o}} - k_{\mathrm{dB}} - [R_b]_{\mathrm{dB}},
+\end{equation}
+where $\mathrm{EIRP} = P_t + G_t$ in dBW, $[G/T]_r = G_r - T_{\mathrm{sys}}$ in dB/K, and $L_{\mathrm{FS}} = 20\log_{10}(4\pi R f / c)$ in dB. Equation~\eqref{eq:linkdb} is the form used in the design control tables of deep-space practice~\cite{yuen_descanso,dsn_810_005}.
+
+\subsection{Free-Space Path Loss}
+A transmitter radiating power $P_t G_t$ uniformly over a sphere of radius $R$ produces a power flux density $P_t G_t / (4\pi R^2)$ at the receiver. A receiving antenna of effective area $A_e = G_r \lambda^2 / (4\pi)$ therefore captures $P_r = P_t G_t G_r \lambda^2 / (4\pi R)^2$, from which the free-space path loss follows as
+\begin{equation}
+\label{eq:fspl}
+L_{\mathrm{FS}} = \left(\frac{4\pi R}{\lambda}\right)^{2} = \left(\frac{4\pi R f}{c}\right)^{2}.
+\end{equation}
+In decibels the loss increases by \SI{20}{dB} per decade of range and by \SI{20}{dB} per decade of frequency.
+
+\subsection{Antenna Gain and Beamwidth}
+For a circular aperture of diameter $D$ and efficiency $\eta$, the gain and the half-power beamwidth are
+\begin{equation}
+\label{eq:gain}
+G = \eta \left(\frac{\pi D}{\lambda}\right)^{2}, \qquad \theta_{3\mathrm{dB}} \approx \frac{70\lambda}{D} \ \ [\mathrm{deg}].
+\end{equation}
+Two consequences of \eqref{eq:gain} govern lunar link design. Doubling the aperture diameter raises the gain by \SI{6}{dB} and halves the beamwidth, so that the aperture which delivers the gain simultaneously imposes the pointing requirement. Doubling the carrier frequency raises the gain by \SI{6}{dB} at each fixed aperture and raises the path loss by \SI{6}{dB}. The net effect on margin depends on which quantities are held fixed. Three cases arise. If both antennas are fixed in physical aperture, the two gain increments (\SI{12}{dB}) exceed the path-loss increment (\SI{6}{dB}) and the margin improves by \SI{6}{dB} per octave. If both antennas are fixed in gain, the path loss dominates and the margin degrades by \SI{6}{dB} per octave. If one antenna is fixed in aperture and the other in gain, the two effects cancel and the margin is unchanged. The first case applies to a lunar trunk link in which both the spacecraft dish and the ground antenna are specified by diameter; frequency is then favourable rather than neutral, and the Ka-band preference over S-band is a direct consequence.
+
+\subsection{Link Margin}
+The delivered $E_b/N_0$ obtained from \eqref{eq:ebn0} is compared against the value required by the chosen modulation and coding scheme, giving the margin
+\begin{equation}
+\label{eq:margin}
+M = \left[\frac{E_b}{N_0}\right]_{\mathrm{del}} - \left[\frac{E_b}{N_0}\right]_{\mathrm{req}} - L_{\mathrm{impl}},
+\end{equation}
+in which $L_{\mathrm{impl}}$ accounts for implementation losses. A link is considered closed when $M > 0$. Deep-space practice requires $M \geq \SI{3}{dB}$ for proven configurations and $M \geq \SI{6}{dB}$ for configurations that have not previously been flown~\cite{yuen_descanso}.
+
+\subsection{Aperture-Range Scaling}
+Solving \eqref{eq:ebn0} for the aperture product yields
+\begin{equation}
+\label{eq:aperture}
+D_t D_r = \frac{4 R \lambda}{\pi \eta} \sqrt{\frac{k T_{\mathrm{sys}} R_b \left(E_b/N_0\right)_{\mathrm{req}}}{P_t L_{\mathrm{o}}}}.
+\end{equation}
+Equation~\eqref{eq:aperture} relates nine parameters, and multiple combinations of them satisfy a given link requirement; it therefore defines a design space rather than a unique solution. Three dependences matter for design. The slant range enters linearly, so that doubling the range doubles the required aperture product. The data rate enters as $\sqrt{R_b}$, so that quadrupling the rate doubles the required aperture product. The wavelength enters linearly, so that raising the carrier frequency reduces the required aperture but narrows the beamwidth in proportion, transferring the difficulty from the radio-frequency subsystem to the pointing subsystem.
+
+
+\section{Canonical Worked Example}
+\label{sec:worked}
+
+To illustrate the methodology, this section works a single budget end to end: the trunk link from a relay satellite at lunar distance to a \SI{34}{m} DSN ground station at Ka-band. This case is chosen because the ground-station aperture is large enough to absorb the \SI{384000}{km} range, which makes it a convenient reference against which the parametric results of Section~\ref{sec:parametric} may be read. Table~\ref{tab:budget} lists the parameters.
+
+\begin{table}[!t]
+\caption{Parameters of the Canonical Earth--Moon Trunk Budget}
+\label{tab:budget}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lrR@{}}
+\toprule
+Parameter & Value & Description \\
+\midrule
+$f$ & 26\,GHz & Ka-band downlink \\
+$R$ & 384\,000\,km & Earth--Moon distance \\
+$R_b$ & 100\,Mbps & Data rate \\
+$P_t$ & 40\,W & Relay transmit power \\
+$D_t$ & 0.75\,m & Relay antenna \\
+$D_r$ & 34\,m & DSN antenna \\
+$\eta$ & 0.6 & Antenna efficiency \\
+$T_{\mathrm{sys}}$ & 31\,K & DSN Ka-band receiver at zenith~\cite{dsn_810_005} \\
+$(E_b/N_0)_{\mathrm{req}}$ & 10\,dB & QPSK, rate 1/2 \\
+$L_{\mathrm{impl}}$ & 2\,dB & Implementation loss \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The antenna gains follow from \eqref{eq:gain} as $G_t = \SI{44.0}{dBi}$ and $G_r = \SI{77.1}{dBi}$, the latter consistent with the DSN 34-m beam-waveguide handbook value of \SI{78.5}{dBi} at \SI{32}{GHz} scaled to \SI{26}{GHz}~\cite{dsn_810_005,dsn_34m_bwg}. The free-space path loss follows from \eqref{eq:fspl} as
+\begin{equation}
+L_{\mathrm{FS}} = 20\log_{10}\!\left(\frac{4\pi \cdot 3.844\times10^{8} \cdot 26\times10^{9}}{2.998\times10^{8}}\right) = \SI{232.4}{dB}.
+\end{equation}
+Substituting into \eqref{eq:linkdb} gives a delivered ratio of
+\begin{align}
+\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} &= (16 + 44.0) + (77.1 - 14.9) \nonumber \\
+&\quad - 232.4 - 2 + 228.6 - 80 = \SI{36.4}{dB},
+\end{align}
+and hence a margin of $M = 36.4 - 10 = \SI{26.4}{dB}$ by \eqref{eq:margin}.
+
+The dominant term is the \SI{232.4}{dB} path loss, which is absorbed principally by the \SI{77.1}{dBi} receive gain of the DSN aperture. That aperture provides approximately \SI{33}{dB} more gain than the \SI{0.75}{m} relay antenna, and it is this asymmetry that permits the trunk link to close with a modest spacecraft antenna. Reducing the ground aperture from \SI{34}{m} to \SI{3.4}{m} would remove \SI{20}{dB} of receive gain and drive the margin to \SI{6.4}{dB}, which still closes but without weather margin.
+
+The margin is further constrained by atmospheric attenuation at the ground station. The DSN link design handbook~\cite{dsn_810_005} gives Ka-band attenuation statistics for Goldstone, Canberra and Madrid from which the attenuation at \SI{26}{GHz} is approximately \SI{1}{dB} at 90~per~cent weather availability, \SI{3}{dB} at 95~per~cent, \SI{10}{}--\SI{15}{dB} at 99~per~cent and \SI{20}{}--\SI{30}{dB} at 99.9~per~cent. The available margin of \SI{26.4}{dB} therefore accommodates 99~per~cent availability but not 99.9~per~cent without rate adaptation or site diversity. Corresponding rain-attenuation models are discussed in~\cite{islam_ka_band}.
+
+
+\section{Parametric Analysis and the Five Lunar Links}
+\label{sec:parametric}
+
+\subsection{Margin Against Range}
+Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at S-band, X-band and Ka-band, for the aperture pair, power and data rate of Table~\ref{tab:budget}. The received power is inversely proportional to the square of the range, as expected from \eqref{eq:fspl}, and the curves accordingly fall at \SI{20}{dB} per decade. The three bands cross the \SI{3}{dB} closure threshold at different ranges: Ka-band remains closed to approximately \SI{600000}{km}, whereas S-band closes only to approximately \SI{100000}{km}. The vertical separation of approximately \SI{21.5}{dB} between the S-band and Ka-band curves reflects the net \SI{6}{dB} per octave advantage of higher frequency when both apertures are fixed in physical diameter, as discussed in Section~\ref{sec:fundamentals}. For symmetric links with small apertures at both ends the advantage is the same, since both apertures scale identically with frequency; the curves shift downward but remain parallel.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=\columnwidth, height=6cm,
+    xlabel={Slant range $R$ (km)},
+    ylabel={Margin $M$ (dB)},
+    xmode=log, xmin=100, xmax=600000,
+    ymin=-40, ymax=50,
+    grid=both, grid style={gray!25},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    legend style={font=\scriptsize, at={(0.02,0.03)}, anchor=south west,
+                  draw=gray!50, fill=white, fill opacity=0.9,
+                  text opacity=1, row sep=1pt},
+]
+\addplot[blue, thick, domain=100:600000, samples=120]
+  {10*log10(40)+10*log10(0.6*(pi*0.75*2.2e9/2.998e8)^2)+10*log10(0.6*(pi*34*2.2e9/2.998e8)^2)-20*log10(4*pi*x*1e3*2.2e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+\addlegendentry{S-band, 2.2\,GHz}
+\addplot[red, thick, dashed, domain=100:600000, samples=120]
+  {10*log10(40)+10*log10(0.6*(pi*0.75*8.4e9/2.998e8)^2)+10*log10(0.6*(pi*34*8.4e9/2.998e8)^2)-20*log10(4*pi*x*1e3*8.4e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+\addlegendentry{X-band, 8.4\,GHz}
+\addplot[green!55!black, thick, dashdotted, domain=100:600000, samples=120]
+  {10*log10(40)+10*log10(0.6*(pi*0.75*26e9/2.998e8)^2)+10*log10(0.6*(pi*34*26e9/2.998e8)^2)-20*log10(4*pi*x*1e3*26e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+\addlegendentry{Ka-band, 26\,GHz}
+\addplot[black, densely dotted, domain=100:600000] {3};
+\addlegendentry{$M=3$\,dB threshold}
+\draw[gray, densely dashed] (axis cs:1629,-40) -- (axis cs:1629,50);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:1629,5) {NRHO perilune};
+\draw[gray, densely dashed] (axis cs:69363,-40) -- (axis cs:69363,50);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:69363,5) {NRHO apolune};
+\draw[gray, densely dashed] (axis cs:384000,-40) -- (axis cs:384000,50);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:384000,5) {Earth--Moon};
+\end{axis}
+\end{tikzpicture}
+\caption{Delivered margin against slant range at three carrier frequencies, with $D_t=\SI{0.75}{m}$, $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{31}{K}$ and $R_b=\SI{100}{Mbps}$. Both antenna gains are frequency-dependent, so higher frequencies yield a net \SI{6}{dB} per octave advantage.}
+\label{fig:margin}
+\end{figure}
+
+\subsection{Required Aperture Against Range}
+Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}{dB} margin at Ka-band against a \SI{34}{m} receive aperture, for data rates of 1, 10 and \SI{100}{Mbps}. The required aperture scales linearly with range and as the square root of the data rate, as predicted by \eqref{eq:aperture}. At \SI{384000}{km} and \SI{100}{Mbps} the curve returns $D_t \approx \SI{0.05}{m}$ for the \SI{3}{dB} threshold, far smaller than the \SI{0.75}{m} used in the worked example; the difference reflects the \SI{23}{dB} by which the worked example exceeds the \SI{3}{dB} closure threshold. At the \SI{1629}{km} perilune of an NRHO the requirement falls to sub-millimetre values, which indicates that a surface-to-relay link at short range is not aperture-limited when the far end is a large ground antenna. That condition does not hold in practice: when the receiving relay carries a \SI{0.5}{m} antenna rather than a \SI{34}{m} one, the required transmit aperture rises by a factor of approximately sixty-eight ($34/0.5$), which is why link~2 of Table~\ref{tab:links} is classified as aperture-constrained.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.95\columnwidth, height=6cm,
+    xlabel={Slant range $R$ (km)},
+    ylabel={Required aperture $D_t$ (m)},
+    ylabel near ticks,
+    xmode=log, ymode=log,
+    xmin=100, xmax=600000,
+    ymin=1e-4, ymax=10,
+    grid=both, grid style={gray!25},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    legend style={font=\scriptsize, at={(0.02,0.03)}, anchor=south west,
+                  draw=gray!50, fill=white, fill opacity=0.9,
+                  text opacity=1, row sep=1pt},
+]
+\addplot[blue, thick, domain=100:600000, samples=120]
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e6*1.585*19.95/40)};
+\addlegendentry{$R_b=1$\,Mbps}
+\addplot[red, thick, dashed, domain=100:600000, samples=120]
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e7*1.585*19.95/40)};
+\addlegendentry{$R_b=10$\,Mbps}
+\addplot[green!55!black, thick, dashdotted, domain=100:600000, samples=120]
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e8*1.585*19.95/40)};
+\addlegendentry{$R_b=100$\,Mbps}
+\draw[gray, densely dashed] (axis cs:1629,1e-4) -- (axis cs:1629,10);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:1629,0.1) {NRHO perilune};
+\draw[gray, densely dashed] (axis cs:69363,1e-4) -- (axis cs:69363,10);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:69363,0.1) {NRHO apolune};
+\draw[gray, densely dashed] (axis cs:384000,1e-4) -- (axis cs:384000,10);
+\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
+  at (axis cs:384000,0.1) {Earth--Moon};
+\end{axis}
+\end{tikzpicture}
+\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{31}{K}$ and $\eta=0.6$.}
+\label{fig:aperture}
+\end{figure}
+
+\subsection{Gain and Beamwidth Against Aperture}
+Fig.~\ref{fig:gainbw} shows the gain and the half-power beamwidth of a Ka-band aperture as functions of its diameter, on separate vertical scales. A \SI{0.75}{m} antenna provides approximately \SI{44}{dBi} of gain with a beamwidth of approximately \SI{1.1}{\degree}, whereas a \SI{34}{m} DSN antenna provides approximately \SI{77}{dBi} with a beamwidth of approximately \SI{0.024}{\degree}. The DSN attains the latter with ground-based pointing infrastructure that is not available on a spacecraft or lander. Conversely, a \SI{0.1}{m} lander antenna has a beamwidth near \SI{8}{\degree}, which is undemanding to point but yields only approximately \SI{26}{dBi}. The two curves diverge monotonically, which is the graphical statement of the coupling noted in Section~\ref{sec:fundamentals}: the gain that closes the link is inseparable from the pointing requirement that the platform must then meet.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+% Left axis: gain. scale only axis keeps both axis bodies identical in size,
+% so the two vertical scales align; width is reduced to leave room for both labels.
+\begin{axis}[
+    name=gainaxis,
+    width=0.62\columnwidth, height=4.9cm,
+    scale only axis,
+    xlabel={Aperture diameter $D$ (m)},
+    ylabel={Gain $G$ (dBi)},
+    xmode=log, xmin=0.05, xmax=40,
+    ymin=10, ymax=85,
+    axis y line*=left,
+    grid=both, grid style={gray!25},
+    tick label style={font=\scriptsize},
+    label style={font=\scriptsize},
+]
+\addplot[blue, thick, domain=0.05:40, samples=90]
+  {10*log10(0.6*(pi*x/0.01154)^2)};
+\node[blue, font=\scriptsize, anchor=west, inner sep=1pt]
+  at (axis cs:0.4,25) {Gain};
+\end{axis}
+% Right axis: beamwidth on an independent logarithmic scale.
+\begin{axis}[
+    width=0.62\columnwidth, height=4.9cm,
+    scale only axis,
+    at=(gainaxis.south west), anchor=south west,
+    xmode=log, xmin=0.05, xmax=40,
+    ymode=log, ymin=0.01, ymax=20,
+    ylabel={Beamwidth $\theta_{3\mathrm{dB}}$ (deg)},
+    axis y line*=right,
+    axis x line=none,
+    tick label style={font=\scriptsize},
+    label style={font=\scriptsize},
+]
+\addplot[red, thick, dashed, domain=0.05:40, samples=90] {70*0.01154/x};
+\node[red, font=\scriptsize, anchor=east, inner sep=1pt]
+  at (axis cs:8,2.5) {Beamwidth};
+\end{axis}
+\end{tikzpicture}
+\caption{Antenna gain and half-power beamwidth against aperture diameter at \SI{26}{GHz}, plotted on separate vertical scales.}
+\label{fig:gainbw}
+\end{figure}
+
+\subsection{The Five Canonical Links}
+Table~\ref{tab:links} summarizes the five canonical lunar links, each of which is an instance of \eqref{eq:aperture} evaluated at a different slant range. Four of the five are limited by geometry, whether through range, aperture or pointing. The trunk link to Earth is the exception: it is limited by weather availability and by contention for ground-station time, because the \SI{34}{m} aperture is large enough that the range is no longer the binding term.
+
+\begin{table*}[!t]
+\caption{The Five Canonical Lunar Links and Their Dominant Constraints}
+\label{tab:links}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}lrlllrR@{}}
+\toprule
+Link & Range & Band & Aperture, Tx / Rx & Beamwidth & Data rate & Dominant constraint \\
+\midrule
+1. Surface access & 1--10\,km & S, 2.4\,GHz & omni / omni & --- & 1\,Mbps & Terrain blockage \\
+2. Surface-to-relay & 1\,600--70\,000\,km & S, 2.2\,GHz & 0.5 / 0.5\,m & 8\textdegree & 1\,Mbps & Surface aperture \\
+3. Gateway backhaul & 20\,000\,km & Ka, 26\,GHz & 1.5 / 1.5\,m & 0.5\textdegree & 10--100\,Mbps & Aperture and pointing \\
+4. Inter-satellite & 60\,000\,km & Ka, 26\,GHz & 1 / 1\,m & 0.5\textdegree & 0.1--1\,Gbps & Pointing accuracy \\
+\phantom{4. }(optical variant) & 60\,000\,km & 1550\,nm & 12 / 12\,cm & 16\,\textmu rad & 1\,Gbps & Pointing accuracy \\
+5. Trunk to Earth & 384\,000\,km & Ka, 26\,GHz & 0.75 / 34\,m & 1.1\textdegree / 0.024\textdegree & 0.1--1\,Gbps & Weather, scheduling \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Direct Surface-to-Relay Access Link}
+Link~1 in Table~\ref{tab:links} is the surface access link, connecting a rover, lander or suited astronaut to a local relay at \SI{1}{}--\SI{10}{km}. The dominant constraint is terrain blockage rather than path loss: at \SI{2.4}{GHz} with omnidirectional antennas, the free-space loss over \SI{10}{km} is only \SI{120}{dB}, which a \SI{0}{dBm} transmitter and a \SI{3}{dBi} receive antenna close with \SI{20}{dB} of margin at \SI{1}{Mbps}. The link fails not from insufficient EIRP but from the ridge line that truncates the geometric horizon.
+
+The access link most closely resembles a terrestrial small cell in its design approach. A 3GPP NR carrier at \SI{2.6}{GHz} with \SI{20}{MHz} bandwidth and 64QAM delivers \SI{70}{Mbps} uplink over \SI{10}{km} with a \SI{10}{m} mast at the relay and a \SI{0}{dBi} antenna on the rover~\cite{nokia_lunar_3gpp}. Unlike a terrestrial small cell, the cell boundary follows terrain rather than a contour of constant received power, so the planning tool must be a ray tracer operating on a digital elevation model rather than a propagation curve~\cite{azami_terrain_aware,zhu_channel_ray}. The ITU-R Irregular Lunar Model~\cite{itu_p2170} provides the propagation prediction, but as discussed in Section~\ref{sec:measurement} it has not been validated against in-situ measurement at the relevant frequencies and ranges.
+
+\subsection{Gateway-to-Relay Backhaul}
+Link~3 in Table~\ref{tab:links} is the backhaul from a surface gateway or habitat to an orbital relay at \SI{1600}{}--\SI{70000}{km}. This link operates at Ka-band (\SI{26}{GHz}) with directional antennas on both ends, and the dominant constraint is the product of aperture and pointing accuracy. At the ELFO perilune of \SI{300}{km} a pair of \SI{0.5}{m} antennas closes a \SI{10}{Mbps} link with \SI{15}{dB} of margin, but at the NRHO apolune of \SI{70000}{km} the same pair requires \SI{4}{m} antennas or a \SI{100}\times reduction in data rate. The backhaul link therefore drives orbit selection: if the mission requires NRHO for coverage reasons, the backhaul aperture must grow by the ratio of apolune to perilune, which is why the Gateway carries a \SI{1.5}{m} Ka-band antenna rather than the \SI{0.5}{m} antenna that would suffice at ELFO perilune~\cite{gateway_comm,ppe_comm_links}.
+
+The backhaul link also carries the timing reference from which the surface network derives lunar time. The relay broadcasts a navigation signal synchronized to its onboard oscillator, and the surface gateway locks to this signal to establish local time. During the contact window the gateway steers its oscillator to compensate for the \SI{56.02}{\micro\second\per day} relativistic rate offset~\cite{ashby_lunar_time}; during the outage the gateway free-runs and the accumulated timing error is bounded by the oscillator stability and the outage duration~\cite{ansalone_lcrns_time}.
+
+\subsection{Optical Inter-Satellite Budget}
+The radio-frequency inter-satellite link at \SI{60000}{km} is marginal, as Fig.~\ref{fig:margin} indicates for a symmetric aperture pair. An optical implementation closes with positive margin at comparable aperture sizes. Taking $\lambda = \SI{1550}{nm}$, $P_t = \SI{+5}{dBW}$ (\SI{3}{W}), $D_t = D_r = \SI{10}{cm}$, $\eta = 0.5$, $R_b = \SI{1}{Gbps}$ and differential phase-shift keying, the telescope gain is \SI{106.2}{dB} at each terminal and the free-space loss is \SI{293.7}{dB}. The received power is then $5 + 106.2 + 106.2 - 293.7 - 3 = \SI{-80.3}{dBW}$, in which the \SI{3}{dB} pointing allowance corresponds to a pointing error of approximately \SI{3}{\micro\radian} against a beamwidth of $1.22\lambda/D = \SI{18.9}{\micro\radian}$. Against a photon-counting receiver sensitivity of approximately \SI{-90}{dBW} (\SI{-60}{dBm}), the margin is \SI{9.7}{dB}.
+
+The pointing allowance dominates the sensitivity of this budget. The demonstrated pointing standard for lunar optical links is \SI{2.5}{\micro\radian}, achieved by the Lunar Laser Communication Demonstration~\cite{boroson_llcd}. Doubling the pointing error to \SI{5}{\micro\radian} raises the pointing loss to approximately \SI{12}{dB} and removes the margin entirely. Flight results that anchor these parameters include optical downlinks from lunar and low-Earth-orbit missions demonstrating \SI{200}{}--\SI{260}{Mbps} with apertures of \SI{10}{}--\SI{22}{cm}~\cite{nasa_o2o,tbird_optical}, and proposed Moon-to-Earth links targeting \SI{2.5}{Gbps}~\cite{jaxa_optical_relay}. No inter-satellite optical link at cislunar range has yet been demonstrated in flight; the parameters above are consistent with the ISOC design, which targets gigabit connectivity among lunar smallsats with a multi-telescope omnidirectional terminal~\cite{isoc_2026}.
+
+
+\section{Environmental Constraints}
+\label{sec:environment}
+
+The lunar environment enters link design through a small number of parameters. The dielectric permittivity of the regolith follows $\varepsilon_r' = (1.93 \pm 0.17)\rho$ for bulk density $\rho$ in \si{g/cm^3}~\cite{olhoeft_strangway1975}, with a loss tangent between $10^{-3}$ in the highlands and $10^{-2}$ in the mare basalts at S-band; measurements on Chang'e-5 samples extend these figures to \SI{0.2}{}--\SI{12.2}{GHz}~\cite{dong_dielectric_ce5}. A surface antenna therefore operates above a ground plane with $\varepsilon_r$ between 2 and 3, which perturbs the radiation pattern but is second-order by comparison with terrain blockage. Median surface slopes range from \SI{3}{}--\SI{5}{\degree} in the maria to \SI{5}{}--\SI{10}{\degree} in the highlands on a \SI{1}{km} baseline~\cite{rosenberg_terrain2011}, which is sufficient for a rover to lose line of sight abruptly rather than gradually.
+
+Surface temperatures range from \SI{390}{K} at lunar noon to \SI{95}{K} before sunrise at the equator~\cite{williams_thermal2017}, and permanently shadowed regions remain between \SI{30}{} and \SI{40}{K}~\cite{paige_psr2010}. The surface dose rate is \SI{13.2}{\micro\gray\per\hour}~\cite{zhang_radiation2020}, corresponding to an annual galactic cosmic-ray dose of \SI{416}{mSv}~\cite{naito_radiation}. The lunar day is \SI{29.5}{Earth-days} with a night of \SI{14.77}{Earth-days}~\cite{lunar_sourcebook}, so that a solar-powered node must store energy for \SI{354}{hours} of darkness.
+
+Propagation over lunar terrain is addressed by ITU-R Recommendation P.2170-0, which defines the Irregular Lunar Model for point-to-area and point-to-point attenuation~\cite{itu_p2170}. It is the only internationally accepted lunar surface propagation model, although as discussed in Section~\ref{sec:measurement} it has not been validated against in-situ measurement.
+
+
+\section{Design Guidelines}
+\label{sec:guidelines}
+
+\subsection{Scaling Laws}
+Table~\ref{tab:scaling} collects the scaling relations that follow from \eqref{eq:gain} and \eqref{eq:aperture}. They permit a first-order aperture estimate to be formed from the orbit, the data rate and the carrier frequency alone, without evaluating the full budget.
+
+\begin{table}[!t]
+\caption{Scaling Relations for First-Order Aperture Sizing}
+\label{tab:scaling}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lR@{}}
+\toprule
+Relation & Consequence for design \\
+\midrule
+$D_t D_r \propto R$ & Doubling the range doubles the aperture product \\
+$D_t D_r \propto \sqrt{R_b}$ & Quadrupling the rate doubles the aperture product \\
+$D_t D_r \propto \lambda$ & Higher frequency reduces aperture, narrows beam \\
+$G \propto (D/\lambda)^2$ & Doubling $D$ adds \SI{6}{dB} and halves the beamwidth \\
+Both apertures fixed & Frequency wins: net \SI{6}{dB} per octave \\
+Both gains fixed & Path loss wins: net \SI{-6}{dB} per octave \\
+One aperture, one gain fixed & Cancellation: margin unchanged \\
+Margin threshold & $M \geq \SI{3}{dB}$ proven, $\geq \SI{6}{dB}$ unproven \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Decision-Flow Procedure}
+Fig.~\ref{fig:flow} sets out the order in which the parameters of \eqref{eq:aperture} are fixed in practice. The orbit is selected first, since it is the parameter over which the communications engineer has least control and which determines the range. The data rate and modulation follow, then the carrier frequency and the available transmit power. Whether one aperture is fixed determines whether \eqref{eq:aperture} is solved for a single unknown or under the additional constraint of a symmetric pair. The margin test then either terminates the procedure or returns it to the aperture, the data rate, or the decision to operate in store-and-forward mode.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+    node distance=4.5mm,
+    box/.style={draw, rounded corners, align=center,
+                text width=0.62\columnwidth, inner sep=3pt, font=\footnotesize},
+    dec/.style={draw, align=center, text width=0.48\columnwidth,
+                inner sep=3pt, font=\footnotesize, fill=gray!8},
+    ar/.style={-{Stealth[length=4pt]}, thick},
+]
+\node[box] (a) {1. Select relay orbit; obtain $R$};
+\node[box, below=of a] (b) {2. Select $R_b$ and modulation; obtain $(E_b/N_0)_{\mathrm{req}}$};
+\node[box, below=of b] (c) {3. Select $f$; obtain $\lambda=c/f$};
+\node[box, below=of c] (d) {4. Fix $P_t$ from the power budget};
+\node[dec, below=of d] (e) {5. Is one aperture fixed?};
+\node[box, below=of e] (f) {6. Solve \eqref{eq:aperture} for the free aperture};
+\node[dec, below=of f] (g) {7. Is $M \geq \SI{3}{dB}$?};
+\node[box, below=of g] (h) {8. Verify beamwidth against pointing capability};
+\node[box, below=of h] (j) {9. Aperture, pointing and frequency are fixed};
+\node[box, below=6mm of j, fill=gray!8] (i) {Increase aperture, reduce $R_b$, or adopt store-and-forward};
+\draw[ar] (a)--(b); \draw[ar] (b)--(c); \draw[ar] (c)--(d);
+\draw[ar] (d)--(e); \draw[ar] (e)--(f); \draw[ar] (f)--(g);
+\draw[ar] (g)--(h) node[midway,right,font=\scriptsize]{yes};
+\draw[ar] (h)--(j);
+% no: down the left margin to the remedial box
+\draw[ar] (g.west) -- ++(-0.10\columnwidth,0)
+          node[midway,above,font=\scriptsize,inner sep=1pt]{no} |- (i.west);
+% remedial box loops back up the right margin to step 2
+\draw[ar] (i.east) -- ++(0.04\columnwidth,0) |- (b.east);
+\end{tikzpicture}
+\caption{Order in which the parameters of \eqref{eq:aperture} are fixed during lunar link sizing.}
+\label{fig:flow}
+\end{figure}
+
+
+\section{Capacity, Mobility and Handover}
+\label{sec:capacity}
+
+\subsection{Demand Model}
+The most detailed public demand model for a lunar surface network is the Nokia Bell Labs study prepared for NASA~\cite{nokia_lunar_3gpp}. It considers up to two astronauts on extravehicular activity with up to four simultaneous cameras at \SI{3}{}--\SI{12}{Mbps} each in 1080p or 4K HEVC, together with voice and telemetry, over a service area of approximately \SI{10}{km}. Against this demand the study evaluates 3GPP peak uplink rates of \SI{69.95}{Mbps} for Release~8 with 64QAM over \SI{20}{MHz}, \SI{149.68}{Mbps} for Release~10 with two-carrier aggregation and 256QAM, and \SI{166}{}--\SI{221}{Mbps} for Release~15 in time-division duplex over \SI{100}{MHz}. The spectrum assumed is that of SFCG Recommendation 32-2R6, namely \SI{2.5035}{}--\SI{2.690}{GHz} and \SI{3.500}{}--\SI{3.800}{GHz}, with frequencies below \SI{2}{GHz} excluded in order to protect radio astronomy~\cite{sfcg_rec32}. The study concludes that both LTE and 5G~NR satisfy the mobile-broadband requirement for the planned surface traffic. The demand model remains an unvalidated prediction: the first surface network to fly did not complete a cellular call, and no in-situ traffic data have been published~\cite{nokia_lunar_3gpp}. Subsequent missions carrying updated surface networks and relay satellites are expected to provide the first operational data~\cite{im_ldn_constellation}.
+
+Jia \emph{et al.}~\cite{jia_waveform} recommend OFDMA on the uplink and SC-FDMA on the downlink with \SI{20}{MHz} and \SI{10}{MHz} of bandwidth respectively, \SI{15}{kHz} subcarrier spacing and 4QAM, giving a direct-link range near \SI{6}{km}. That analysis reports peak-to-average power ratio and bit error rate but not aggregate throughput or simultaneous user counts, and should not be read as a capacity result. The BEACON concept~\cite{beacon_demo} proposes a mast of approximately \SI{15}{m} combining power beaming with a 3GPP relay for users within approximately \SI{10}{km}; it is an infrastructure concept rather than a capacity study.
+
+The demand model above is sized for human extravehicular activity, but robotic operations impose a different traffic profile that the same network must carry. Three classes are distinguishable in the current mission set, and they span a wider range of rates than the EVA model does.
+
+Teleoperation from Earth places a hard requirement on latency rather than on peak rate. NASA's Lunar Terrain Vehicle teleoperation studies tested operators at delays of \SI{0}{} to \SI{8}{\second} and found that all completed a \SI{6}{km} traverse within a day, but average speed fell with latency and subjective workload rose~\cite{ltv_teleops2025}. The communication requirement is a continuous, low-latency video and command link: the NASA Human Architecture Team baseline is \SI{384}{kbps} downlink and \SI{10}{kbps} uplink~\cite{lidar_teleops2012}, and a LiDAR-based safeguarded teleoperation system has been demonstrated at \SI{1}{Mbps} with sustained rover speeds of \SI{0.15}{}--\SI{0.25}{m/s}~\cite{lidar_teleops2012}. A more recent study derives the data and control channel requirements for LiDAR point-cloud terrain observation and remote robotic control over the Moon--Earth link, quantifying the trade-off between sensor resolution, rover speed and the \SI{2.56}{\second} round-trip delay~\cite{lidar_networking2026}. The traffic is asymmetric, continuous during driving windows, and intolerant of interruption because an operator who loses the video feed cannot stop the rover before it reaches the position shown in the last frame.
+
+Autonomous multi-robot exploration inverts the latency requirement. The CADRE mission demonstrates three rovers that receive only high-level commands from Earth and then explore, map and perform a multi-static ground-penetrating radar survey autonomously, communicating among themselves through a mesh network and with a base station on the lander~\cite{cadre_aero2024}. The traffic on the Earth link is bursty rather than continuous: the rovers collect data during the lunar day and return it when the base station has relay visibility, which is the delay-tolerant model of Section~\ref{sec:protocol}. The inter-rover mesh, by contrast, requires low-latency local exchange of state and map data, but at low data rates and over short ranges, which is a surface-to-surface link rather than a trunk link. Path-planning studies for such swarms show that maintaining connectivity under terrain shadowing is the binding constraint, not bandwidth~\cite{banfi_multirover2024}.
+
+The third class is science data return from fixed or mobile instruments, which is bulk transfer with no latency constraint. The Artemis communication requirements document specifies \SI{4}{GB/day} for an initial science payload mission and \SI{40}{Mbps} downlink during normal EVA~\cite{nasa_arts_comm}. This traffic fills whatever contact window is available and is well matched to the store-and-forward service, but it competes with teleoperation video for the same aperture during crewed periods, which is the contention the scheduling layer of Section~\ref{sec:protocol} must resolve.
+
+\subsection{Node Density}
+The Moon has neither atmosphere nor ionosphere, so the radio horizon coincides with the geometric horizon at $d = \sqrt{2 h R_{\mathrm{M}}}$ for mast height $h$ and lunar radius $R_{\mathrm{M}} = \SI{1737}{km}$. A \SI{10}{m} mast therefore reaches \SI{5.9}{km} and a \SI{100}{m} mast reaches \SI{18.6}{km}, in both cases before terrain is taken into account. Node density in a lunar surface network is consequently set by terrain rather than by co-channel interference, which inverts the usual basis for cell planning.
+
+\subsection{Mobility in Binary Coverage}
+Because coverage is terrain-limited, the received signal is either present at close to full strength or absent altogether. A rover travelling at \SI{1}{}--\SI{5}{m/s} loses the link in under \SI{1}{\second} when the obstructing feature lies within \SI{100}{m}~\cite{azami_terrain_aware}, so the measured signal quality gives no advance warning of the loss. The terrestrial handover trigger, which infers an impending outage from the decay of the serving signal, therefore has no lunar counterpart.
+
+The information is nonetheless available, because the obstruction is static. Lunar topography is mapped and the relay ephemerides are known, so visibility along a planned traverse can be computed in advance; unlike terrestrial fading, which is stochastic, lunar occlusion is deterministic. The trigger consequently moves from measurement to prediction, and three consequences follow. Handover must be initiated while the serving link is still at full strength, which requires a region of overlap with a second visible relay or with a surface relay sited beyond the obstruction, and the extent of that overlap must be sized from the terrain rather than from a fading margin. Where the deployment provides no overlap the rover buffers traffic and forwards it at the next contact, which is the delay-tolerant model~\cite{rfc9171,rfc4838} rather than the cellular one. Cell planning requires a digital elevation model together with ray tracing~\cite{azami_terrain_aware,zhu_channel_ray}, since the cell boundary follows the ridge line rather than a contour of constant range.
+
+
+\section{Constellation Design and Position-Navigation-Timing}
+\label{sec:pnt}
+
+\subsection{Orbit Family Comparison}
+The choice of relay orbit is the first design decision because it fixes the slant range, which enters the link budget linearly. Four orbit families are in active use or under study for lunar communications, each trading coverage against range and stationkeeping cost.
+
+\emph{Elliptical Lunar Frozen Orbits} (ELFOs) have perilune near \SI{300}{km} and apolune near \SI{8000}{km}, inclined approximately \SI{56.5}{\degree} to the lunar equator. The frozen geometry prevents secular drift of the argument of perilune under the Moon's $J_2$ and mascon perturbations, so stationkeeping is minimal. The low perilune gives short slant ranges (\SI{300}{}--\SI{4000}{km} to the south pole) but the satellite spends only a fraction of its period near perilune, so multiple satellites are needed for continuous coverage. The LCRNS and Moonlight constellations both use ELFOs~\cite{lcrns_ref_const,esa_moonlight_csc}.
+
+\emph{Near-Rectilinear Halo Orbits} (NRHOs) are a family of Earth--Moon L2 halo orbits with perilune altitude near \SI{1600}{km} and apolune altitude near \SI{70000}{km}. The long apolune dwell time over the lunar south pole gives near-continuous polar coverage from a single satellite, but the \SI{70000}{km} apolune range imposes an aperture product 200 times larger than an ELFO at \SI{300}{km} perilune. NRHO is the orbit selected for the Gateway~\cite{gateway_comm}.
+
+\emph{Low Lunar Orbits} (LLOs) are circular orbits at \SI{100}{}--\SI{200}{km} altitude. They give the shortest slant ranges but are unstable under mascon perturbations: a satellite at \SI{100}{km} altitude impacts the surface within weeks without stationkeeping, and the orbit plane drifts several degrees per day. LLO is used only for short-duration missions such as the Lunar Reconnaissance Orbiter~\cite{lro_ka_analysis}.
+
+\emph{Walker constellations} at medium lunar orbit (\SI{5000}{}--\SI{10000}{km}) provide global coverage with six to eight satellites in equally spaced planes. Yuan \emph{et al.}~\cite{yuan_hybrid_cislunar} show that a hybrid of NRHO and ELFO satellites outperforms pure Walker Star or Walker Delta constellations in terms of both age of information and south-polar coverage, because the Walker geometry wastes satellites over the far side where Artemis traffic is absent. Tipaldi \emph{et al.}~\cite{mdpi_orbital_infra} reach a similar conclusion from a control-systems perspective, finding that a five-satellite ELFO constellation is the minimum for continuous south-polar service.
+
+Table~\ref{tab:orbits} summarizes the trade-off. No single orbit family is optimal for all link types: ELFO minimizes aperture for the surface-to-relay link, NRHO maximizes coverage per satellite, and Walker provides global navigation at the cost of higher aperture.
+
+\begin{table}[!t]
+\caption{Lunar Orbit Families for Relay and Navigation}
+\label{tab:orbits}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lrrR@{}}
+\toprule
+Family & Perilune & Apolune & Trade-off \\
+\midrule
+ELFO & \SI{300}{km} & \SI{8000}{km} & Low range, needs 5+~sats for pole \\
+NRHO & \SI{1600}{km} & \SI{70000}{km} & 1--2~sats cover pole, high aperture \\
+LLO & \SI{100}{km} & \SI{200}{km} & Shortest range, orbit unstable \\
+Walker & \SI{5000}{km} & \SI{10000}{km} & Global nav, 6--8~sats, no polar bias \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Coverage}
+Lunar relay constellations now planned are regional rather than global, being optimized for the south polar region in which Artemis will operate~\cite{lcrns_ref_const,esa_moonlight_csc}. Published coverage analyses indicate that two halo satellites suffice for a single pole and that four approach complete surface coverage~\cite{gao_halo_coverage}, while an eight-satellite ELFO constellation yields a 69~per~cent probability of four or more satellites being visible, rising to 96~per~cent for a nine-satellite hybrid of ELFO and NRHO~\cite{zhang_elfo_occlusion}.
+
+Communications availability and navigation availability do not scale together, a distinction that is often elided. Communications requires one visible satellite, whereas a navigation fix requires four in favourable geometry, so a constellation delivering 99~per~cent communications availability may deliver only 60~per~cent navigation availability~\cite{sairo_dop,baweja_dop}.
+
+A global lunar constellation---one that serves all longitudes and latitudes, not just the south pole---requires a fundamentally different architecture from the regional designs above. Cho \emph{et al.}~\cite{cho_relay_coverage} show that six to eight satellites in two orthogonal ELFO planes provide \SI{>95}{\percent} communications coverage of the entire surface, but that the navigation availability falls below \SI{50}{\percent} at the equator because the orbital planes are inclined for polar service. A hybrid architecture combining polar ELFO satellites with equatorial Walker satellites closes the navigation gap, at the cost of additional satellites and cross-plane inter-satellite links~\cite{yuan_hybrid_cislunar}. The IOAG lunar architecture study~\cite{ioag_lunar_arch} recommends a phased approach: regional service first, extended regional service, and a global navigation layer, reaching twelve to sixteen satellites for full global PNT. The distinction between regional and global is thus temporal as well as spatial: the constellation grows from south-polar relay to global navigation over a decade, and the link budget must accommodate the full range of slant distances that each phase entails.
+
+\subsection{Dilution of Precision}
+At the lunar south pole the median geometric dilution of precision for a constellation of four to six ELFO satellites is between 16 and 21, against approximately 6 for terrestrial GNSS~\cite{baweja_dop}. The degradation is geometric in origin: the satellites occupy similar orbital planes and are therefore clustered in the same region of the sky. The GDOP is the square root of the trace of $(H^{\mathsf{T}}H)^{-1}$, where $H$ is the observation matrix of unit line-of-sight vectors. Readers familiar with MIMO communications will recognize $H^{\mathsf{T}}H$ as the analogue of the channel Gram matrix: when the rows of $H$ are nearly parallel, the matrix is ill-conditioned and the position estimate is amplified by the condition number, just as a MIMO channel with correlated columns yields a low multiplexing gain. The lunar south-polar geometry places all visible satellites in a narrow cone, so $H$ is rank-deficient in practice and the condition number is large. Baweja~\cite{baweja_dop} finds that approximately twelve orbital satellites are needed to bring the median below 6, whereas three surface beacons reduce it from 16.2 to 1.6, outperforming even a twenty-four-satellite orbital constellation. The surface beacons break the angular degeneracy by adding rows to $H$ with widely differing line-of-sight directions, which is the geometric equivalent of adding well-separated antenna elements to a MIMO array. The efficient remedy is thus geometric rather than radiometric.
+
+\subsection{GNSS at Lunar Distance}
+Recent surface payloads have obtained GNSS fixes on the lunar surface, tracking GPS and Galileo signals at ranges exceeding \SI{350000}{km}~\cite{parker_lugre,nasa_lugre}. Because Earth GNSS is visible only from the near side, far-side users must obtain time and position from the lunar relay constellation. Navigation payloads for lunar relay satellites are in development~\cite{nasa_navcube3_2026}.
+
+\subsection{Lunar Time Scale}
+Coordinated Lunar Time is being defined under a United States policy directive~\cite{ostp_ltc}, and the General Assembly of the International Astronomical Union has adopted Resolutions~II and~III establishing the Lunar Celestial Reference System and inviting international agreement on a lunar time standard~\cite{iau_2024_resolutions}. The relativistic rate offset between a clock on the lunar surface and UTC is \SI{56.02}{\micro\second\per day}~\cite{ashby_lunar_time}, a figure independently corroborated by Kopeikin and Kaplan~\cite{kopeikin_kaplan}, who also identify a periodic monthly term of \SI{127}{\micro\second} amplitude. Two recent papers advance the reference-timescale definition: Bourgoin \emph{et al.}~\cite{bourgoin_ltc} and the unified post-Newtonian framework of Turyshev~\cite{turyshev_2026}, which derives closed-form mappings among TCB, TCG, TT, TDB, TCL and TL with sub-picosecond accuracy. The BIPM Consultative Committee for Time and Frequency has issued Recommendation CCTF-24-1 recommending development of a common lunar reference time scale traceable to UTC~\cite{bipm_cctf24_1}. NASA favours realizing time on the lunar geoid (equipotential surface) rather than in coordinate time, maintaining the SI~second in the relevant frame to permit reuse of terrestrial GNSS principles~\cite{ostp_ltc}. Over a lunar night the offset accumulates to approximately \SI{0.78}{ms}, so that disseminating lunar time over an intermittent link requires relay clock stability sufficient to bridge the contact gap together with steering of the surface oscillator during contact~\cite{ansalone_lcrns_time}.
+
+
+\section{Transfer of 3GPP Non-Terrestrial Concepts}
+\label{sec:ntn}
+
+Several architectural elements of 3GPP non-terrestrial networks transfer to the lunar case. The distinction between transparent and regenerative payloads~\cite{3gpp_tr_38821} maps onto the choice between a bent-pipe relay and one performing on-board processing; the decomposition into feeder and service links~\cite{3gpp_tr_38811,3gpp_ntn_overview} maps onto the lunar trunk and the relay-to-surface link; and the beam management procedures defined for Ka-band operation apply to lunar relay beams.
+
+This mapping is nonetheless analogical rather than normative. Release~19 introduces regenerative payloads with on-board base-station functionality, store-and-forward operation for NB-IoT NTN (Work Item~\#1020096), TDD mode for NB-IoT, and GNSS-independent operation in which the GNSS fix is no longer mandatory for NTN devices~\cite{3gpp_rel19_ntn}. These additions partially address the lunar delay regime, but no 3GPP work item explicitly targets the lunar or cislunar environment; the scope remains Earth-orbit constellations. Lunar cellular deployments accordingly operate under ITU-R waivers using adapted terrestrial releases.
+
+Three assumptions embedded in the 3GPP non-terrestrial specifications still fail on the Moon. The first is a feeder link shorter than \SI{40000}{km}, against which the lunar trunk of \SI{384000}{km} and \SI{2.56}{\second} round trip places the timer architecture outside its design range. The second is a service-link delay below the \SI{275}{ms} characteristic of geostationary operation, whereas the lunar surface-to-Earth path is \SI{1.28}{\second} one way. The third is continuous connectivity, whereas lunar relay coverage alternates between contact and outage on a scale of hours; the Release~19 store-and-forward mechanism addresses NB-IoT-class traffic but not broadband or real-time service. The earlier assumption that the terminal holds a GNSS fix has been relaxed by Release~19, but on the lunar far side no Earth GNSS is visible regardless, and timing advance must be obtained from the relay by two-way ranging.
+
+\subsection{Relay Payload Architecture}
+A lunar relay satellite carries three payload classes whose integration drives the spacecraft design. The first is the \emph{bent-pipe transponder}, which receives a signal at one frequency, amplifies it, and retransmits at another, with no on-board processing. It is the baseline for the first generation of commercial lunar relays such as Lunar Pathfinder, a \SI{300}{kg} spacecraft carrying S-band and UHF proximity links plus an X-band direct-to-Earth transmitter~\cite{davies_pathfinder_2023,sstl_pathfinder_guide}. Its limitation is that it cannot perform store-and-forward: when neither the surface user nor the Earth ground station is visible simultaneously, the link is idle. A review of the Chinese Queqiao relay satellites explicitly trades transparent (bent-pipe) against regenerative modes, noting that transparent relays are signal-format-flexible but demand more capable ground stations, while regenerative relays add coding gain under limited on-board resources~\cite{queqiao_relay_review_2021}.
+
+The second class is the \emph{regenerative payload}, which demodulates, decodes, and re-encodes the signal on board. 3GPP TR~38.821 defines five reference payload scenarios spanning transparent and regenerative architectures, including regenerative-with-functional-split in which the gNB distributed unit resides on the satellite and the centralized unit on the ground~\cite{3gpp_tr_38821}. The LunaNet interoperability specification~\cite{lnis_v5} assumes regenerative payloads because its delay-tolerant networking service requires custody transfer at the relay. NASA's onboard processing study for LunaNet data services frames the regenerative-payload compute envelope around the LCRNS Ka-band data rate of \SI{50}{Mbps} with simultaneous S-band and PNT services, requiring ample on-board storage for far-side store-and-forward~\cite{nasa_onboard_lunanet}.
+
+The third class is the \emph{navigation payload}, which generates a spread-spectrum navigation signal synchronized to an onboard atomic clock. The LCRNS satellites each carry a navigation payload in addition to the communications transponder~\cite{lcrns_ref_const}, broadcasting on the S-band lunar navigation frequency (\SI{2483.5}{}--\SI{2500}{MHz}) allocated by SFCG Recommendation~32-2R6~\cite{sfcg_rec32}. The navigation signal is derived from terrestrial GPS L1C and carries low-rate broadcast data in quadrature~\cite{gramling_lunanet_pnt}. Lunar Pathfinder also hosts ESA's NaviMoon GNSS receiver, a \SI{1.4}{kg} payload demonstrating weak-signal GNSS reception from lunar orbit~\cite{davies_pathfinder_2023}.
+
+The three payloads share a common antenna aperture at Ka-band but use separate feeds at S-band, because the $12\times$ difference in wavelength between S and Ka makes a shared aperture impractical. The relay therefore carries at least two antennas: a steerable Ka-band dish for the trunk and backhaul links, and a fixed or mechanically steered S-band antenna for the surface access and navigation links. The Gateway carries an additional optical terminal for the Orion-to-Earth link~\cite{gateway_comm}, which is steered independently of the RF antennas.
+
+
+\section{Protocol Design for Intermittent Links}
+\label{sec:protocol}
+
+The one-way Earth--Moon propagation delay is \SI{1.28}{\second} and the round trip is \SI{2.56}{\second}, which places a floor beneath any request-response transaction that no choice of modulation, coding or protocol can lower. Latency can be reduced only by relocating the responding function closer to the user, whether through on-board processing, edge caching or local authentication.
+
+Wood and Eddy characterize the reach of TCP through the protocol radius, which the \SI{3}{\second} initial retransmission timeout limits to approximately \SI{1.5}{\second} of one-way delay~\cite{wood_tcp_radius}; the Earth--Moon round trip lies beyond it. Table~\ref{tab:timers} lists the principal timer failures. Delay-tolerant protocols are designed for this regime: the Bundle Protocol Version~7 provides store-carry-forward custody and is on IETF Standards Track~\cite{rfc9171}, together with its TCP convergence-layer protocol version~4~\cite{rfc9174}. The Licklider Transmission Protocol provides reliable delivery over long-delay links~\cite{rfc5326}, and Contact Graph Routing computes routes over scheduled contacts~\cite{burleigh_cgr}. Operational demonstrations in lunar orbit have exercised custody transfer and retransmission under induced outage~\cite{kim_kplo_dtn}. A testbed comparison of end-to-end QUIC against DTN with QUICCL/LTP for the Earth--Moon scenario found that the DTN architecture can outperform end-to-end approaches despite QUIC outperforming TCP~\cite{e2e_vs_dtn_2026}.
+
+\subsection{Vocabularies of the Three Standards Families}
+A lunar network is specified by three standards families at once. The space-link and file-transfer layers follow CCSDS, which LunaNet adopts as its interoperability baseline~\cite{lnis_v5,ccsds_lunar_standards}; the surface access layer, where it is proposed, follows 3GPP; and the store-and-forward layer follows the IETF delay-tolerant networking suite, which CCSDS has itself adopted as a companion series~\cite{ccsds_bp,ccsds_ltp}. The three describe overlapping functions in incompatible terms, and an engineer reading across them encounters the same function under three names. Table~\ref{tab:rosetta} maps the functions for which the three families differ substantively rather than merely lexically. The recurring pattern is one of scope: a CCSDS mechanism is scoped to a single link, a 3GPP mechanism to an attached subscriber, and a DTN mechanism to a data unit that outlives both.
+
+\begin{table*}[!t]
+\caption{Function Names Across the Three Standards Families Governing a Lunar Network}
+\label{tab:rosetta}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Function & CCSDS / LunaNet & 3GPP & IETF DTN & Substantive difference \\
+\midrule
+Data unit & Space packet carried in a transfer frame~\cite{ccsds_tm,ccsds_uslp} & Transport block, PDCP PDU & Bundle~\cite{rfc9171} & The bundle carries its own lifetime and custody state, so it survives storage and rehoming; frames and PDUs are scoped to one link and are discarded with it \\
+Endpoint name & Spacecraft identifier and virtual channel~\cite{ccsds_uslp} & Subscriber and cell identity & Endpoint identifier~\cite{rfc9171} & An endpoint identifier names a service that need not be reachable when addressed, whereas a subscriber identity presumes current attachment and a spacecraft identifier names a vehicle rather than a service \\
+Retransmission & COP-1 on the space link~\cite{ccsds_tc}; LTP for long delay~\cite{ccsds_ltp} & HARQ and RLC ARQ & LTP red part~\cite{rfc5326} & The three operate at timer scales of seconds, milliseconds and hours respectively, so the same word denotes mechanisms whose retransmission budgets differ by six orders of magnitude \\
+Path selection & Pre-planned by the ground segment & Path selection in the core network & Contact Graph Routing~\cite{burleigh_cgr} & Contact Graph Routing computes a route over contacts scheduled in the future, whereas the other two select among links available at the moment of the decision \\
+Resource scheduling & Pass scheduled in advance and delivered to ground~\cite{ccsds_sle} & Per-slot scheduling at the base station & Contact plan~\cite{fraire_contact_plan} & Scheduling granularity spans sub-millisecond slots to contact windows of hours, so admission control and queueing occupy different layers in each family \\
+Security scope & Space Data Link Security, per hop & Subscriber authentication and bearer protection & BPSec, per bundle~\cite{rfc9172} & BPSec protection travels with the data across custody transfers, whereas link and bearer security terminate at the far end of the hop or at the network edge \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table}[!t]
+\caption{Terrestrial Protocol Timers Against Earth--Moon Values}
+\label{tab:timers}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}llR@{}}
+\toprule
+Timer & Terrestrial value & Consequence for lunar links \\
+\midrule
+TCP initial RTO & 3\,s & Spurious retransmission at \SI{2.56}{s} RTT~\cite{wood_tcp_radius} \\
+HARQ round trip & $\sim$1\,ms & Broken on trunk link (\SI{2.56}{s} RTT); works on service link near perilune, fails at apolune \\
+OCSP validation & $<$1\,s & Live response infeasible; cached CRL needed~\cite{koisser_pki_space} \\
+DNS resolution & $<$100\,ms & Requires caching or DTN naming \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The boundary between real-time and store-and-forward operation may be characterized by the ratio of contact duration to outage duration. ESA classifies traffic as quasi-real-time up to \SI{2.5}{\second}~\cite{ulierte_traffic_prio}, and the NASA service requirements document specifies below \SI{1}{\second} for real-time service~\cite{nasa_lunar_relay_srd}, but the LunaNet interoperability specification defines the two service types without fixing a numerical boundary between them~\cite{lnis_v5}.
+
+\subsection{The 5G-to-DTN Protocol Boundary}
+A lunar surface network built on 3GPP NR provides real-time cellular service within a relay's footprint, but when the relay sets below the horizon the 3GPP protocol stack ceases to function because its timers, handover procedures and authentication exchanges all assume continuous connectivity. The transition from 3GPP operation to delay-tolerant operation is not handled by either protocol stack natively: 3GPP Release~19 store-and-forward addresses NB-IoT-class traffic only, and BPv7 does not define how a 3GPP bearer should be encapsulated into a bundle.
+
+The boundary is therefore an architectural seam that must be bridged by a gateway function. Two approaches have been proposed. The first is a \emph{protocol proxy} on the surface gateway that terminates the 3GPP stack, buffers pending traffic, and injects it into the DTN as bundles when the relay reappears~\cite{nasa_lunar_3gpp_gem}. This approach preserves the 3GPP user-plane interface for the rover but requires the gateway to maintain 3GPP state across the outage. The second is a \emph{convergence layer} that maps 3GPP bearers directly onto BPv7 bundles without proxying, treating the DTN as a transport substrate for 3GPP traffic~\cite{perreault_testbed}. This approach is cleaner architecturally but requires modifications to the 3GPP stack that are not yet standardized.
+
+The GEM emulation testbed at NASA Glenn~\cite{nasa_lunar_3gpp_gem} has demonstrated the proxy approach for lunar surface traverses, emulating the 3GPP PHY and MAC over a channel model derived from ray tracing and switching to DTN mode when the relay is occluded. The testbed confirms that the transition introduces a latency penalty of \SI{2}{}--\SI{5}{\second} as the proxy flushes its buffer and the bundle is accepted into the DTN, which is acceptable for telemetry but not for real-time voice.
+
+\subsection{Scheduling and Contact Plans}
+Contact Graph Routing~\cite{burleigh_cgr} computes the path through a delay-tolerant network by enumerating the contact opportunities---the intervals during which two nodes have mutual visibility and sufficient link margin---as a directed graph. The contact plan, which lists all contacts with their start time, duration, and data rate, is the input to CGR and must be generated before routing decisions can be made.
+
+On the Moon the contact plan is deterministic and predictable, because the orbital mechanics are known to high precision and the link margins are determined by geometry rather than by weather or contention. The plan is nevertheless not static: it varies with the power state of each node (a solar-powered node that enters lunar night has no contacts), with the orbit of each relay (an ELFO satellite has contact gaps of several hours between perilune passes), and with the terrain at each surface node (a rover behind a ridge has no contact until it moves). Fraire \emph{et al.}~\cite{fraire_contact_plan} show that the contact plan must be designed jointly with the routing algorithm, because an unfairly distributed plan can starve low-priority traffic; the plan should be routing-aware, allocating contact capacity in proportion to expected traffic demand.
+
+The practical challenge is that the contact plan must be recomputed whenever the network topology changes, which on the Moon happens on three timescales: orbital (hours, as relays enter and exit visibility), diurnal (weeks, as nodes enter and exit lunar night), and mission (months, as new assets are deployed). A static plan uploaded from Earth is therefore insufficient; the relay must compute or update the plan on board, which requires the regenerative payload discussed in Section~\ref{sec:ntn} and an onboard ephemeris for each node~\cite{nasa_onboard_lunanet}.
+
+
+\section{Security, Power and Spectrum}
+\label{sec:spectrum}
+
+\subsection{Security Under Intermittency}
+Terrestrial security protocols assume an authentication authority reachable within \SI{1}{\second}. On the Moon that authority is \SI{1.28}{\second} distant and may be out of contact for hours. The Online Certificate Status Protocol therefore cannot be used in its intended form, and although revocation lists may be cached and distributed over the delay-tolerant network, their staleness is measured in hours. Public-key infrastructure for space networks must accordingly tolerate certificate authorities subject to delay and disruption~\cite{foerster_pki,koisser_pki_space}, and location-based authentication has been proposed as a complementary mechanism for cislunar missions~\cite{jedermann_location_auth}.
+
+Bundle Protocol Security~\cite{rfc9172} provides integrity and confidentiality at the bundle layer but not access control, revocation, replay protection across contact gaps, or non-repudiation. The first formal cryptographic analysis, by Dowling \emph{et al.}~\cite{dowling_bpsec}, establishes security under the default security context, identifies a weakness in message-loss detection, and proposes a strengthened construction. A COSE security context for BPSec~\cite{bpsec_cose} defines a PKI profile for asymmetric-key interoperation that supplies the missing public-key infrastructure identified in earlier work~\cite{foerster_pki,koisser_pki_space}.
+
+\subsection{Power as a Topology Variable}
+A solar-powered surface node must survive \SI{354}{hours} of darkness; for a \SI{20}{W} night load at a battery specific energy of \SI{100}{Wh/kg} the cells alone amount to approximately \SI{70}{kg}~\cite{colozza_power1991}, and hybrid solar-nuclear systems are the most mass-efficient means of continuous operation~\cite{balat_power2021}. The LuSEE-Night instrument, for comparison, requires \SI{7}{kWh}~\cite{aguirre_lusee}. Because the power state of each node determines whether it is active, the network topology varies over the lunar day. Contact Graph Routing accommodates scheduled contacts~\cite{burleigh_cgr}, but the contact plan itself must be derived from the illumination and hence the position and date of each node~\cite{fraire_contact_plan}, which couples the routing problem to the power system.
+
+\subsection{Frequency and Band Selection}
+The choice of carrier frequency for each lunar link follows from the aperture-range scaling of Section~\ref{sec:fundamentals}. For a fixed aperture product, higher frequency reduces the required diameter but narrows the beamwidth, transferring difficulty from the RF subsystem to the pointing subsystem. The selection is therefore link-dependent.
+
+S-band (\SI{2}{}--\SI{2.5}{GHz}) is the default for surface access and navigation because the \SI{15}{cm} wavelength permits omnidirectional or low-gain antennas on rovers and suited astronauts, and because the SFCG lunar allocations (\SI{2.5035}{}--\SI{2.690}{GHz}) are the only bands explicitly recommended for lunar surface wireless networks~\cite{sfcg_rec32}. The cost is bandwidth: the \SI{186}{MHz} of available S-band spectrum limits a single carrier to approximately \SI{70}{Mbps} with 256QAM and two-carrier aggregation~\cite{nokia_lunar_3gpp}.
+
+Ka-band (\SI{22.5}{}--\SI{27}{GHz}) is the default for the trunk and backhaul links because the \SI{12}{mm} wavelength permits a \SI{1.5}{m} dish to produce \SI{48}{dBi} gain, which is needed to close the \SI{384000}{km} Earth--Moon path. The cost is pointing: the \SI{0.5}{\degree} beamwidth of a \SI{1.5}{m} Ka antenna requires attitude knowledge and control to \SI{0.1}{\degree}, which is within the capability of a relay satellite but not of a rover. Ka-band also suffers atmospheric attenuation at the Earth ground station, with rain attenuation of \SI{10}{}--\SI{15}{dB} at 99~per~cent weather availability~\cite{dsn_810_005,islam_ka_band}.
+
+X-band (\SI{7.19}{}--\SI{8.5}{GHz}) is a compromise between S and Ka, offering \SI{4}{cm} wavelength with moderate pointing requirements. It is used for direct-to-Earth links from landers that lack a steerable Ka dish, and is the band selected for the Chang'e relay satellites~\cite{chen_ce4_relay}. The WRC-23 identified X-band for lunar research service studies under Resolution~680~\cite{itu_wrc23_res680}.
+
+Optical (\SI{1064}{}--\SI{1550}{nm}) is selected for the inter-satellite link and the high-rate trunk when pointing stability permits. The \SI{1.5}{\micro\m} wavelength provides \SI{100}{dBi} gain from a \SI{10}{cm} aperture, but the \SI{10}{\micro\radian} beamwidth requires pointing stability two orders of magnitude finer than Ka-band. Optical links are immune to RF spectrum congestion and to the Shielded Zone protections, but cannot penetrate clouds and are therefore restricted to the space-to-space segment or to dry-site ground stations.
+
+\subsection{Spectrum and the Shielded Zone}
+Table~\ref{tab:spectrum} lists the principal allocations. The Shielded Zone of the Moon, comprising the far side, is protected for radio astronomy under Recommendation ITU-R RA.479 and Article~22 of the Radio Regulations~\cite{itu_ra479,itu_rr2024}. The regulatory relationship is thereby inverted with respect to terrestrial practice: on Earth the communications operator is generally the protected party, whereas on the lunar far side it is the regulated emitter. A far-side surface relay must therefore operate within time-coordinated windows, route through an L2 halo relay, or employ a surface relay chain whose emissions are not directed into the Shielded Zone~\cite{csis_lunar_spectrum}. Preparatory studies for WRC-27 Agenda Item~1.15 are under way in ITU-R Working Party~7B, with country contributions on sharing studies in the S, X, Ka and C bands under consideration for lunar research service allocations~\cite{wrc27_ai115}. ITU-R Working Party~7D is concurrently developing threshold levels of interference to radio astronomy in the Shielded Zone~\cite{itu_szm_thresholds}, which will quantify the protection criteria that far-side emitters must meet.
+
+\begin{table}[!t]
+\caption{Principal Lunar Spectrum Allocations}
+\label{tab:spectrum}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}llR@{}}
+\toprule
+Band & Frequency & Use \\
+\midrule
+S & 2025--2110 / 2200--2290\,MHz & Direct-to-Earth, relay~\cite{itu_space_research_handbook} \\
+S & 2483.5--2500\,MHz & Lunar navigation~\cite{sfcg_rec32} \\
+X & 7190--7235 / 8450--8500\,MHz & Direct-to-Earth, WRC-23~\cite{itu_wrc23_res680} \\
+Ka & 22.55--23.15 / 25.5--27.0\,GHz & Relay, direct-to-Earth~\cite{lnis_v5} \\
+Optical & 1064 / 1550\,nm & Inter-satellite, Orion \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\section{The Measurement Gap}
+\label{sec:measurement}
+
+Recommendation ITU-R P.2170-0 defines the Irregular Lunar Model for point-to-area and point-to-point attenuation over lunar terrain, accounting for the airless environment, surface roughness and regolith permittivity; a public implementation is available from NTIA/ITS~\cite{itu_p2170}. It is the only internationally accepted lunar surface propagation model, and supersedes the position, still current in parts of the literature, that no such model exists. A preliminary draft revision is already under development in ITU-R Working Party~3J~\cite{itu_p2170_revision}, and NASA Glenn Research Center has published a series of studies on south-polar propagation including coherent reflection on direct-to-Earth links, fading channel analysis for downlinks from the lunar south pole to the DSN, and multipath measurements from opportunistic ground-based observations. A hardware-in-the-loop emulation testbed (GEM) has been demonstrated for 3GPP and Wi-Fi over lunar surface channel models derived from ray tracing, emulating lunar surface traverses~\cite{nasa_gem_2026}. A site-specific path-loss model at \SI{5.855}{GHz} for Shoemaker Rim~F at the lunar south pole reports path-loss exponents of 2.54 for dipole-dipole and 4.33 for omni-dipole configurations, a sensitivity to the transmitter antenna pattern that is large enough to affect cell-planning assumptions~\cite{shoemaker_rim_2026}.
+
+The model is nonetheless a prediction rather than a measurement. It is constructed from LOLA terrain data, from permittivity measurements on Apollo and Chang'e-5 samples~\cite{olhoeft_strangway1975,dong_dielectric_ce5}, and from electromagnetic theory, and it has not been validated against in-situ propagation data because none exist at the relevant frequencies and ranges. Empirical data that do exist comprise the LRO Ka-band signal record of more than eleven million observations~\cite{lro_ka_analysis}, the LLCD and LOCL optical results~\cite{boroson_llcd,giggenbach_locl}, the DRATS terrestrial analogue campaign~\cite{nasa_drats2022}, the KPLO delay-tolerant networking test~\cite{kim_kplo_dtn} and the Chang'e-5 dielectric measurements~\cite{dong_dielectric_ce5}. No measurements exist of surface-to-surface propagation beyond \SI{1}{km}, of surface-to-relay fading at low elevation over lunar terrain, of the channel within permanently shadowed regions, or of the interference environment at the surface arising from Earth-based emitters.
+
+A first campaign adequate to close this gap would require at least two surface nodes, one fixed and one mobile, logging calibrated signal strength at S-band and Ka-band across mare, highland, crater-rim and shadowed-region terrain over a complete day-night cycle. Such a data set would either validate or refute the Irregular Lunar Model and would supply the basis for improved channel models~\cite{itu_p2170,zhu_channel_ray}.
+
+
+\section{Future Research Directions}
+\label{sec:open}
+
+\subsection{In-Situ Propagation Validation}
+Section~\ref{sec:measurement} identified the Irregular Lunar Model as the sole internationally accepted lunar surface propagation model, but noted that it rests on terrain data and electromagnetic theory rather than on in-situ measurement. The model supplies predictions for which no validation data exist. Deploying calibrated nodes across several terrain types is logistically demanding and is not at present funded by any announced mission. Until such data are obtained, the capacity, coverage and handover results in the literature rest on an unvalidated model, and the associated uncertainty is not quantified.
+
+\subsection{Proactive Handover in Binary Coverage}
+The binary-coverage regime of Section~\ref{sec:capacity} removes the measured trigger but leaves the underlying geometry predictable, so handover can in principle be scheduled from a visibility computation rather than detected from a signal. Realising this requires a predictor that operates on a digital elevation model, is fused with the rover position estimate, and runs within the time available before occlusion. Its accuracy is bounded by two factors that have not been characterised: the resolution of the elevation model relative to the features that actually obstruct the link, since boulders and small-scale relief below the model grid are not represented, and the uncertainty in the rover position estimate, which propagates directly into the predicted occlusion time. The resulting trade-off between premature handover and missed occlusion, and the overlap that a deployment must provide to absorb the residual error, remain open.
+
+\subsection{Reconfigurable Surfaces for Predictable Shadow Zones}
+The shadow zones produced by lunar terrain are permanent and geometrically predictable, because the Moon has no atmosphere and the topography is static. A surface that reflects or re-radiates the relay signal around an obstruction could therefore extend coverage into a shadowed region without deploying an additional relay. Reconfigurable intelligent surfaces have been proposed for cislunar communications to counteract path loss and directivity constraints~\cite{ris_cislunar2024}, but the surface-to-surface case, in which a fixed RIS redirects a relay signal behind a ridge to a rover in shadow, has not been analysed. The trade-off between the cost of emplacing a passive RIS and that of a second surface relay is an open systems-engineering question.
+
+\subsection{Joint Communications-Navigation Constellation Design}
+The constellation designs surveyed in Section~\ref{sec:pnt} optimise communications availability and navigation availability separately. The two objectives pull in opposite directions: communications favours a small number of satellites in high orbits to maximise dwell time and minimise aperture, whereas navigation favours a larger number distributed across multiple planes to reduce geometric dilution of precision. Baweja~\cite{baweja_dop} quantifies the navigation side of the trade and identifies surface beacons as an efficient substitute for orbital assets, but the joint optimisation problem, including the beacon-versus-satellite trade, remains open.
+
+\subsection{Timing Advance Without GNSS}
+Since the 3GPP non-terrestrial specifications assume a GNSS fix at the terminal, a lunar system must derive timing advance from the relay by two-way ranging. The signalling required, the accuracy attainable and the interaction with Doppler pre-compensation have not been specified.
+
+\subsection{Positioning Reference Signals for Lunar Localization}
+The 3GPP Positioning Reference Signal, standardised from Release~16, provides a wideband downlink reference whose bandwidth and comb density can be configured to trade accuracy against overhead. Gonzalez-Garrido \emph{et al.}~\cite{prs_ntn_plans2023} analyse its performance when transmitted from satellites in non-terrestrial networks and identify the multiplexing and synchronisation constraints that arise when multiple satellites share a carrier. On the lunar far side, where no Earth GNSS is visible, a PRS broadcast from orbital relays or surface beacons could provide the localization that GNSS otherwise supplies, but the lunar south-polar geometry, which clusters visible satellites in a narrow cone, degrades the dilution of precision and the adaptation of the PRS configuration to this regime has not been studied.
+
+\subsection{Delay-Tolerant Security}
+Terrestrial network security assumes that a device can reach an online authentication server within a round-trip of tens of milliseconds. A certificate revocation check, an OAuth token refresh, or a TLS handshake all require this assumption, and all fail when the round-trip is measured in seconds and the contact window in hours. The lunar environment therefore inverts the security architecture: credentials must travel with the data rather than be fetched on demand, and revocation must be predictive rather than reactive.
+
+The IETF Bundle Protocol Security specification (BPSec, RFC~9172)~\cite{rfc9172} provides the framework for bundle-layer integrity and confidentiality in a delay-tolerant network. BPSec defines security blocks that are carried within the bundle itself, so that authentication and encryption survive store-and-forward custody transfers across multiple hops. The default security contexts in RFC~9173~\cite{rfc9173} specify the cryptographic primitives, and a COSE security context is under development at the IETF to define a PKI profile for BPSec interoperation~\cite{bpsec_cose}. Dowling \emph{et al.}~\cite{dowling_bpsec} provide the first formal cryptographic analysis of BPSec, identifying composability issues in the integrity and confidentiality blocks and proving that the specification achieves its security goals under standard assumptions, but noting that the analysis assumes an out-of-band key management scheme that the specification does not define.
+
+Key management remains unresolved. Foerster \emph{et al.}~\cite{foerster_pki} propose an efficient PKI design for space networks in which certificates are pre-provisioned and cached at each node, with revocation handled by short-lived certificates that expire between contact windows rather than by online revocation lists. The system-of-records study by Koisser \emph{et al.}~\cite{koisser_pki_space} surveys PKI and location-privacy challenges in space networks more broadly, identifying the tension between predictable orbital trajectories (which aid authentication) and the adversarial value of those trajectories (which compromise privacy). Montilla and Montilla~Ochoa~\cite{montilla_dtn_security} present LunaNet-specific security considerations, noting that the multi-agency interoperability requirement introduces cross-domain trust issues that a single-agency PKI does not face.
+
+Three open problems remain. First, no deployed system performs certificate revocation over a link whose staleness is measured in hours; the short-lived-certificate approach of Foerster \emph{et al.} is a proposal, not a flight implementation. Second, replay protection across long outages requires time-window validation against a shared time reference, but lunar time itself is still being defined (Section~\ref{sec:pnt}), creating a circular dependency between the security and timing architectures. Third, the LunaNet interoperability specification~\cite{lnis_v5} mandates BPSec but does not specify which security contexts participating agencies must implement, leaving interoperability at the security layer unresolved. A concrete protocol combining bundle-layer integrity, cached revocation, and time-window replay protection, together with a formal security proof grounded in the lunar timing reference, remains to be developed.
+
+\subsection{Integrated Sensing and Communications}
+Integrated Sensing and Communications, a design paradigm in which a single waveform carries both data and radar-like sensing, has been studied for non-terrestrial networks in the 6G context~\cite{isac_ntn2026}. The lunar case is structurally suited to this integration: the relay aperture and power budget are shared between communications and navigation, and the terrain that obstructs the communication link is the same terrain that a rover must detect. A relay that simultaneously provides connectivity and obstacle detection would reduce the surface payload, particularly during the lunar night when optical navigation is unavailable. The waveform design, the sensing resolution attainable at lunar ranges, and the trade-off between sensing and communications resource allocation have not been characterised for the lunar environment.
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This tutorial has derived a link-budget methodology for lunar communications from first principles and surveyed the environmental, protocol, and regulatory factors that distinguish the lunar domain from terrestrial practice. The work was motivated by the observation that existing surveys catalogue architectures and missions but leave the physical relationship between orbit selection, aperture, and pointing implicit, so that an engineer cannot transfer results from one mission to another without repeating the budget from scratch.
+
+The central result is the aperture-range scaling law, which reduces first-order sizing to three inputs: orbit, data rate, and carrier frequency. Because the slant range on the Moon is fixed by orbital mechanics, the relay orbit becomes the single design decision from which aperture, pointing, and frequency follow. This coupling makes system-level trades between orbit, aperture, power, and pointing tractable without repeating the full budget for each candidate architecture.
+
+The survey sections show that the terrestrial assumptions embedded in standard protocols, security architectures, and spectrum regulations fail at identifiable thresholds on the Moon, and that these thresholds share a common geometric origin. The round-trip delay exceeds protocol timer limits; the binary coverage regime precludes signal-quality-based handover; the lunar diurnal cycle makes power a topology variable; and the far-side Shielded Zone inverts the regulatory relationship between communications and radio astronomy. Each of these failure points has a remedy---delay-tolerant protocols, deterministic handover, hybrid solar-nuclear power, and L2-halo relay routing---and their adoption is driven by the physics of the environment.
+
+The principal limitation is the absence of in-situ measurement. The propagation model, the capacity estimates, and the handover algorithms rest on prediction that surface campaigns have yet to confirm. The scaling law itself is independent of this limitation, because it depends only on range, frequency, and aperture; the environmental and protocol sections will require revision as operational data become available.
+
+The methodology generalises to any cislunar or interplanetary link, because the same three parameters govern the link budget at any scale. The Earth--Moon round trip of \SI{2.56}{\second} grows to \SI{8}{}--\SI{48}{minutes} at Mars, and the lunar contact cycle of hours extends to days and weeks; the delay-tolerant architecture developed for the Moon carries over directly, with parameter adjustment, and the aperture-range scaling applies unchanged because it depends only on the slant range, the carrier frequency, and the aperture product. The lunar network is therefore the first instance of a general interplanetary communications architecture, and the design methodology presented here provides the framework for extending it to the surfaces and orbits beyond.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

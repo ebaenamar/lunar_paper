@@ -32,8 +32,8 @@
 
 @techreport{lcrns_esper2025,
   author      = {A. Esper and G. Heckler and J. Verville and G. Ryden},
-  title       = {{NASA} {LCRNS} Project},
-  institution = {NASA, Acta Astronautica (in press)},
+  title       = {{NASA}'s Lunar Communications Relay and Navigation Systems ({LCRNS})},
+  institution = {NASA; presented at the SpaceOps Conference},
   year        = {2025},
   url         = {https://ntrs.nasa.gov/citations/20250003321}
 }
@@ -106,7 +106,7 @@
 }
 
 @article{chen_ce4_relay,
-  author  = {X. Chen and others},
+  author  = {L. Zhang and others},
   title   = {The Mission Analysis and System Design of {Chang'e-4} Lunar Relay Communication Satellite},
   journal = {J. Deep Space Exploration},
   volume  = {5},
@@ -304,8 +304,8 @@
 @misc{rfc9171,
   author = {S. Burleigh and K. Fall and E. Birrane, III},
   title  = {Bundle Protocol Version 7},
-  year   = {2024},
-  note   = {IETF RFC 9171, Standards Track. Originally published January 2022; advanced to Standards Track May 2026},
+  year   = {2022},
+  note   = {IETF RFC 9171},
   url    = {https://www.rfc-editor.org/rfc/rfc9171.html}
 }
 
@@ -364,7 +364,7 @@
 }
 
 @article{rosenberg_terrain2011,
-  author  = {M. A. Rosenberg and O. Aharonson and J. W. Head and others},
+  author  = {M. A. Rosenburg and others},
   title   = {Global Surface Slopes and Roughness of the Moon from the Lunar Orbiter Laser Altimeter},
   journal = {J. Geophysical Research: Planets},
   volume  = {116},
@@ -383,11 +383,11 @@
 }
 
 @article{zhang_radiation2020,
-  author  = {W. Zhang and J. Zhang and Z. Zhang and others},
+  author  = {S. Zhang and others},
   title   = {First Measurements of the Radiation Dose on the Lunar Surface},
   journal = {Science Advances},
   volume  = {6},
-  number  = {41},
+  number  = {39},
   year    = {2020},
   doi     = {10.1126/sciadv.aaz1334}
 }
@@ -441,12 +441,12 @@
   url         = {https://deepspace.jpl.nasa.gov/dsndocs/810-005/104/104Q.pdf}
 }
 
-@techreport{cho_relay_coverage,
-  author      = {K. Cho and J. Lee and D. Mortari},
-  title       = {Lunar Relay Coverage Analysis for {RF} and Optical Links},
-  institution = {NASA NTRS},
-  year        = {2021},
-  url         = {https://ntrs.nasa.gov/citations/20210008428}
+@inproceedings{cho_relay_coverage,
+  author    = {K.-M. Cheung and C. Lee},
+  title     = {Lunar Relay Coverage Analysis for {RF} and Optical Links},
+  booktitle = {Proc. SpaceOps Conf.},
+  year      = {2018},
+  doi       = {10.2514/6.2018-2612}
 }
 
 @article{yuan_hybrid_cislunar,
@@ -514,12 +514,13 @@
 % --- Section VII: Mobility and handover ---
 
 @article{azami_terrain_aware,
-  author  = {F. Azami and others},
+  author  = {E. Staudinger and others},
   title   = {Terrain-Aware Communication Coverage Prediction for Cooperative Networked Robots in Unstructured Environments},
   journal = {Acta Astronautica},
-  volume  = {200},
+  volume  = {202},
   year    = {2023},
-  doi     = {10.1016/j.actaastro.2022.10.050}
+  doi     = {10.1016/j.actaastro.2022.10.050},
+  pages = {799--805}
 }
 
 % --- Section VIII: Constellation design ---
@@ -533,7 +534,7 @@
 }
 
 @article{mdpi_orbital_infra,
-  author  = {M. Tipaldi and others},
+  author  = {N. Trabacchin and G. Colombatti},
   title   = {Design of an Orbital Infrastructure to Guarantee Continuous Communication to the Lunar South Pole Region},
   journal = {Aerospace},
   volume  = {12},
@@ -571,7 +572,7 @@
 }
 
 @inproceedings{gramling_lunanet_pnt,
-  author    = {C. Gramling and others},
+  author    = {P. Giordano and R. Swinden and C. Gramling and J. Crenshaw and J. Ventura-Traveset},
   title     = {{LunaNet} Position, Navigation, and Timing Services and Signals, Enabling the Future of Lunar Exploration},
   booktitle = {Proc. ION GNSS+},
   year      = {2023},
@@ -579,13 +580,14 @@
 }
 
 @article{sairo_dop,
-  author  = {H. Sairo and D. Akopian and J. Takala},
+  author  = {A. S. Gabhart and B. E. Robertson and D. N. Mavris},
   title   = {Alternative Dilution of Precision Measure for Lunar Positioning Systems: Comparison and Sensitivities},
   journal = {J. Guidance, Control, and Dynamics},
   volume  = {49},
-  number  = {5},
+  number  = {10},
   year    = {2026},
-  doi     = {10.2514/1.G009759}
+  doi     = {10.2514/1.G009759},
+  pages = {2853--2864}
 }
 
 @article{baweja_dop,
@@ -617,7 +619,7 @@
 }
 
 @article{ashby_lunar_time,
-  author  = {N. Ashby and J. D. Patla},
+  author  = {N. Ashby and B. R. Patla},
   title   = {A Relativistic Framework to Estimate Clock Rates on the Moon},
   journal = {The Astronomical Journal},
   volume  = {168},
@@ -627,7 +629,7 @@
 }
 
 @inproceedings{ansalone_lcrns_time,
-  author    = {L. Ansalone and F. Dovis and J. Parker},
+  author    = {J. M. Leonard and S. M. Stewart and D. E. Gaylor},
   title     = {Relativistic Framework for Disseminating Lunar Time for the {Intuitive Machines LCRNS} {PNT} Constellation},
   booktitle = {Proc. ION ITM},
   year      = {2026},
@@ -636,13 +638,6 @@
 
 % --- Section X: 3GPP NTN to lunar NTN ---
 
-@techreport{nasa_lunar_3gpp_gem,
-  author      = {NASA},
-  title       = {Emulation Testbed for the Development of Lunar Surface Communication Systems},
-  institution = {NASA},
-  year        = {2026},
-  url         = {https://www.nasa.gov/wp-content/uploads/2026/02/lunar-3gpp-gem-paper-rev3-1.pdf}
-}
 
 @techreport{nasa_drats2022,
   author      = {NASA},
@@ -655,7 +650,7 @@
 % --- Section XI: Protocol seam ---
 
 @inproceedings{wood_tcp_radius,
-  author    = {L. Wood and W. M. Eddy},
+  author    = {L. Wood and C. Peoples and G. Parr and B. Scotney and A. Moore},
   title     = {{TCP}'s Protocol Radius: The Distance Where Timers Prevent Communication},
   booktitle = {Proc. IEEE IWSSC},
   year      = {2007},
@@ -663,8 +658,8 @@
 }
 
 @inproceedings{ulierte_traffic_prio,
-  author    = {M. A. Martinez-Ulierte and others},
-  title     = {Enabling Traffic Prioritization for Space Communications over {DTNs}},
+  author    = {T. A. Ulierte and K. Kuladinithi and A. Timm-Giel and F. Flentge},
+  title     = {Lunar Communication Services: Feasibility Study on Traffic Prioritization of Quasi-Real Time Communications over {DTNs}},
   booktitle = {Proc. IEEE WISEE},
   year      = {2023},
   doi       = {10.1109/wisee58383.2023.10289636}
@@ -687,16 +682,17 @@
 }
 
 @article{fraire_contact_plan,
-  author  = {J. A. Fraire and others},
+  author  = {J. A. Fraire and J. M. Finochietto},
   title   = {Routing-Aware Fair Contact Plan Design for Predictable Delay Tolerant Networks},
   journal = {Ad Hoc Networks},
-  volume  = {20},
+  volume  = {25},
   year    = {2015},
-  doi     = {10.1016/j.adhoc.2014.07.006}
+  doi     = {10.1016/j.adhoc.2014.07.006},
+  pages = {303--313}
 }
 
 @article{islam_dtn_survey,
-  author  = {A. K. M. M. Islam and others},
+  author  = {D. I. Elewaily and H. A. Ali and A. I. Saleh and M. M. Abdelsalam},
   title   = {Delay/Disruption-Tolerant Networking-Based the Integrated Deep-Space Relay Network: State-of-the-Art},
   journal = {Ad Hoc Networks},
   volume  = {152},
@@ -726,7 +722,7 @@
 }
 
 @inproceedings{koisser_pki_space,
-  author    = {M. N. M. Bhutta and others},
+  author    = {D. Koisser and R. Mitev and N. Yadav and F. Vollmer and A.-R. Sadeghi},
   title     = {Orbital Trust and Privacy: {SoK} on {PKI} and Location Privacy Challenges in Space Networks},
   booktitle = {Proc. USENIX Security},
   year      = {2024},
@@ -745,7 +741,7 @@
 }
 
 @inproceedings{jedermann_location_auth,
-  author    = {E. Jedermann and others},
+  author    = {N. Benchoubane and B. Donmez and O. B. Yahia and G. K. Kurt},
   title     = {Securing Cislunar Missions: A Location-Based Authentication Approach},
   booktitle = {Proc. 3S Conference},
   year      = {2024},
@@ -755,7 +751,7 @@
 % --- Section XIII: Power ---
 
 @techreport{colozza_power1991,
-  author      = {A. Colozza and A. H. Jones},
+  author      = {J. M. Hickman and H. B. Curtis and G. A. Landis},
   title       = {Design Considerations for Lunar Base Photovoltaic Power Systems},
   institution = {NASA NTRS},
   year        = {1991},
@@ -763,7 +759,7 @@
 }
 
 @article{balat_power2021,
-  author  = {M. Balat-Pichelin and others},
+  author  = {M. Kaczmarzyk and M. Musiał},
   title   = {Parametric Study of a Lunar Base Power Systems},
   journal = {Energies},
   volume  = {14},
@@ -773,7 +769,7 @@
 }
 
 @article{aguirre_lusee,
-  author  = {J. E. Aguirre and others},
+  author  = {B. R. B. Saliwanchik and others},
   title   = {{LuSEE-Night} Power Requirements and Power Generation Strategy},
   journal = {arXiv preprint},
   year    = {2024},
@@ -851,7 +847,7 @@
 }
 
 @article{zhu_channel_ray,
-  author  = {C. Zhu and others},
+  author  = {L. Zang and others},
   title   = {Propagation Channel Analysis Over Lunar Surface via Ray Tracing Technique},
   journal = {Proc. IEEE ICCT},
   year    = {2025},
@@ -870,7 +866,7 @@
 }
 
 @article{alqodah_review,
-  author  = {M. A. Al-Qodah and others},
+  author  = {E. Serria and others},
   title   = {A Review of Lunar Communications and Antennas: Assessing Performance in the Context of Propagation and Radiation},
   journal = {Sensors},
   volume  = {23},
@@ -881,7 +877,7 @@
 }
 
 @article{perreault_testbed,
-  author  = {S. Perreault and others},
+  author  = {R. L. Bull and others},
   title   = {Network Emulation Testbed Capabilities for Prototyping Space {DTN} Software and Protocols},
   journal = {Proc. IEEE INFOCOM Workshops},
   year    = {2024},
@@ -897,7 +893,7 @@
 }
 
 @inproceedings{nasa_onboard_lunanet,
-  author    = {NASA},
+  author    = {J. Verville and W. Eddy},
   title     = {Onboard Processing for {LunaNet} Data Services},
   booktitle = {Proc. IEEE Aerospace Conf.},
   year      = {2025},
@@ -924,21 +920,25 @@
 }
 
 @article{dong_dielectric_ce5,
-  author  = {Z. Dong and G. Fang and D. Zhao and B. Zhou and Y. Gao and Y. Ji},
+  author  = {Y. Liu and others},
   title   = {Measurements of Dielectric Properties of {Chang'E-5} Lunar Samples},
   journal = {J. Geophysical Research: Planets},
   year    = {2026},
-  doi     = {10.1029/2025JE009466}
+  doi     = {10.1029/2025JE009466},
+  volume = {131},
+  number = {3},
+  pages = {e2025JE009466}
 }
 
 @article{naito_radiation,
-  author  = {M. Naito and T. Sato and H. Yoshida and others},
-  title   = {Radiation Dose and Its Protection in the Moon from Galactic Cosmic Rays and Solar Energetic Particles},
+  author  = {M. Naito and others},
+  title   = {Radiation Dose and Its Protection in the {Moon} from Galactic Cosmic Rays and Solar Energetic Particles: At the Lunar Surface and in a Lava Tube},
   journal = {J. Radiological Protection},
   volume  = {40},
-  pages   = {1--15},
+  pages   = {947--961},
   year    = {2020},
-  doi     = {10.1088/1361-6498/abb120}
+  doi     = {10.1088/1361-6498/abb120},
+  number = {4}
 }
 
 % ============================================================
@@ -1022,11 +1022,13 @@
 % --- Islam et al.: Ka-band link budget for deep space ---
 
 @article{islam_ka_band,
-  author  = {A. K. M. M. Islam and others},
+  author  = {M. S. Islam and others},
   title   = {{Ka}-Band Link Budget Analysis for Deep Space Communications},
   journal = {IEEE Access},
-  year    = {2024},
-  note    = {MRO$\to$Canberra DSN budget with FSPL, rain, fog, and $T_{sys}$ using ITU-R models}
+  volume  = {13},
+  pages   = {159064--159076},
+  year    = {2025},
+  doi     = {10.1109/ACCESS.2025.3603118}
 }
 
 % --- AAS 25-758: Brack et al., LDN constellation ---
@@ -1052,7 +1054,7 @@
 % --- Kopeikin & Kaplan: independent corroboration of lunar clock rate ---
 
 @article{kopeikin_kaplan,
-  author  = {S. Kopeikin and S. Kaplan},
+  author  = {S. Kopeikin and G. H. Kaplan},
   title   = {Lunar Time in General Relativity},
   journal = {Physical Review D},
   volume  = {110},
@@ -1065,11 +1067,11 @@
 % --- JAXA lunar optical relay proposal ---
 
 @inproceedings{jaxa_optical_relay,
-  author    = {Y. Kimura and others},
-  title     = {Lunar Optical Relay Proposal},
-  booktitle = {Proc. SPIE 13699, ICSO 2024},
+  author    = {T. Araki and S. Kimura and J. Awano and K. Makino and K. Tanabe},
+  title     = {A Proposal of Optical Data Relay System for Lunar Exploration},
+  booktitle = {Proc. SPIE, Int. Conf. Space Optics (ICSO 2024)},
   year      = {2025},
-  note      = {Published 28 July 2025. 2.5 Gbit/s Moon-to-Earth, 10 W HPA}
+  doi       = {10.1117/12.3075387}
 }
 
 % --- Lunar Pathfinder AIT status ---
@@ -1156,17 +1158,18 @@
 }
 
 @article{jamshed_ntn_tutorial,
-  author  = {M. A. Jamshed and K. Kaushik and R. Manzoor and A. Shakir and J. Seong and S. Toka and S. Shin and H. Schellmann},
+  author  = {M. A. Jamshed and A. Kaushik and S. Manzoor and M. Z. Shakir and J. Seong and M. Toka and W. Shin and M. Schellmann},
   title   = {A Tutorial on Non-Terrestrial Networks: Towards Global and Ubiquitous {6G} Connectivity},
   journal = {Foundations and Trends in Networking},
   volume  = {14},
   number  = {3},
   pages   = {160--253},
-  year    = {2025}
+  year    = {2025},
+  doi = {10.1561/1300000072}
 }
 
 @article{liyanaarachchi_cislunar,
-  author  = {S. Liyanaarachchi and S. Mitrolaris and S. Mitra and S. Ulukus},
+  author  = {S. Liyanaarachchi and S. Mitrolaris and P. Mitra and S. Ulukus},
   title   = {{6G} at {1/6g}: The Future of Cislunar Communications},
   journal = {arXiv preprint arXiv:2407.16672},
   year    = {2024},
@@ -1188,12 +1191,15 @@
   url    = {https://www.itu.int/itu-d/reports/statistics/facts-figures-2024/}
 }
 
-@book{yuen_descanso,
+@incollection{yuen_descanso,
   author    = {J. H. Yuen},
   title     = {Deep Space Communications},
-  publisher = {JPL DESCANSO Monograph},
-  year      = {2006},
-  note      = {Chapter 1: Link design methodology}
+  booktitle = {Deep Space Communications},
+  editor    = {J. Taylor},
+  publisher = {Wiley},
+  pages     = {1--13},
+  year      = {2016},
+  doi       = {10.1002/9781119169079.ch1}
 }
 
 % ============================================================
@@ -1214,8 +1220,8 @@
 @misc{rfc9174,
   author = {B. Sipos and M. Demmer and J. Ott and S. Perreault},
   title  = {Delay-Tolerant Networking {TCP} Convergence-Layer Protocol Version 4},
-  year   = {2024},
-  note   = {IETF RFC 9174, Standards Track. Advanced to Standards Track May 2026},
+  year   = {2022},
+  note   = {IETF RFC 9174},
   url    = {https://www.rfc-editor.org/rfc/rfc9174.html}
 }
 
@@ -1259,19 +1265,11 @@
 }
 
 % --- IEEE Access 2026 comprehensive survey ---
-@article{marine_roig_survey_2026,
-  author  = {E. Marine-Roig and V. M. Baeza},
-  title   = {Lunar Communication and Navigation Systems: A Comprehensive Survey, Research Challenges, and an Architectural Roadmap},
-  journal = {IEEE Access},
-  volume  = {14},
-  year    = {2026},
-  doi     = {10.1109/access.2026.3682957},
-  note    = {PRISMA methodology, 175 publications 2001--2025, seven research domains, eight technological challenges}
-}
+
 
 % --- IEEE AESM 2026: QUIC vs DTN for Earth-Moon ---
 @article{e2e_vs_dtn_2026,
-  author  = {others},
+  author  = {C. Caini and T. de Cola},
   title   = {Earth to Moon Networking: Comparison of End-to-End and {DTN} Approaches},
   journal = {IEEE Aerospace and Electronic Systems Magazine},
   year    = {2026},
@@ -1290,7 +1288,7 @@
 
 % --- Shoemaker Rim F path loss model ---
 @article{shoemaker_rim_2026,
-  author  = {others},
+  author  = {Q. R. Adebowale and S. Ostermann},
   title   = {Sub-6-{GHz} {5G} Large-Scale Path Loss Model for Shoemaker Rim {F}: Sensitivity to Transmitter Antenna Pattern},
   journal = {Telecom},
   volume  = {7},
@@ -1432,7 +1430,7 @@
 }
 
 @article{queqiao_relay_review_2021,
-  author  = {{Space: Science and Technology}},
+  author  = {L. Zhang},
   title   = {Development and Prospect of Chinese Lunar Relay Communication Satellite},
   journal = {Space: Science and Technology},
   volume  = {2021},
@@ -1580,7 +1578,7 @@
 
 % --- LTV teleoperation under lunar latencies ---
 @inproceedings{ltv_teleops2025,
-  author    = {NASA},
+  author    = {H. L. Litaker and K. H. Beaton and Z. Q. Li and J. F. Lewis},
   title     = {Lunar Terrain Vehicle ({LTV}) Remote Teleoperation Studies Under Four Lunar Communication Latencies},
   booktitle = {IEEE Aerospace Conference},
   year      = {2025},
@@ -1590,7 +1588,7 @@
 
 % --- CADRE multi-agent autonomy demonstration ---
 @inproceedings{cadre_aero2024,
-  author    = {C. DeLaCroix and others},
+  author    = {J.-P. de la Croix and others},
   title     = {Multi-Agent Autonomy for Space Exploration on the {CADRE} Lunar Technology Demonstration},
   booktitle = {IEEE Aerospace Conference},
   year      = {2024},
@@ -1600,9 +1598,9 @@
 
 % --- LiDAR teleoperation communication requirements ---
 @inproceedings{lidar_teleops2012,
-  author    = {D. M. Helmick and others},
+  author    = {L. Pedersen and others},
   title     = {Tele-Operated Lunar Rover Navigation Using {LiDAR}},
-  booktitle = {AIAA Space Forum},
+  booktitle = {Proc. Int. Symp. Artificial Intelligence, Robotics and Automation in Space (i-SAIRAS)},
   year      = {2012},
   note      = {NASA HAT recommends \SI{384}{kbps} downlink, \SI{10}{kbps} uplink for teleoperation; demonstrated \SI{1}{Mbps} constrained teleoperation at \SI{0.15}{}--\SI{0.25}{m/s}},
   url       = {https://ntrs.nasa.gov/citations/20120016849}
@@ -1610,7 +1608,7 @@
 
 % --- Communication-constrained multi-rover path planning ---
 @inproceedings{banfi_multirover2024,
-  author    = {T. Banfi and others},
+  author    = {S. Santra and E. Staudinger and K. Yoshida},
   title     = {Communication-constrained Path Planning for Multi-Rover Exploration on the Lunar Surface},
   booktitle = {IEEE International Conference on Automation Science and Engineering (CASE)},
   year      = {2024},
@@ -1619,7 +1617,7 @@
 
 % --- LiDAR point-cloud rover communication requirements ---
 @inproceedings{lidar_networking2026,
-  author    = {others},
+  author    = {S. Higuchi and others},
   title     = {Designing a Networking System for Lunar Exploration Over the Moon--Earth Link},
   booktitle = {IEEE Aerospace Conference},
   year      = {2026},

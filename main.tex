@@ -226,10 +226,10 @@ Surface-to-Earth & 384\,000\,km & Earth--Moon distance \\
 The ratio of received energy per bit to noise spectral density is
 \begin{gather}
 \eqname{Link Budget Equation}\\
-\frac{E_b}{N_0} = \frac{P_t \, G_t \, G_r}{k \, T_{\mathrm{sys}} \, R_b} \left(\frac{\lambda}{4\pi R}\right)^{2} L_{\mathrm{o}},
+\frac{E_b}{N_0} = \frac{P_t \, G_t \, G_r}{k \, T_{\mathrm{sys}} \, R_b \, L_{\mathrm{o}}} \left(\frac{\lambda}{4\pi R}\right)^{2},
 \label{eq:ebn0}
 \end{gather}
-in which $P_t$ is the transmit power in watts, $G_t$ and $G_r$ are the transmit and receive antenna gains, $k = 1.38 \times 10^{-23}$~J/K is the Boltzmann constant, $T_{\mathrm{sys}}$ is the system noise temperature in kelvin, $R_b$ is the data rate in bits per second, $\lambda = c/f$ is the wavelength, $R$ is the slant range, and $L_{\mathrm{o}}$ aggregates the losses that are not attributable to free-space spreading, namely atmospheric, pointing, polarization and implementation losses. Expressed in decibels, \eqref{eq:ebn0} becomes
+in which $P_t$ is the transmit power in watts, $G_t$ and $G_r$ are the transmit and receive antenna gains, $k = 1.38 \times 10^{-23}$~J/K is the Boltzmann constant, $T_{\mathrm{sys}}$ is the system noise temperature in kelvin, $R_b$ is the data rate in bits per second, $\lambda = c/f$ is the wavelength, $R$ is the slant range, and $L_{\mathrm{o}} \geq 1$ aggregates the losses that are not attributable to free-space spreading, namely atmospheric, pointing, polarization and implementation losses. Expressed in decibels, \eqref{eq:ebn0} becomes
 \begin{gather}
 \eqname{Link Budget in Decibels}\\
 \begin{split}
@@ -238,7 +238,7 @@ in which $P_t$ is the transmit power in watts, $G_t$ and $G_r$ are the transmit 
 \end{split}
 \label{eq:linkdb}
 \end{gather}
-where $\mathrm{EIRP} = P_t + G_t$ in dBW, $[G/T]_r = G_r - T_{\mathrm{sys}}$ in dB/K, and $L_{\mathrm{FS}} = 20\log_{10}(4\pi R f / c)$ in dB. Equation~\eqref{eq:linkdb} is the form used in the design control tables of deep-space practice~\cite{yuen_descanso,dsn_810_005}.
+where all quantities are in decibels: $\mathrm{EIRP} = P_t + G_t$ in dBW, $[G/T]_r = G_r - 10\log_{10} T_{\mathrm{sys}}$ in dB/K, $L_{\mathrm{FS}} = 20\log_{10}(4\pi R f / c)$ and $L_{\mathrm{o}}$ are positive losses in dB, and $k_{\mathrm{dB}} = -228.6$~dBW/K/Hz. Equation~\eqref{eq:linkdb} is the form used in the design control tables of deep-space practice~\cite{yuen_descanso,dsn_810_005}.
 
 \subsection{Free-Space Path Loss}
 A transmitter radiating power $P_t G_t$ uniformly over a sphere of radius $R$ produces a power flux density $P_t G_t / (4\pi R^2)$ at the receiver. A receiving antenna of effective area $A_e = G_r \lambda^2 / (4\pi)$ therefore captures $P_r = P_t G_t G_r \lambda^2 / (4\pi R)^2$, from which the free-space path loss follows as
@@ -267,16 +267,16 @@ The three cases above show that the question ``is higher frequency beneficial?''
 The delivered $E_b/N_0$ obtained from \eqref{eq:ebn0} is compared against the value required by the chosen modulation and coding scheme, giving the margin
 \begin{gather}
 \eqname{Link Margin}\\
-M = \left[\frac{E_b}{N_0}\right]_{\mathrm{del}} - \left[\frac{E_b}{N_0}\right]_{\mathrm{req}} - L_{\mathrm{impl}},
+M = \left[\frac{E_b}{N_0}\right]_{\mathrm{del}} - \left[\frac{E_b}{N_0}\right]_{\mathrm{req}},
 \label{eq:margin}
 \end{gather}
-in which $L_{\mathrm{impl}}$ accounts for implementation losses. A link is considered closed when $M > 0$. Deep-space practice requires $M \geq \SI{3}{dB}$ for proven configurations and $M \geq \SI{6}{dB}$ for configurations that have not previously been flown~\cite{yuen_descanso}.
+in which the implementation loss $L_{\mathrm{impl}}$ is carried inside $L_{\mathrm{o}}$ and is therefore not subtracted a second time. A link is considered closed when $M > 0$. Deep-space practice requires $M \geq \SI{3}{dB}$ for proven configurations and $M \geq \SI{6}{dB}$ for configurations that have not previously been flown~\cite{yuen_descanso}.
 
 \subsection{Aperture-Range Scaling}
 Solving \eqref{eq:ebn0} for the aperture product yields
 \begin{gather}
 \eqname{Aperture-Range Scaling Law}\\
-D_t D_r = \frac{4 R \lambda}{\pi \eta} \sqrt{\frac{k T_{\mathrm{sys}} R_b \left(E_b/N_0\right)_{\mathrm{req}}}{P_t L_{\mathrm{o}}}}.
+D_t D_r = \frac{4 R \lambda}{\pi \eta} \sqrt{\frac{k T_{\mathrm{sys}} R_b L_{\mathrm{o}} \left(E_b/N_0\right)_{\mathrm{req}}}{P_t}}.
 \label{eq:aperture}
 \end{gather}
 Equation~\eqref{eq:aperture} relates nine parameters, and multiple combinations of them satisfy a given link requirement; it therefore defines a design space rather than a unique solution. Three dependences matter for design. The slant range enters linearly, so that doubling the range doubles the required aperture product. The data rate enters as $\sqrt{R_b}$, so that quadrupling the rate doubles the required aperture product. The wavelength enters linearly, so that raising the carrier frequency reduces the required aperture but narrows the beamwidth in proportion, transferring the difficulty from the radio-frequency subsystem to the pointing subsystem.
@@ -308,39 +308,39 @@ $P_t$ & 40\,W & Relay transmit power \\
 $D_t$ & 0.75\,m & Relay antenna \\
 $D_r$ & 34\,m & DSN antenna \\
 $\eta$ & 0.6 & Antenna efficiency \\
-$T_{\mathrm{sys}}$ & 31\,K & DSN Ka-band receiver at zenith~\cite{dsn_810_005} \\
-$(E_b/N_0)_{\mathrm{req}}$ & 10\,dB & QPSK, rate 1/2 \\
-$L_{\mathrm{impl}}$ & 2\,dB & Implementation loss \\
+$T_{\mathrm{sys}}$ & 44\,K & DSN 34-m BWG, 26\,GHz, zenith~\cite{dsn_34m_bwg} \\
+$(E_b/N_0)_{\mathrm{req}}$ & 10\,dB & Uncoded QPSK, BER $10^{-5}$ \\
+$L_{\mathrm{o}}$ & 2\,dB & Implementation and other losses \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-The antenna gains follow from \eqref{eq:gain} as $G_t = \SI{44.0}{dBi}$ and $G_r = \SI{77.1}{dBi}$, the latter consistent with the DSN 34-m beam-waveguide handbook value of \SI{78.5}{dBi} at \SI{32}{GHz} scaled to \SI{26}{GHz}~\cite{dsn_810_005,dsn_34m_bwg}. The free-space path loss follows from \eqref{eq:fspl} as
+The antenna gains follow from \eqref{eq:gain} as $G_t = \SI{44.0}{dBi}$ and $G_r = \SI{77.1}{dBi}$, the latter consistent with the DSN 34-m beam-waveguide handbook value of \SI{77.2}{dBi} at \SI{26.25}{GHz}~\cite{dsn_34m_bwg}. The system noise temperature is the handbook value for the \SI{26}{GHz} receive chain, which lies between \SI{40}{} and \SI{49}{K} at zenith depending on the antenna; the \SI{32}{GHz} value of approximately \SI{31}{K} does not apply at this carrier. The free-space path loss follows from \eqref{eq:fspl} as
 \begin{equation}
 L_{\mathrm{FS}} = 20\log_{10}\!\left(\frac{4\pi \cdot 3.844\times10^{8} \cdot 26\times10^{9}}{2.998\times10^{8}}\right) = \SI{232.4}{dB}.
 \end{equation}
 Substituting into \eqref{eq:linkdb} gives a delivered ratio of
 \begin{align}
-\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} &= (16 + 44.0) + (77.1 - 14.9) \nonumber \\
-&\quad - 232.4 - 2 + 228.6 - 80 = \SI{36.4}{dB},
+\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} &= (16 + 44.0) + (77.1 - 16.4) \nonumber \\
+&\quad - 232.4 - 2 + 228.6 - 80 = \SI{34.9}{dB},
 \end{align}
-and hence a margin of $M = 36.4 - 10 = \SI{26.4}{dB}$ by \eqref{eq:margin}.
+and hence a margin of $M = 34.9 - 10 = \SI{24.9}{dB}$ by \eqref{eq:margin}.
 
 \begin{remark}[Aperture Asymmetry on the Trunk Link]
 \label{rem:asymmetry}
 The \SI{33}{dB} gain difference between the \SI{34}{m} ground antenna and the \SI{0.75}{m} relay antenna is the structural feature that makes the Earth--Moon trunk feasible. It reflects the fact that the ground station, unlike the spacecraft, is unconstrained in mass and power, so the link budget absorbs the \SI{384000}{km} range almost entirely at the Earth end. Any link in which both apertures are constrained, such as the inter-satellite case of Section~\ref{sec:parametric}, does not enjoy this asymmetry and is correspondingly harder to close.
 \end{remark}
 
-The dominant term is the \SI{232.4}{dB} path loss, which is absorbed principally by the \SI{77.1}{dBi} receive gain of the DSN aperture. That aperture provides approximately \SI{33}{dB} more gain than the \SI{0.75}{m} relay antenna, and it is this asymmetry that permits the trunk link to close with a modest spacecraft antenna. Reducing the ground aperture from \SI{34}{m} to \SI{3.4}{m} would remove \SI{20}{dB} of receive gain and drive the margin to \SI{6.4}{dB}, which still closes but without weather margin.
+The dominant term is the \SI{232.4}{dB} path loss, which is absorbed principally by the \SI{77.1}{dBi} receive gain of the DSN aperture. That aperture provides approximately \SI{33}{dB} more gain than the \SI{0.75}{m} relay antenna, and it is this asymmetry that permits the trunk link to close with a modest spacecraft antenna. Reducing the ground aperture from \SI{34}{m} to \SI{3.4}{m} would remove \SI{20}{dB} of receive gain and drive the margin to \SI{4.9}{dB}, which still closes but leaves little allowance for weather.
 
-The margin is further constrained by atmospheric attenuation at the ground station. The DSN link design handbook~\cite{dsn_810_005} gives Ka-band attenuation statistics for Goldstone, Canberra and Madrid from which the attenuation at \SI{26}{GHz} is approximately \SI{1}{dB} at 90~per~cent weather availability, \SI{3}{dB} at 95~per~cent, \SI{10}{}--\SI{15}{dB} at 99~per~cent and \SI{20}{}--\SI{30}{dB} at 99.9~per~cent. The available margin of \SI{26.4}{dB} therefore accommodates 99~per~cent availability but not 99.9~per~cent without rate adaptation or site diversity. Corresponding rain-attenuation models are discussed in~\cite{islam_ka_band}.
+The margin is further constrained by atmospheric attenuation at the ground station. The DSN link design handbook~\cite{dsn_810_005} tabulates the yearly zenith attenuation at \SI{26}{GHz} for the three complexes: at 99~per~cent weather availability it is \SI{0.62}{dB} at Goldstone, \SI{1.21}{dB} at Canberra and \SI{1.13}{dB} at Madrid, rising to approximately \SI{1.8}{}, \SI{3.5}{} and \SI{3.3}{dB} at \SI{20}{\degree} elevation. The handbook does not extend to 99.9~per~cent; for that percentile ITU-R P.618~\cite{itu_p618} predicts approximately \SI{8.6}{}, \SI{19.1}{} and \SI{10.7}{dB} at \SI{20}{\degree} elevation, and up to \SI{34}{dB} at Canberra at \SI{10}{\degree}. The available margin of \SI{24.9}{dB} therefore accommodates 99.9~per~cent availability at all three complexes above \SI{20}{\degree} elevation, but not at low elevation at the wettest site without rate adaptation or site diversity. Corresponding rain-attenuation models are discussed in~\cite{islam_ka_band}.
 
 
 \section{Parametric Analysis and the Five Lunar Links}
 \label{sec:parametric}
 
 \subsection{Margin Against Range}
-We generalize the canonical budget of Section~\ref{sec:worked} through parametric analysis. Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at S-band, X-band and Ka-band, for the aperture pair, power and data rate of Table~\ref{tab:budget}. The received power is inversely proportional to the square of the range, as expected from \eqref{eq:fspl}, and the curves accordingly fall at \SI{20}{dB} per decade. It is worth noting that the three bands cross the \SI{3}{dB} closure threshold at different ranges: Ka-band remains closed to approximately \SI{600000}{km}, whereas S-band closes only to approximately \SI{100000}{km}. The vertical separation of approximately \SI{21.5}{dB} between the S-band and Ka-band curves reflects the net \SI{6}{dB} per octave advantage of higher frequency when both apertures are fixed in physical diameter, as discussed in Section~\ref{sec:fundamentals}. For symmetric links with small apertures at both ends the advantage is the same, since both apertures scale identically with frequency; the curves shift downward but remain parallel.
+We generalize the canonical budget of Section~\ref{sec:worked} through parametric analysis. Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at S-band, X-band and Ka-band, for the aperture pair, power and data rate of Table~\ref{tab:budget}. The received power is inversely proportional to the square of the range, as expected from \eqref{eq:fspl}, and the curves accordingly fall at \SI{20}{dB} per decade. It is worth noting that the three bands reach the \SI{3}{dB} closure threshold at very different ranges: S-band retains only \SI{3.4}{dB} at the Earth--Moon distance and crosses the threshold near \SI{400000}{km}, whereas X-band and Ka-band remain above it well beyond the plotted range, to approximately \SI{1.5}{} and \SI{4.8}{} million km respectively. The vertical separation of approximately \SI{21.5}{dB} between the S-band and Ka-band curves reflects the net \SI{6}{dB} per octave advantage of higher frequency when both apertures are fixed in physical diameter, as discussed in Section~\ref{sec:fundamentals}. For symmetric links with small apertures at both ends the advantage is the same, since both apertures scale identically with frequency; the curves shift downward but remain parallel.
 
 \begin{figure}[!t]
 \centering
@@ -359,13 +359,13 @@ We generalize the canonical budget of Section~\ref{sec:worked} through parametri
                   text opacity=1, row sep=1pt},
 ]
 \addplot[blue, thick, domain=100:600000, samples=120]
-  {10*log10(40)+10*log10(0.6*(pi*0.75*2.2e9/2.998e8)^2)+10*log10(0.6*(pi*34*2.2e9/2.998e8)^2)-20*log10(4*pi*x*1e3*2.2e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+  {10*log10(40)+10*log10(0.6*(pi*0.75*2.2e9/2.998e8)^2)+10*log10(0.6*(pi*34*2.2e9/2.998e8)^2)-20*log10(4*pi*x*1e3*2.2e9/2.998e8)+228.6-10*log10(44)-2-10-10*log10(1e8)};
 \addlegendentry{S-band, 2.2\,GHz}
 \addplot[red, thick, dashed, domain=100:600000, samples=120]
-  {10*log10(40)+10*log10(0.6*(pi*0.75*8.4e9/2.998e8)^2)+10*log10(0.6*(pi*34*8.4e9/2.998e8)^2)-20*log10(4*pi*x*1e3*8.4e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+  {10*log10(40)+10*log10(0.6*(pi*0.75*8.4e9/2.998e8)^2)+10*log10(0.6*(pi*34*8.4e9/2.998e8)^2)-20*log10(4*pi*x*1e3*8.4e9/2.998e8)+228.6-10*log10(44)-2-10-10*log10(1e8)};
 \addlegendentry{X-band, 8.4\,GHz}
 \addplot[green!55!black, thick, dashdotted, domain=100:600000, samples=120]
-  {10*log10(40)+10*log10(0.6*(pi*0.75*26e9/2.998e8)^2)+10*log10(0.6*(pi*34*26e9/2.998e8)^2)-20*log10(4*pi*x*1e3*26e9/2.998e8)+228.6-10*log10(31)-2-10-10*log10(1e8)};
+  {10*log10(40)+10*log10(0.6*(pi*0.75*26e9/2.998e8)^2)+10*log10(0.6*(pi*34*26e9/2.998e8)^2)-20*log10(4*pi*x*1e3*26e9/2.998e8)+228.6-10*log10(44)-2-10-10*log10(1e8)};
 \addlegendentry{Ka-band, 26\,GHz}
 \addplot[black, densely dotted, domain=100:600000] {3};
 \addlegendentry{$M=3$\,dB threshold}
@@ -380,12 +380,12 @@ We generalize the canonical budget of Section~\ref{sec:worked} through parametri
   at (axis cs:384000,5) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
-\caption{Delivered margin against slant range at three carrier frequencies, with $D_t=\SI{0.75}{m}$, $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{31}{K}$ and $R_b=\SI{100}{Mbps}$. Both antenna gains are frequency-dependent, so higher frequencies yield a net \SI{6}{dB} per octave advantage.}
+\caption{Delivered margin against slant range at three carrier frequencies, with $D_t=\SI{0.75}{m}$, $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $R_b=\SI{100}{Mbps}$. Both antenna gains are frequency-dependent, so higher frequencies yield a net \SI{6}{dB} per octave advantage.}
 \label{fig:margin}
 \end{figure}
 
 \subsection{Required Aperture Against Range}
-Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}{dB} margin at Ka-band against a \SI{34}{m} receive aperture, for data rates of 1, 10 and \SI{100}{Mbps}. The required aperture scales linearly with range and as the square root of the data rate, as predicted by \eqref{eq:aperture}. At \SI{384000}{km} and \SI{100}{Mbps} the curve returns $D_t \approx \SI{0.05}{m}$ for the \SI{3}{dB} threshold, far smaller than the \SI{0.75}{m} used in the worked example; the difference reflects the \SI{23}{dB} by which the worked example exceeds the \SI{3}{dB} closure threshold. At the \SI{1629}{km} perilune of an NRHO the requirement falls to sub-millimetre values, which indicates that a surface-to-relay link at short range is not aperture-limited when the far end is a large ground antenna. That condition does not hold in practice: when the receiving relay carries a \SI{0.5}{m} antenna rather than a \SI{34}{m} one, the required transmit aperture rises by a factor of approximately sixty-eight ($34/0.5$), which is why link~2 of Table~\ref{tab:links} is classified as aperture-constrained.
+Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}{dB} margin at Ka-band against a \SI{34}{m} receive aperture, for data rates of 1, 10 and \SI{100}{Mbps}. The required aperture scales linearly with range and as the square root of the data rate, as predicted by \eqref{eq:aperture}. At \SI{384000}{km} and \SI{100}{Mbps} the curve returns $D_t \approx \SI{0.06}{m}$ for the \SI{3}{dB} threshold, far smaller than the \SI{0.75}{m} used in the worked example; the difference reflects the \SI{22}{dB} by which the worked example exceeds the \SI{3}{dB} closure threshold. At a range of \SI{1629}{km}, the perilune altitude of an NRHO (which lies over the north pole, so that a south-polar user sees the relay near apolune), the requirement falls to sub-millimetre values, which indicates that a surface-to-relay link at short range is not aperture-limited when the far end is a large ground antenna. That condition does not hold in practice: when the receiving relay carries a \SI{0.5}{m} antenna rather than a \SI{34}{m} one, the required transmit aperture rises by a factor of approximately sixty-eight ($34/0.5$), which is why link~2 of Table~\ref{tab:links} is classified as aperture-constrained.
 
 \begin{figure}[!t]
 \centering
@@ -406,13 +406,13 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
                   text opacity=1, row sep=1pt},
 ]
 \addplot[blue, thick, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e6*1.585*19.95/40)};
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e6*1.585*19.95/40)};
 \addlegendentry{$R_b=1$\,Mbps}
 \addplot[red, thick, dashed, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e7*1.585*19.95/40)};
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e7*1.585*19.95/40)};
 \addlegendentry{$R_b=10$\,Mbps}
 \addplot[green!55!black, thick, dashdotted, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*31*1e8*1.585*19.95/40)};
+  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e8*1.585*19.95/40)};
 \addlegendentry{$R_b=100$\,Mbps}
 \draw[gray, densely dashed] (axis cs:1629,1e-4) -- (axis cs:1629,10);
 \node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
@@ -425,7 +425,7 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
   at (axis cs:384000,0.1) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
-\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{31}{K}$ and $\eta=0.6$.}
+\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $\eta=0.6$.}
 \label{fig:aperture}
 \end{figure}
 
@@ -761,7 +761,7 @@ The choice of carrier frequency for each lunar link follows from the aperture-ra
 
 S-band (\SI{2}{}--\SI{2.5}{GHz}) is the default for surface access and navigation because the \SI{15}{cm} wavelength permits omnidirectional or low-gain antennas on rovers and suited astronauts, and because the SFCG lunar allocations (\SI{2.5035}{}--\SI{2.690}{GHz}) are the only bands explicitly recommended for lunar surface wireless networks~\cite{sfcg_rec32}. The cost is bandwidth: the \SI{186}{MHz} of available S-band spectrum limits a single carrier to approximately \SI{70}{Mbps} with 256QAM and two-carrier aggregation~\cite{nokia_lunar_3gpp}.
 
-Ka-band (\SI{22.5}{}--\SI{27}{GHz}) is the default for the trunk and backhaul links because the \SI{12}{mm} wavelength permits a \SI{1.5}{m} dish to produce \SI{48}{dBi} gain, which is needed to close the \SI{384000}{km} Earth--Moon path. The cost is pointing: the \SI{0.5}{\degree} beamwidth of a \SI{1.5}{m} Ka antenna requires attitude knowledge and control to \SI{0.1}{\degree}, which is within the capability of a relay satellite but not of a rover. Ka-band also suffers atmospheric attenuation at the Earth ground station, with rain attenuation of \SI{10}{}--\SI{15}{dB} at 99~per~cent weather availability~\cite{dsn_810_005,islam_ka_band}.
+Ka-band (\SI{22.5}{}--\SI{27}{GHz}) is the default for the trunk and backhaul links because the \SI{12}{mm} wavelength permits a \SI{1.5}{m} dish to produce \SI{48}{dBi} gain, which is needed to close the \SI{384000}{km} Earth--Moon path. The cost is pointing: the \SI{0.5}{\degree} beamwidth of a \SI{1.5}{m} Ka antenna requires attitude knowledge and control to \SI{0.1}{\degree}, which is within the capability of a relay satellite but not of a rover. Ka-band also suffers atmospheric attenuation at the Earth ground station, which at \SI{26}{GHz} and 99.9~per~cent availability reaches approximately \SI{9}{}--\SI{19}{dB} at \SI{20}{\degree} elevation at the DSN complexes (Section~\ref{sec:worked})~\cite{itu_p618,islam_ka_band}.
 
 X-band (\SI{7.19}{}--\SI{8.5}{GHz}) is a compromise between S and Ka, offering \SI{4}{cm} wavelength with moderate pointing requirements. It is used for direct-to-Earth links from landers that lack a steerable Ka dish, and is the band selected for the Chang'e relay satellites~\cite{chen_ce4_relay}. The WRC-23 identified X-band for lunar research service studies under Resolution~680~\cite{itu_wrc23_res680}.
 

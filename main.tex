@@ -21,6 +21,8 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \AtBeginDocument{\definecolor{ojcolor}{cmyk}{0.93,0.59,0.15,0.02}}
+% name of a displayed equation, set flush left on its own unnumbered row
+\newcommand{\eqname}[1]{\makebox[\linewidth][l]{\hspace{1em}\textit{#1:}}\notag}
 \def\OJlogo{\vspace{-4pt}\hskip-4pt\includegraphics[height=18pt]{ojcoms.png}}
 
 \pgfplotsset{compat=1.18}
@@ -222,35 +224,38 @@ Surface-to-Earth & 384\,000\,km & Earth--Moon distance \\
 
 \subsection{The Link Equation}
 The ratio of received energy per bit to noise spectral density is
-\begin{equation}
-\label{eq:ebn0}
-\textit{Link Budget Equation:}\qquad
+\begin{gather}
+\eqname{Link Budget Equation}\\
 \frac{E_b}{N_0} = \frac{P_t \, G_t \, G_r}{k \, T_{\mathrm{sys}} \, R_b} \left(\frac{\lambda}{4\pi R}\right)^{2} L_{\mathrm{o}},
-\end{equation}
+\label{eq:ebn0}
+\end{gather}
 in which $P_t$ is the transmit power in watts, $G_t$ and $G_r$ are the transmit and receive antenna gains, $k = 1.38 \times 10^{-23}$~J/K is the Boltzmann constant, $T_{\mathrm{sys}}$ is the system noise temperature in kelvin, $R_b$ is the data rate in bits per second, $\lambda = c/f$ is the wavelength, $R$ is the slant range, and $L_{\mathrm{o}}$ aggregates the losses that are not attributable to free-space spreading, namely atmospheric, pointing, polarization and implementation losses. Expressed in decibels, \eqref{eq:ebn0} becomes
-\begin{equation}
+\begin{gather}
+\eqname{Link Budget in Decibels}\\
+\begin{split}
+\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} &= \mathrm{EIRP} + \left[\frac{G}{T}\right]_{r} - L_{\mathrm{FS}} \\
+&\quad - L_{\mathrm{o}} - k_{\mathrm{dB}} - [R_b]_{\mathrm{dB}},
+\end{split}
 \label{eq:linkdb}
-\textit{Link Budget in Decibels:}\qquad
-\left[\frac{E_b}{N_0}\right]_{\mathrm{dB}} = \mathrm{EIRP} + \left[\frac{G}{T}\right]_{r} - L_{\mathrm{FS}} - L_{\mathrm{o}} - k_{\mathrm{dB}} - [R_b]_{\mathrm{dB}},
-\end{equation}
+\end{gather}
 where $\mathrm{EIRP} = P_t + G_t$ in dBW, $[G/T]_r = G_r - T_{\mathrm{sys}}$ in dB/K, and $L_{\mathrm{FS}} = 20\log_{10}(4\pi R f / c)$ in dB. Equation~\eqref{eq:linkdb} is the form used in the design control tables of deep-space practice~\cite{yuen_descanso,dsn_810_005}.
 
 \subsection{Free-Space Path Loss}
 A transmitter radiating power $P_t G_t$ uniformly over a sphere of radius $R$ produces a power flux density $P_t G_t / (4\pi R^2)$ at the receiver. A receiving antenna of effective area $A_e = G_r \lambda^2 / (4\pi)$ therefore captures $P_r = P_t G_t G_r \lambda^2 / (4\pi R)^2$, from which the free-space path loss follows as
-\begin{equation}
-\label{eq:fspl}
-\textit{Free-Space Path Loss:}\qquad
+\begin{gather}
+\eqname{Free-Space Path Loss}\\
 L_{\mathrm{FS}} = \left(\frac{4\pi R}{\lambda}\right)^{2} = \left(\frac{4\pi R f}{c}\right)^{2}.
-\end{equation}
+\label{eq:fspl}
+\end{gather}
 In decibels the loss increases by \SI{20}{dB} per decade of range and by \SI{20}{dB} per decade of frequency.
 
 \subsection{Antenna Gain and Beamwidth}
 For a circular aperture of diameter $D$ and efficiency $\eta$, the gain and the half-power beamwidth are
-\begin{equation}
-\label{eq:gain}
-\textit{Aperture Gain and Beamwidth:}\qquad
+\begin{gather}
+\eqname{Aperture Gain and Beamwidth}\\
 G = \eta \left(\frac{\pi D}{\lambda}\right)^{2}, \qquad \theta_{3\mathrm{dB}} \approx \frac{70\lambda}{D} \ \ [\mathrm{deg}].
-\end{equation}
+\label{eq:gain}
+\end{gather}
 Two consequences of \eqref{eq:gain} govern lunar link design. Doubling the aperture diameter raises the gain by \SI{6}{dB} and halves the beamwidth, so that the aperture which delivers the gain simultaneously imposes the pointing requirement. Doubling the carrier frequency raises the gain by \SI{6}{dB} at each fixed aperture and raises the path loss by \SI{6}{dB}. The net effect on margin depends on which quantities are held fixed. Three cases arise. If both antennas are fixed in physical aperture, the two gain increments (\SI{12}{dB}) exceed the path-loss increment (\SI{6}{dB}) and the margin improves by \SI{6}{dB} per octave. If both antennas are fixed in gain, the path loss dominates and the margin degrades by \SI{6}{dB} per octave. If one antenna is fixed in aperture and the other in gain, the two effects cancel and the margin is unchanged. The first case applies to a lunar trunk link in which both the spacecraft dish and the ground antenna are specified by diameter; frequency is then favourable rather than neutral, and the Ka-band preference over S-band is a direct consequence.
 
 \begin{remark}[Frequency Selection as an Aperture Decision]
@@ -260,20 +265,20 @@ The three cases above show that the question ``is higher frequency beneficial?''
 
 \subsection{Link Margin}
 The delivered $E_b/N_0$ obtained from \eqref{eq:ebn0} is compared against the value required by the chosen modulation and coding scheme, giving the margin
-\begin{equation}
-\label{eq:margin}
-\textit{Link Margin:}\qquad
+\begin{gather}
+\eqname{Link Margin}\\
 M = \left[\frac{E_b}{N_0}\right]_{\mathrm{del}} - \left[\frac{E_b}{N_0}\right]_{\mathrm{req}} - L_{\mathrm{impl}},
-\end{equation}
+\label{eq:margin}
+\end{gather}
 in which $L_{\mathrm{impl}}$ accounts for implementation losses. A link is considered closed when $M > 0$. Deep-space practice requires $M \geq \SI{3}{dB}$ for proven configurations and $M \geq \SI{6}{dB}$ for configurations that have not previously been flown~\cite{yuen_descanso}.
 
 \subsection{Aperture-Range Scaling}
 Solving \eqref{eq:ebn0} for the aperture product yields
-\begin{equation}
-\label{eq:aperture}
-\textit{Aperture-Range Scaling Law:}\qquad
+\begin{gather}
+\eqname{Aperture-Range Scaling Law}\\
 D_t D_r = \frac{4 R \lambda}{\pi \eta} \sqrt{\frac{k T_{\mathrm{sys}} R_b \left(E_b/N_0\right)_{\mathrm{req}}}{P_t L_{\mathrm{o}}}}.
-\end{equation}
+\label{eq:aperture}
+\end{gather}
 Equation~\eqref{eq:aperture} relates nine parameters, and multiple combinations of them satisfy a given link requirement; it therefore defines a design space rather than a unique solution. Three dependences matter for design. The slant range enters linearly, so that doubling the range doubles the required aperture product. The data rate enters as $\sqrt{R_b}$, so that quadrupling the rate doubles the required aperture product. The wavelength enters linearly, so that raising the carrier frequency reduces the required aperture but narrows the beamwidth in proportion, transferring the difficulty from the radio-frequency subsystem to the pointing subsystem.
 
 \begin{remark}[Orbit as the Independent Variable]

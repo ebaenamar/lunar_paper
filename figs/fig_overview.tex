@@ -8,7 +8,7 @@
 ]
 % ---------- far side, L2 halo ----------
 \draw[orbit, dashed] (1.4,4.0) ellipse (0.28 and 0.85);
-\node[anchor=north] at (1.4,3.05) {L2 halo};
+\node[anchor=north, align=center] at (1.4,3.05) {L2 halo\\(far-side relay)};
 % ---------- orbits (apolune below the south pole) ----------
 \draw[orbit, rotate around={10:(4.5,3.0)}] (4.5,3.0) ellipse (1.25 and 2.1);
 \draw[orbit, rotate around={-6:(4.5,2.425)}] (4.5,2.425) ellipse (0.6 and 2.725);
@@ -64,7 +64,14 @@
 \fill[black!55] (9.2,4.0) rectangle (9.48,4.12);
 \fill[black!55] (9.24,3.98) circle (0.035) (9.44,3.98) circle (0.035);
 \draw[lowband, dashed] (7.7,4.72) -- (8.14,4.15);            % 1 surface access
-\node[num] at (8.42,4.33) {1};
+\node[num] at (7.30,5.05) {1};
+% links 2 and 3 leave the surface from different terminals
+\draw[highband] (7.66,4.92) -- (7.80,5.72);                   % 3 from the gateway dish
+\node[num] at (7.83,5.92) {3};
+\draw[lowband] (8.20,4.15) -- (8.55,5.72);                    % 2 from the rover
+\node[num] at (8.60,5.92) {2};
+\node[anchor=east, font=\scriptsize] at (7.28,4.35) {gateway};
+\node[anchor=north, font=\scriptsize] at (8.16,3.93) {rover};
 \node[anchor=north] at (8.4,3.15) {south-polar surface};
 % ---------- legend ----------
 \draw[lowband]  (11.0,5.15) -- (11.6,5.15); \node[anchor=west] at (11.65,5.15) {UHF / S: wide beam, short range};
@@ -84,6 +91,15 @@
 \node[anchor=north, align=center] at (1.0,-3.2)    {1\,km\\3.3\,$\mu$s};
 \node[anchor=north, align=center] at (8.25,-3.2)   {$10^3$\,km\\3.3\,ms};
 \node[anchor=north, align=center] at (14.5,-3.2)   {384\,000\,km\\1.28\,s};
-\node[anchor=west, text=black!60] at (3.6,-1.45)   {surface, terrain-limited};
-\node[anchor=east, text=black!60] at (8.1,-1.8)    {set by the relay orbit};
+\node[anchor=west] at (3.6,-1.45)   {surface access (terrain-limited)};
+\node[anchor=east] at (8.1,-1.8)   {surface-to-relay};
+\node[anchor=east] at (10.35,-2.15) {gateway backhaul};
+\node[anchor=east] at (10.5,-2.5)   {inter-satellite};
+\node[anchor=east] at (14.3,-2.85)  {trunk};
+% typical aperture per link (Table tab:links)
+\node[anchor=west] at (15.7,-1.05) {\textbf{Aperture}};
+\foreach \y/\a in {-1.45/omni,-1.8/0.5\,m,-2.15/1.5\,m,-2.5/1\,m,-2.85/{0.75\,/\,34\,m}} \node[anchor=west] at (15.7,\y) {\a};
+% B: one-way delay limit of 3GPP NTN (270.73 ms, i.e. about 81 000 km)
+\draw[black!60, densely dashed, line width=0.6pt] (12.865,-1.30) -- (12.865,-3.15);
+\node[anchor=south, align=center, font=\scriptsize, text=black!70] at (12.865,-1.32) {3GPP NTN delay limit\\(270.73\,ms)};
 \end{tikzpicture}

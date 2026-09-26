@@ -321,7 +321,7 @@
 }
 
 @misc{rfc9173,
-  author = {E. Birrane, III and others},
+  author = {E. Birrane, III and A. White and S. Heiner},
   title  = {Default Security Contexts for {BPSec}},
   year   = {2022},
   note   = {IETF RFC 9173},
@@ -922,12 +922,12 @@
   pages = {1--12}
 }
 
-@inproceedings{montilla_dtn_security,
+@misc{montilla_dtn_security,
   author    = {A. Montilla and A. Montilla Ochoa},
   title     = {Securing Delay and Disruption Tolerant ({DTN}) Service Provider Networks: Considerations for {LunaNet}},
-  booktitle = {Proc. SPACOMM},
   year      = {2024},
-  url       = {https://www.iaria.org/conferences2024/filesSPACOMM24/28003_spacomm.pdf}
+  url       = {https://www.iaria.org/conferences2024/filesSPACOMM24/28003_spacomm.pdf},
+  howpublished = {Presentation, 16th Int. Conf. on Advances in Satellite and Space Communications (SPACOMM), 26--30 May 2024}
 }
 
 @article{guo_tcp_cislunar,
@@ -1420,7 +1420,7 @@
 % --- New verified references from state-of-the-art search ---
 
 @article{bhamidipati_constellation_2023,
-  author  = {S. Bhamidipati and T. Mina and G. Gao},
+  author  = {S. Bhamidipati and T. Mina and A. Sanchez and G. Gao},
   title   = {Satellite Constellation Design for a Lunar Navigation and Communication System},
   journal = {NAVIGATION: Journal of the Institute of Navigation},
   volume  = {70},
@@ -1558,12 +1558,14 @@
 }
 
 % --- RIS for cislunar communications ---
-@article{ris_cislunar2024,
+@inproceedings{ris_cislunar2024,
   author  = {A. M. Huroon and B. Donmez and G. K. Kurt and L.-C. Wang},
   title   = {Extending Cislunar Communication Network Reach Using Reconfigurable Intelligent Surfaces},
-  journal = {arXiv preprint arXiv:2404.15842},
-  year    = {2024},
-  url     = {https://arxiv.org/abs/2404.15842}
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2404.15842},
+  booktitle = {Proc. IEEE Global Communications Conference (GLOBECOM)},
+  pages = {6466--6471},
+  doi = {10.1109/GLOBECOM59602.2025.11432631}
 }
 
 % --- ISAC for NTN 6G ---
@@ -1861,4 +1863,59 @@
   pages   = {26},
   year    = {2025},
   doi     = {10.3847/1538-3881/ae18d8}
+}
+
+@misc{sercel_patent_shadowed,
+  author       = {J. C. Sercel and C. Peterson and A. Longman},
+  title        = {Systems and Methods for Obtaining Energy in Shadowed Regions},
+  howpublished = {U.S. Patent 10,989,443 B1, assigned to Trans Astronautica Corp.},
+  year         = {2021},
+  note         = {Filed 24 Mar. 2020, granted 27 Apr. 2021},
+  url          = {https://patents.google.com/patent/US10989443B1/en}
+}
+
+@article{koktas_ris_mars,
+  author  = {E. Koktas and R. A. Tasci and I. Yildirim and E. Basar},
+  title   = {Reconfigurable Intelligent Surface Deployments for {Mars}: Communication and Localization Across Diverse Terrains},
+  journal = {IEEE Open Journal of the Communications Society},
+  volume  = {6},
+  pages   = {10139--10149},
+  year    = {2025},
+  doi     = {10.1109/OJCOMS.2025.3638890}
+}
+
+@article{dong_cislunarsense,
+  author  = {H. Dong and O. B. Akan},
+  title   = {{CisLunarSense}: Opportunistic {ISAC} for Debris Detection at the Lunar {Gateway}},
+  journal = {arXiv preprint arXiv:2604.10807},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2604.10807}
+}
+
+@article{pasquale_cislunar_2022,
+  author  = {A. Pasquale and G. Zanotti and J. Prinetto and M. Ceresoli and M. Lavagna},
+  title   = {Cislunar Distributed Architectures for Communication and Navigation Services of Lunar Assets},
+  journal = {Acta Astronautica},
+  volume  = {199},
+  pages   = {345--354},
+  year    = {2022},
+  doi     = {10.1016/j.actaastro.2022.06.004}
+}
+
+@inproceedings{wiederhold_mars_occlusion,
+  author    = {E. Wiederhold and R. Larsen and L. Chandler and R. Mukai and S. Oij and W. Dula and D. Ellison and A. Vasavada},
+  title     = {Playing Telephone Through {Martian} Rock: Assessing Terrain Occlusions to Enhance Telecom Predictions},
+  booktitle = {Proc. IEEE Aerospace Conference},
+  pages     = {1--11},
+  year      = {2023},
+  doi       = {10.1109/AERO55745.2023.10115628}
+}
+
+@inproceedings{menon_teamindus,
+  author    = {M. S. Menon and A. Kothandhapani and N. S. Sundaram and V. Raghavan and S. Nagaraj},
+  title     = {Terrain-based Analysis as a Design and Planning Tool for Operations of a Lunar Exploration Rover for the {TeamIndus} Lunar Mission},
+  booktitle = {Proc. SpaceOps Conference},
+  address   = {Marseille, France},
+  year      = {2018},
+  doi       = {10.2514/6.2018-2494}
 }

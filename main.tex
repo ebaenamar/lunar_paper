@@ -181,22 +181,22 @@ The methodology of the following sections is calibrated against hardware that ha
 \toprule
 Asset & Orbit or location & Bands & Aperture & Rate delivered or specified \\
 \midrule
-\multicolumn{5}{@{}l}{\emph{Orbital relays, flown or operating}}\\
-Queqiao~\cite{chen_ce4_relay} & Earth--Moon L2 halo & X to surface, S to Earth & \SI{4.2}{m} & \SI{555}{kbps} return from lander; \SI{10}{Mbps} to Earth \\
-Queqiao-2~\cite{cnsa_queqiao2,planetary_queqiao2} & Elliptical frozen, period \SI{24}{hours} (\SI{12}{hours} planned) & X to surface, S and Ka to Earth & \SI{4.2}{m} & Not published \\
+\multicolumn{5}{@{}l}{\emph{Relays and orbiters, flown or operating}}\\
+Queqiao~\cite{chen_ce4_relay,queqiao_relay_review_2021} & Earth--Moon L2 halo & X to surface, S to Earth (X backup) & \SI{4.2}{m} & \SI{125}{bps} forward, up to \SI{555}{kbps} return (lander); \SI{2}{}--\SI{4}{Mbps} S to Earth (X backup over \SI{10}{Mbps}) \\
+Queqiao-2~\cite{cnsa_queqiao2,planetary_queqiao2,hong_lovex_2026,lei_queqiao2_data_2026} & Elliptical frozen, period \SI{24}{hours} (\SI{12}{hours} planned) & X to surface, S and Ka to Earth & \SI{4.2}{m}; \SI{0.6}{m} S/Ka & Up to \SI{500}{Mbps} Ka to Earth; surface-link rates not published \\
 LRO~\cite{lro_ka_analysis} & Polar, \SI{50}{km} (to 2011), then ${\approx}\SI{30}{}\times\SI{180}{km}$ & S \SI{2.2}{GHz}, Ka \SI{25.65}{GHz} & \SI{0.75}{m} & \SI{100}{Mbps} Ka downlink \\
 KPLO~\cite{kim_kplo_dtn} & Polar, \SI{100}{km} & S, X & --- & \SI{8.5}{Mbps} X downlink; delay-tolerant payload \\
 \addlinespace[2pt]
-\multicolumn{5}{@{}l}{\emph{Orbital relays, planned or under contract}}\\
+\multicolumn{5}{@{}l}{\emph{Relay and navigation systems, planned or under contract}}\\
 Gateway~\cite{gateway_comm} & NRHO & S, X, Ka, optical & \SI{1}{m}; \SI{1.25}{m} & \SI{16}{Mbps} forward, \SI{40}{Mbps} return on the lunar link \\
-LCRNS~\cite{lcrns_ref_const,nasa_lunar_relay_srd} & Five ELFOs, period near \SI{30}{hours} & S, Ka, X, optical & --- & \SI{1}{}--\SI{50}{Mbps} Ka \\
-Moonlight~\cite{esa_moonlight_overview,telespazio_moonlight} & One communications ELFO at \SI{12}{hours}, four navigation ELFOs at \SI{24}{hours} & S, Ka, X & --- & Not published \\
-Lunar Pathfinder~\cite{sstl_pathfinder_guide} & Elliptical frozen & S, X & --- & Precursor relay service \\
-LNSS~\cite{jaxa_lnss} & Eight satellites, two ELFOs at \SI{12}{hours} & S, X, Ka, optical & --- & Navigation payload; target HDOP 1.3 \\
+LCRNS~\cite{lcrns_ref_const,nasa_lunar_relay_srd} & Five ELFOs, period near \SI{30}{hours} & S, Ka to users; X, Ka to Earth; optical (TBR) & --- & \SI{1}{}--\SI{50}{Mbps} Ka \\
+Moonlight~\cite{esa_moonlight_overview,telespazio_moonlight,telespazio_moonlight_web} & One communications ELFO at \SI{12}{hours}, four navigation ELFOs at \SI{24}{hours} & S, K to users; Earth link not published & --- & Not published \\
+Lunar Pathfinder~\cite{sstl_pathfinder_guide,sstl_pathfinder_mission,esa_pathfinder_2026} & ELFO, $\SI{673}{}\times\SI{7331}{km}$ altitude, \SI{54.9}{\degree} inclination & S and UHF to users; X to Earth & --- & \SI{0.5}{kbps}--\SI{2}{Mbps} user links; up to \SI{5}{Mbps} X to Earth \\
+LNSS~\cite{jaxa_lnss} & Eight satellites, two ELFOs at \SI{12}{hours} & S navigation; X, Ka, optical to Earth & --- & Navigation payload, target HDOP 1.3; relay target \SI{10}{Mbps} (goal \SI{1}{Gbps}) to Earth \\
 \addlinespace[2pt]
 \multicolumn{5}{@{}l}{\emph{Surface payloads, flown}}\\
-Nokia LSCS~\cite{nokia_im2_outcome} & Surface & LTE near \SI{2.5}{GHz} & --- & Powered on; no link to user terminals \\
-Lunar Node-1~\cite{nasa_ln1} & Surface & S & --- & One-way ranging beacon to the DSN \\
+Nokia LSCS~\cite{nokia_im2_outcome,nasa_grc_surface_3gpp_2025} & Surface & 4G/LTE; flight band not published & --- & Powered on; no link to user terminals \\
+Lunar Node-1~\cite{nasa_ln1,anzalone_ln1_2021} & Surface & S & --- & Navigation beacon to the DSN (MAPS, one-way PN ranging and Doppler); two 15-min transmissions from the surface \\
 \addlinespace[2pt]
 \multicolumn{5}{@{}l}{\emph{Optical terminals}}\\
 LLCD~\cite{boroson_llcd} & Lunar orbit to Earth & \SI{1550}{nm} & \SI{0.107}{m} & \SI{622}{Mbps} down, \SI{20}{Mbps} up \\

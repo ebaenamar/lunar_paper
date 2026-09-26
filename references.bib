@@ -84,8 +84,9 @@
   author      = {{Surrey Satellite Technology Ltd}},
   title       = {Lunar Pathfinder Service Guide V2.2},
   institution = {SSTL},
-  year        = {2024},
-  url         = {https://www.sstl.co.uk/getmedia/edaaa697-405c-458d-8394-97f83130d54a/Lunar-Pathfinder-Service-Guide-V2-2.pdf}
+  year        = {2023},
+  url         = {https://www.sstl.co.uk/getmedia/edaaa697-405c-458d-8394-97f83130d54a/Lunar-Pathfinder-Service-Guide-V2-2.pdf},
+  note = {Version 004 (file title Service Guide V2.2), \copyright{} SSTL 2023}
 }
 
 @misc{esa_moonlight_overview,
@@ -1450,12 +1451,15 @@
   doi     = {10.1038/s41598-023-37348-x}
 }
 
-@techreport{nasa_grc_surface_3gpp_2025,
-  author      = {{NASA Glenn Research Center}},
+@inproceedings{nasa_grc_surface_3gpp_2025,
+  author      = {B. Edwards and R. S. Wagner and M. Zemba and T. E. Klein and L. Maestro and J. Dow},
   title       = {Envisioned Lunar Surface Communications Using {3GPP} Cellular and {Wi-Fi} Technologies},
-  institution = {NASA},
   year        = {2025},
-  url         = {https://ntrs.nasa.gov/citations/20250001947}
+  url         = {https://ntrs.nasa.gov/citations/20250001947},
+  booktitle = {Proc. 18th Int. Conf. Space Operations (SpaceOps 2025)},
+  address = {Montreal, Canada},
+  month = {May},
+  note = {Paper SpaceOps-2025 ID 9, NTRS 20250001947}
 }
 
 @techreport{nasa_surface_prop_2008,
@@ -1469,7 +1473,7 @@
 @article{queqiao_relay_review_2021,
   author  = {L. Zhang},
   title   = {Development and Prospect of Chinese Lunar Relay Communication Satellite},
-  journal = {Space: Science and Technology},
+  journal = {Space: Science \& Technology},
   volume  = {2021},
   pages   = {3471608},
   year    = {2021},
@@ -1607,12 +1611,13 @@
 
 % --- JAXA Lunar Navigation Satellite System ---
 @techreport{jaxa_lnss,
-  author      = {{JAXA}},
-  title       = {Lunar Navigation Satellite System ({LNSS})},
+  author      = {M. Murata and K. Iiyama},
+  title       = {Lunar Navigation Satellite System ({LNSS}) and Its Demonstration Mission},
   institution = {Presented to the International Committee on GNSS (ICG), Working Group B},
   year        = {2022},
   note        = {Eight satellites in two elliptical lunar frozen orbits of approximately 12 h; target HDOP 1.3 and horizontal accuracy below 40 m at the south pole},
-  url         = {https://www.unoosa.org/documents/pdf/icg/2022/ICG16/WG-B/ICG16_WG-B_03.pdf}
+  url         = {https://www.unoosa.org/documents/pdf/icg/2022/ICG16/WG-B/ICG16_WG-B_03.pdf},
+  month = {Oct.}
 }
 
 % --- LTV teleoperation under lunar latencies ---
@@ -1946,4 +1951,56 @@
   howpublished = {Programme fact sheet},
   year         = {2024},
   url          = {https://www.telespazio.com/documents/559023/29814663/Moonlight_scheda+web_en.pdf}
+}
+
+@article{hong_lovex_2026,
+  author  = {X. Hong and W. Wu and Q. Liu and D. Yu and C. Wang and T. Shuai and others},
+  title   = {Lunar Orbital {VLBI} Experiment: Motivation, Scientific Purposes and Status},
+  journal = {Sci. China Phys. Mech. Astron.},
+  volume  = {69},
+  number  = {1},
+  pages   = {219511},
+  year    = {2025},
+  doi     = {10.1007/s11433-025-2751-2},
+  note    = {Queqiao-2: 4.2 m X-band dish, 0.6 m S/Ka (2.3/26 GHz) downlink dish, Ka-band 8PSK data transmission at 500 Mbps. Preprint arXiv:2507.16317}
+}
+
+@article{lei_queqiao2_data_2026,
+  author  = {W. Lei and Z. Qu and Q. Wang and L. Xiong and J. Xu and N. Dang and Z. Dai and H. Wang and C. Zhang},
+  title   = {Research and Implementation of Key Technologies for Integrated Data Processing and Transmission of {Queqiao-2} Relay Satellite},
+  journal = {J. Deep Space Explor.},
+  volume  = {13},
+  number  = {2},
+  pages   = {107--116},
+  year    = {2026},
+  doi     = {10.3724/j.issn.2096-9287.2026.20250043},
+  note    = {In Chinese with English abstract. Earth downlink 1--500 Mb/s validated in orbit}
+}
+
+@misc{telespazio_moonlight_web,
+  author       = {{Telespazio}},
+  title        = {Moonlight},
+  howpublished = {Space programmes web page},
+  year         = {2025},
+  note         = {Lists high-capacity K-band and wide-coverage S-band communication services. Accessed Sep. 2026},
+  url          = {https://www.telespazio.com/en/business/space-programmes/moonlight}
+}
+
+@misc{sstl_pathfinder_mission,
+  author       = {{Surrey Satellite Technology Ltd}},
+  title        = {Lunar Pathfinder Mission},
+  howpublished = {Missions in build web page},
+  year         = {2026},
+  note         = {S-band and UHF links to lunar assets, X-band link to Earth; due to launch 2027. Accessed Sep. 2026},
+  url          = {https://www.sstl.co.uk/space-portfolio/missions-in-build/2025/lunar-pathfinder}
+}
+
+@inproceedings{anzalone_ln1_2021,
+  author    = {E. J. Anzalone and J. C. Bone and T. E. Brooks and P. S. Campbell and A. R. Guillory and J. V. Jenson and G. W. Merrill and T. L. Statham},
+  title     = {Lunar Node 1 and Beyond},
+  booktitle = {Lunar Exploration Analysis Group (LEAG) Annual Meeting},
+  number    = {5005},
+  year      = {2021},
+  note      = {S-band navigation beacon; MAPS plus PN-based one-way non-coherent ranging and Doppler},
+  url       = {https://www.hou.usra.edu/meetings/leag2021/pdf/5005.pdf}
 }

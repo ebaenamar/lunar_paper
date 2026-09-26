@@ -18,6 +18,7 @@
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, patterns}
 \definecolor{lowc}{RGB}{216,90,48}   % low-band, wide-beam links (Fig. 1)
 \definecolor{highc}{RGB}{83,74,183}  % high-band, narrow-beam links (Fig. 1)
+\definecolor{accent}{RGB}{200,30,30}  % icons of the failing assumptions (Fig. 1)
 \usepackage[hidelinks]{hyperref}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -77,10 +78,11 @@ Lunar communications, link budget, delay-tolerant networking, non-terrestrial ne
 \section{Introduction}
 \begin{figure*}[!t]
 \centering
-\input{figs/fig_overview.tex}
+\input{figs/fig_overview_visual.tex}
+% Previous, text-labelled TikZ version: \input{figs/fig_overview.tex}
 % Rendered raster version of the same figure (1448x1086 px, below 300 dpi at this width):
 % \includegraphics[width=0.94\textwidth]{figs/fig_overview.png}
-\caption{Lunar communication chain treated in this tutorial (geometry not to scale): relay orbits over the south pole (ELFO, elliptical lunar frozen orbit; NRHO, near-rectilinear halo orbit) and the five links of Table~\ref{tab:links}. The relay orbit sets the slant range of links 2--4, and range, band and data rate together set the aperture; the dashed line marks the one-way delay limit of 3GPP NTN.}
+\caption{Lunar communication chain and roadmap of the tutorial (not to scale). The numbered links appear in the scene and in the lower strip, which gives slant range and one-way delay on a logarithmic scale and, at the right, the relative aperture of each link; the dashed line marks the 3GPP NTN delay limit. Red icons mark the four terrestrial assumptions that fail on the Moon: delay (clock), terrain blocking (cross), lunar night (battery) and the far-side Shielded Zone (radio telescope).}
 \label{fig:overview}
 \end{figure*}
 
@@ -162,7 +164,7 @@ LLCD & Lunar Laser Communication Demonstration &  &  \\
 \end{table*}
 
 \subsection{Paper Organization}
-Fig.~\ref{fig:overview} provides a map of the material that follows. The relay orbits fix the slant ranges of the links they serve, which is the starting point of the link analysis in Sections~\ref{sec:fundamentals} to~\ref{sec:parametric}, and the five numbered links are those sized in Section~\ref{sec:parametric}. The south-polar inset illustrates the terrain shadowing that governs surface coverage and handover, treated in Section~\ref{sec:capacity}, while the placement of the relays at apolune over the pole anticipates the constellation and navigation geometry of Section~\ref{sec:pnt}. The lower strip spans five orders of magnitude in slant range and in one-way delay and gives the band and typical aperture of each link, which follow from its range, carrier frequency and data rate through the aperture-range scaling of Section~\ref{sec:fundamentals}; the dashed line at the one-way delay limit of 3GPP non-terrestrial networks separates the relay links from the trunk to Earth and motivates the protocol analysis of Sections~\ref{sec:ntn} and~\ref{sec:protocol}, and the radio-quiet far side the regulatory discussion of Section~\ref{sec:spectrum}.
+Fig.~\ref{fig:overview} provides a map of the material that follows. The five orbit families compared in Section~\ref{sec:pnt} surround the Moon: low lunar orbit, the elliptical frozen orbit, the near-rectilinear halo orbit, the Earth--Moon L2 halo orbit and Walker constellations. The relay orbits fix the slant ranges of the links they serve, which is the starting point of the link analysis in Sections~\ref{sec:fundamentals} to~\ref{sec:parametric}, and the five numbered links are those sized in Section~\ref{sec:parametric}. The south-polar inset illustrates the terrain shadowing that governs surface coverage and handover, treated in Section~\ref{sec:capacity}, while the placement of the relays at apolune over the pole anticipates the constellation and navigation geometry of Section~\ref{sec:pnt}. The lower strip spans five orders of magnitude in slant range and in one-way delay and draws the relative aperture of each link, which follows from its range, carrier frequency and data rate through the aperture-range scaling of Section~\ref{sec:fundamentals}; the dashed line at the one-way delay limit of 3GPP non-terrestrial networks separates the relay links from the trunk to Earth and motivates the protocol analysis of Sections~\ref{sec:ntn} and~\ref{sec:protocol}. The red icons locate the four terrestrial assumptions that fail on the Moon: the delay on the trunk (Sections~\ref{sec:ntn} and~\ref{sec:protocol}), terrain blocking at the surface (Section~\ref{sec:capacity}), and the lunar night and the far-side Shielded Zone (Section~\ref{sec:spectrum}).
 
 In order of presentation, Section~\ref{sec:assets} inventories the assets that have flown or are under contract and maps radio practice in the two engineering traditions the field draws on. Section~\ref{sec:fundamentals} derives the link equation and the aperture-range scaling. Section~\ref{sec:worked} presents the canonical worked example. Section~\ref{sec:parametric} generalizes the result through parametric curves and introduces the five canonical lunar links. Section~\ref{sec:environment} summarizes the environmental constraints. Section~\ref{sec:guidelines} states the design guidelines and the decision-flow procedure. Sections~\ref{sec:capacity} through~\ref{sec:spectrum} survey capacity and mobility, constellation design and position-navigation-timing, the transfer of 3GPP non-terrestrial network concepts, protocol design for intermittent links, and security, power and spectrum. Section~\ref{sec:measurement} discusses the measurement gap, Section~\ref{sec:open} presents future research directions, and Section~\ref{sec:conclusion} concludes. Table~\ref{tab:acronyms} lists the acronyms used in the paper.
 \section{Lunar Communication Assets Today}

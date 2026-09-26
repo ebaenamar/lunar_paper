@@ -275,8 +275,9 @@
   author      = {{CCSDS}},
   title       = {Bundle Protocol Specification},
   institution = {CCSDS 734.2-B-1},
-  year        = {2022},
-  url         = {https://ccsds.org/Pubs/734x2b1.pdf}
+  year        = {2015},
+  url         = {https://ccsds.org/Pubs/734x2b1.pdf},
+  note = {Blue Book, September 2015, based on RFC 5050 (BPv6); the BPv7 profile is draft CCSDS 734.2-P-1.1, to be issued as 734.2-B-2}
 }
 
 @techreport{ccsds_sle,
@@ -288,9 +289,9 @@
 }
 
 @techreport{ccsds_lunar_standards,
-  author      = {{CCSDS}},
-  title       = {Lunar Standards --- {CCSDS} Plenary Presentation},
-  institution = {CCSDS},
+  author      = {C. Gramling},
+  title       = {Lunar Standards Update},
+  institution = {NASA SCaN; presented at the CCSDS Spring 2025 Meetings Plenary, Laurel, MD, 9 June 2025},
   year        = {2025},
   url         = {https://ntrs.nasa.gov/citations/20250005946}
 }
@@ -657,29 +658,32 @@
   title     = {{TCP}'s Protocol Radius: The Distance Where Timers Prevent Communication},
   booktitle = {Proc. IEEE IWSSC},
   year      = {2007},
-  doi       = {10.1109/iwssc.2007.4409409}
+  doi       = {10.1109/iwssc.2007.4409409},
+  pages = {163--167}
 }
 
 @inproceedings{ulierte_traffic_prio,
-  author    = {T. A. Ulierte and K. Kuladinithi and A. Timm-Giel and F. Flentge},
+  author    = {T. {Algarra Ulierte} and K. Kuladinithi and A. Timm-Giel and F. Flentge},
   title     = {Lunar Communication Services: Feasibility Study on Traffic Prioritization of Quasi-Real Time Communications over {DTNs}},
   booktitle = {Proc. IEEE WISEE},
   year      = {2023},
-  doi       = {10.1109/wisee58383.2023.10289636}
+  doi       = {10.1109/wisee58383.2023.10289636},
+  pages = {35--40}
 }
 
 @techreport{nasa_lunar_relay_srd,
   author      = {NASA},
   title       = {Lunar Relay Services Requirements Document ({SRD})},
-  institution = {NASA},
-  year        = {2025},
-  url         = {https://www.nasa.gov/wp-content/uploads/2025/08/lunar-relay-services-requirements-document-srd.pdf}
+  institution = {NASA Goddard Space Flight Center},
+  year        = {2023},
+  url         = {https://www.nasa.gov/wp-content/uploads/2025/08/lunar-relay-services-requirements-document-srd.pdf},
+  number = {ESC-LCRNS-REQ-0090, Rev. B w/ DCN 001}
 }
 
 @techreport{burleigh_cgr,
   author      = {S. Burleigh},
   title       = {Contact Graph Routing},
-  institution = {NASA Jet Propulsion Laboratory},
+  institution = {NASA Tech Briefs, NPO-45488 (NTRS 20120006508)},
   year        = {2011},
   url         = {https://ntrs.nasa.gov/citations/20120006508},
   note = {NASA Tech Briefs, Oct. 2011, NPO-45488; NTRS 20120006508}
@@ -705,7 +709,7 @@
 }
 
 @article{kim_kplo_dtn,
-  author  = {E. Kim and others},
+  author  = {I. Kim and S. I. Han and D. Har},
   title   = {Operational Tests for Delay-Tolerant Network Between the Moon and Earth Using the {Korea Pathfinder Lunar Orbiter} in Lunar Orbit},
   journal = {Electronics},
   volume  = {13},
@@ -889,12 +893,13 @@
   doi     = {10.3390/s23249832}
 }
 
-@article{perreault_testbed,
+@inproceedings{perreault_testbed,
   author  = {R. L. Bull and others},
   title   = {Network Emulation Testbed Capabilities for Prototyping Space {DTN} Software and Protocols},
-  journal = {Proc. IEEE INFOCOM Workshops},
   year    = {2024},
-  doi     = {10.1109/infocomwkshps61880.2024.10620672}
+  doi     = {10.1109/infocomwkshps61880.2024.10620672},
+  booktitle = {Proc. IEEE INFOCOM Workshops (INFOCOM WKSHPS)},
+  pages = {1--8}
 }
 
 @techreport{nasa_dtn_ops,
@@ -910,7 +915,8 @@
   title     = {Onboard Processing for {LunaNet} Data Services},
   booktitle = {Proc. IEEE Aerospace Conf.},
   year      = {2025},
-  doi       = {10.1109/aero63441.2025.11068727}
+  doi       = {10.1109/aero63441.2025.11068727},
+  pages = {1--12}
 }
 
 @inproceedings{montilla_dtn_security,
@@ -1283,11 +1289,14 @@
 % --- IEEE AESM 2026: QUIC vs DTN for Earth-Moon ---
 @article{e2e_vs_dtn_2026,
   author  = {C. Caini and T. de Cola},
-  title   = {Earth to Moon Networking: Comparison of End-to-End and {DTN} Approaches},
+  title   = {Earth-to-Moon Networking: Comparison of End-to-End and {DTN} Approaches},
   journal = {IEEE Aerospace and Electronic Systems Magazine},
   year    = {2026},
   doi     = {10.1109/maes.2026.3686103},
-  note    = {First side-by-side quantitative comparison of QUIC vs DTN with QUICCL/LTP for Earth-Moon}
+  note    = {First side-by-side quantitative comparison of QUIC vs DTN with QUICCL/LTP for Earth-Moon},
+  volume = {41},
+  number = {8},
+  pages = {4--17}
 }
 
 % --- NASA GRC GEM testbed ---
@@ -1768,3 +1777,22 @@
 
 % No new bibliography keys are required for Section XII (Frequency and Band Selection; Spectrum and the Shielded Zone).
 % All corrections reuse existing keys; metadata corrections are in bib_fixes.json.
+
+@techreport{ccsds_sdls,
+  author      = {{CCSDS}},
+  title       = {Space Data Link Security Protocol},
+  institution = {CCSDS 355.0-B-2 (Blue Book)},
+  year        = {2022},
+  month       = jul,
+  url         = {https://ccsds.org/Pubs/355x0b2.pdf}
+}
+
+@techreport{3gpp_ts_38300,
+  author      = {{3GPP}},
+  title       = {{NR}; {NR} and {NG-RAN} Overall Description; Stage 2},
+  institution = {3GPP TS 38.300 V19.4.0, Rel. 19},
+  year        = {2026},
+  month       = sep,
+  note        = {Clause 16.14 (Non-Terrestrial Networks)},
+  url         = {https://www.3gpp.org/ftp/Specs/archive/38_series/38.300/38300-j40.zip}
+}

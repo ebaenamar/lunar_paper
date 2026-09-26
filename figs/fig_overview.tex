@@ -72,6 +72,8 @@
 \node[num] at (8.60,5.92) {2};
 \node[anchor=east, font=\scriptsize] at (7.28,4.35) {gateway};
 \node[anchor=north, font=\scriptsize] at (8.16,3.93) {rover};
+\draw[black!55, line width=0.4pt] (9.46,4.02) -- (9.72,3.82);
+\node[anchor=west, font=\scriptsize] at (9.70,3.80) {no line of sight};
 \node[anchor=north] at (8.4,3.15) {south-polar surface};
 % ---------- legend ----------
 \draw[lowband]  (11.0,5.15) -- (11.6,5.15); \node[anchor=west] at (11.65,5.15) {UHF / S: wide beam, short range};
@@ -97,8 +99,8 @@
 \node[anchor=east] at (10.5,-2.5)   {inter-satellite};
 \node[anchor=east] at (14.3,-2.85)  {trunk};
 % typical aperture per link (Table tab:links)
-\node[anchor=west] at (15.7,-1.05) {\textbf{Aperture}};
-\foreach \y/\a in {-1.45/omni,-1.8/0.5\,m,-2.15/1.5\,m,-2.5/1\,m,-2.85/{0.75\,/\,34\,m}} \node[anchor=west] at (15.7,\y) {\a};
+\node[anchor=west] at (15.3,-1.05) {\textbf{Band, aperture}};
+\foreach \y/\a in {-1.45/{S, omni},-1.8/{S, 0.5\,m},-2.15/{Ka, 1.5\,m},-2.5/{Ka, 1\,m},-2.85/{Ka, 0.75\,/\,34\,m}} \node[anchor=west] at (15.3,\y) {\a};
 % B: one-way delay limit of 3GPP NTN (270.73 ms, i.e. about 81 000 km)
 \draw[black!60, densely dashed, line width=0.6pt] (12.865,-1.30) -- (12.865,-3.15);
 \node[anchor=south, align=center, font=\scriptsize, text=black!70] at (12.865,-1.32) {3GPP NTN delay limit\\(270.73\,ms)};

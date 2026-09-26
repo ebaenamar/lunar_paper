@@ -1,6 +1,17 @@
 % Overview figure, visual version: scene (top) and slant-range/delay strip (bottom). Not to scale.
 % Icons: clock = delay; cross = terrain blocking; battery + crescent = lunar night; radio dish on far side = Shielded Zone.
+\definecolor{cllo}{RGB}{0,121,107}      % LLO
+\definecolor{celfo}{RGB}{46,125,50}     % ELFO
+\definecolor{cnrho}{RGB}{121,85,72}     % NRHO
+\definecolor{cl2}{RGB}{84,110,122}      % L2 halo
+\definecolor{cwalk}{RGB}{97,97,97}      % Walker
 \begin{tikzpicture}[x=1cm,y=1cm, font=\footnotesize,
+  pics/sat/.style={code={
+    \fill[#1] (-0.065,-0.065) rectangle (0.065,0.065);
+    \fill[#1!55] (-0.24,-0.04) rectangle (-0.09,0.04);
+    \fill[#1!55] (0.09,-0.04) rectangle (0.24,0.04);
+    \draw[#1, line width=0.3pt] (-0.09,0) -- (-0.065,0) (0.065,0) -- (0.09,0);}},
+  olab/.style={font=\scriptsize, align=left},
   lowband/.style={draw=lowc, line width=0.8pt},
   highband/.style={draw=highc, line width=1.7pt},
   orbit/.style={draw=black!45, line width=0.5pt},
@@ -11,22 +22,29 @@
 ]
 % ================= SCENE =================
 % ---- L2 halo behind the far side ----
-\draw[orbit, dashed] (1.3,4.0) ellipse (0.28 and 0.85);
-\node[lab, anchor=north] at (1.3,3.1) {L2};
+\draw[cl2, line width=0.7pt, dashed] (1.3,4.0) ellipse (0.28 and 0.85);
+\pic at (1.02,4.0) {sat=cl2};
+\node[olab, anchor=north, text=cl2, align=center] at (1.3,3.1) {\textbf{L2 halo}\\Queqiao};
 % ---- Walker (medium circular orbit) ----
-\draw[draw=black!28, line width=0.5pt, densely dotted] (4.5,4.0) circle (1.55);
-\node[lab, anchor=south east] at (3.35,5.2) {Walker};
+\begin{scope}[shift={(1.35,6.05)}]
+  \fill[black!12] (0,0) circle (0.24); \draw[black!55, line width=0.4pt] (0,0) circle (0.24);
+  \foreach \a in {0,60,120} \draw[cwalk, line width=0.5pt, rotate=\a] (0,0) ellipse (0.62 and 0.2);
+  \foreach \a/\t in {0/40,0/220,60/100,60/280,120/160,120/340}
+    \pic[scale=0.55, rotate=\a] at ($(0,0)+({0.62*cos(\t)*cos(\a)-0.2*sin(\t)*sin(\a)},{0.62*cos(\t)*sin(\a)+0.2*sin(\t)*cos(\a)})$) {sat=cwalk};
+  \node[olab, anchor=west, text=cwalk] at (0.72,0.02) {\textbf{Walker}\\constellation};
+\end{scope}
 % ---- ELFO and NRHO, apolune below the south pole ----
-\draw[orbit, rotate around={10:(4.5,3.0)}] (4.5,3.0) ellipse (1.25 and 2.1);
-\draw[orbit, rotate around={-6:(4.5,2.425)}] (4.5,2.425) ellipse (0.6 and 2.725);
+\draw[celfo, line width=0.7pt, rotate around={10:(4.5,3.0)}] (4.5,3.0) ellipse (1.25 and 2.1);
+\draw[cnrho, line width=0.7pt, dash pattern=on 4pt off 1.5pt, rotate around={-6:(4.5,2.425)}] (4.5,2.425) ellipse (0.6 and 2.725);
 % ---- Moon: near side lit (towards Earth), far side shaded and hatched ----
 \fill[black!10] (4.5,4.0) circle (0.9);
 \fill[black!28] (4.5,4.9) arc (90:270:0.9) -- cycle;
 \fill[pattern=north east lines, pattern color=black!45] (4.5,4.9) arc (90:270:0.9) -- cycle;
 \draw[black!55, line width=0.5pt] (4.5,4.0) circle (0.9);
 % ---- LLO ----
-\draw[orbit] (4.5,4.0) circle (1.07);
-\node[lab, anchor=west] at (5.55,4.55) {LLO};
+\draw[cllo, line width=0.7pt] (4.5,4.0) circle (1.07);
+\pic at (3.743,4.757) {sat=cllo};
+\node[olab, anchor=east, text=cllo, align=right] at (3.45,5.05) {\textbf{LLO}\\LRO, KPLO};
 % ---- radio telescope on the far side (Shielded Zone) ----
 \begin{scope}[shift={(3.95,4.25)}]
   \fill[white] (-0.24,0.10) arc (200:340:0.255) -- cycle;
@@ -43,10 +61,10 @@
 \draw[highband] ($(SP)+(-0.05,0)$) -- (NRHO);                % 3
 \draw[highband] (ELFO) -- (NRHO);                            % 4
 \draw[highband] (ELFO) -- ($(EARTH)+(-0.42,-0.055)$);        % 5
-\node[sat] at (ELFO) {};
-\node[sat] at (NRHO) {};
-\node[lab, anchor=west] at (5.05,0.62) {ELFO};
-\node[lab, anchor=north] at (4.215,-0.45) {NRHO};
+\pic at (ELFO) {sat=celfo};
+\pic at (NRHO) {sat=cnrho};
+\node[olab, anchor=west, text=celfo] at (5.2,0.62) {\textbf{ELFO}\\LCRNS, Moonlight};
+\node[olab, anchor=north, text=cnrho, align=center] at (4.215,-0.42) {\textbf{NRHO}\\Gateway};
 \draw[black!70] (11.35,1.55) -- (11.5,1.95); \draw[black!70] (11.5,1.55) -- (11.65,1.95);
 % ---- clock on the trunk (delay) ----
 \begin{scope}[shift={(9.3,1.95)}]
@@ -55,6 +73,7 @@
 \end{scope}
 % ---- Earth with a DSN dish ----
 \fill[blue!18] (EARTH) circle (0.42); \draw[black!55, line width=0.5pt] (EARTH) circle (0.42);
+\node[lab, anchor=north] at (14.5,1.72) {Earth, DSN};
 \begin{scope}[shift={(14.5,2.72)}]
   \draw[black!80, line width=0.7pt] (-0.16,0.08) arc (200:340:0.17);
   \draw[black!80, line width=0.7pt] (0,0) -- (0,-0.10);
@@ -93,7 +112,23 @@
 % ---- legend (band only) ----
 \draw[lowband]  (11.0,5.15) -- (11.6,5.15); \node[anchor=west] at (11.65,5.15) {S};
 \draw[highband] (11.0,4.75) -- (11.6,4.75); \node[anchor=west] at (11.65,4.75) {Ka / optical};
-\node[lab, anchor=west] at (11.0,4.35) {not to scale};
+\begin{scope}[shift={(11.2,3.95)}]
+  \draw[flag, fill=white] (0,0) circle (0.12); \draw[flag] (0,0) -- (0,0.08) (0,0) -- (0.07,-0.03);
+  \node[lab, anchor=west] at (0.2,0) {delay};
+\end{scope}
+\begin{scope}[shift={(13.05,3.95)}]
+  \draw[flag] (-0.08,-0.08) -- (0.08,0.08) (-0.08,0.08) -- (0.08,-0.08);
+  \node[lab, anchor=west] at (0.2,0) {no line of sight};
+\end{scope}
+\begin{scope}[shift={(11.2,3.55)}]
+  \draw[flag] (-0.12,-0.07) rectangle (0.10,0.07); \fill[accent] (0.10,-0.03) rectangle (0.13,0.03); \fill[accent] (-0.10,-0.05) rectangle (-0.05,0.05);
+  \node[lab, anchor=west] at (0.2,0) {lunar night};
+\end{scope}
+\begin{scope}[shift={(13.05,3.55)}]
+  \draw[flag] (-0.11,0.02) arc (200:340:0.12); \draw[flag] (0,-0.03) -- (0,-0.11) (-0.06,-0.11) -- (0.06,-0.11);
+  \node[lab, anchor=west] at (0.2,0) {Shielded Zone};
+\end{scope}
+\node[lab, anchor=west] at (11.0,3.15) {not to scale};
 % ================= STRIP: slant range and one-way delay (log scale) =================
 % x = 1 + 2.4167*log10(R/km)
 \foreach \y/\n in {-1.35/1,-1.7/2,-2.05/3,-2.4/4,-2.75/5} \node[num] at (0.6,\y) {\n};
@@ -102,6 +137,11 @@
 \draw[highc, line width=3pt, line cap=round] (10.52,-2.05) -- (12.71,-2.05);
 \draw[highc, line width=3pt, line cap=round] (10.67,-2.4) -- (12.55,-2.4);
 \fill[highc] (14.5,-2.75) circle (0.09);
+\node[lab, anchor=west] at (3.6,-1.35) {surface access};
+\node[lab, anchor=east] at (8.1,-1.7) {surface-to-relay};
+\node[lab, anchor=east] at (10.35,-2.05) {gateway backhaul};
+\node[lab, anchor=east] at (10.5,-2.4) {inter-satellite};
+\node[lab, anchor=east] at (14.3,-2.75) {trunk};
 \draw[black!60] (1.0,-3.05) -- (15.5,-3.05);
 \foreach \d in {0,...,6} \draw[black!60] ({1+2.4167*\d},-3.0) -- ({1+2.4167*\d},-3.1);
 \node[anchor=north, align=center] at (1.0,-3.1)  {1\,km\\3.3\,$\mu$s};
@@ -110,11 +150,17 @@
 % 3GPP NTN one-way delay limit (270.73 ms, about 81 000 km)
 \draw[black!60, densely dashed, line width=0.6pt] (12.865,-1.15) -- (12.865,-3.05);
 \node[lab, anchor=south] at (12.865,-1.17) {NTN limit};
-% ---- relative aperture of each link, drawn as antennas (colour = band) ----
-\draw[lowc, line width=0.9pt] (16.1,-1.47) -- (16.1,-1.24); \fill[lowc] (16.1,-1.22) circle (0.035);   % omni
-\draw[lowc, line width=0.8pt] (16.01,-1.66) arc (200:340:0.095) (16.099,-1.723) -- (16.099,-1.795);                                       % 0.5 m
-\draw[highc, line width=1.0pt] (15.93,-2.01) arc (200:340:0.18) (16.099,-2.128) -- (16.099,-2.239);                                       % 1.5 m
-\draw[highc, line width=1.0pt] (15.98,-2.37) arc (200:340:0.125) (16.097,-2.452) -- (16.097,-2.538);                                      % 1 m
-\draw[highc, line width=1.0pt] (15.83,-2.73) arc (200:340:0.085) (15.910,-2.786) -- (15.910,-2.854);                                      % 0.75 m
-\draw[highc, line width=1.2pt] (16.08,-2.70) arc (200:340:0.30) (16.362,-2.897) -- (16.362,-3.062);                                       % 34 m
+% ---- aperture of each link: antenna size grows with aperture (colour = band) ----
+\node[font=\scriptsize\bfseries, anchor=west] at (15.75,-1.0) {Aperture};
+\draw[lowc, line width=0.9pt] (15.95,-1.47) -- (15.95,-1.22); \fill[lowc] (15.95,-1.20) circle (0.04);
+\node[lab, anchor=west] at (16.35,-1.35) {omni};
+\draw[lowc, line width=0.9pt] (15.85,-1.66) arc (200:340:0.105) (15.95,-1.73) -- (15.95,-1.80);
+\node[lab, anchor=west] at (16.35,-1.7) {0.5\,m};
+\draw[highc, line width=1.1pt] (15.78,-1.98) arc (200:340:0.18) (15.95,-2.10) -- (15.95,-2.20);
+\node[lab, anchor=west] at (16.35,-2.05) {1.5\,m};
+\draw[highc, line width=1.1pt] (15.82,-2.34) arc (200:340:0.14) (15.95,-2.43) -- (15.95,-2.52);
+\node[lab, anchor=west] at (16.35,-2.4) {1\,m};
+\draw[highc, line width=1.0pt] (15.72,-2.70) arc (200:340:0.09) (15.80,-2.76) -- (15.80,-2.83);
+\draw[highc, line width=1.3pt] (15.92,-2.62) arc (200:340:0.30) (16.20,-2.83) -- (16.20,-3.00);
+\node[lab, anchor=west] at (16.6,-2.75) {0.75 / 34\,m};
 \end{tikzpicture}

@@ -677,9 +677,10 @@
 @techreport{burleigh_cgr,
   author      = {S. Burleigh},
   title       = {Contact Graph Routing},
-  institution = {NASA NTRS},
-  year        = {2012},
-  url         = {https://ntrs.nasa.gov/citations/20120006508}
+  institution = {NASA Jet Propulsion Laboratory},
+  year        = {2011},
+  url         = {https://ntrs.nasa.gov/citations/20120006508},
+  note = {NASA Tech Briefs, Oct. 2011, NPO-45488; NTRS 20120006508}
 }
 
 @article{fraire_contact_plan,
@@ -717,21 +718,23 @@
 @inproceedings{foerster_pki,
   author    = {D. Koisser and A. Schwarzkopf and F. Brasser and G. Da Broi},
   title     = {Efficient {PKI} Design for Secure Communication and Collaboration in Space Networks},
-  booktitle = {Proc. ESA Conference},
-  year      = {2022},
-  url       = {https://indico.esa.int/event/571/attachments/7211/13563/Efficient%20PKI%20Design%20for%20Secure%20Communication.pdf}
+  booktitle = {Proc. Security for Space Systems (3S)},
+  year      = {2025},
+  url       = {https://indico.esa.int/event/571/attachments/7211/13563/Efficient%20PKI%20Design%20for%20Secure%20Communication.pdf},
+  address = {Noordwijk, The Netherlands}
 }
 
 @inproceedings{koisser_pki_space,
   author    = {D. Koisser and R. Mitev and N. Yadav and F. Vollmer and A.-R. Sadeghi},
   title     = {Orbital Trust and Privacy: {SoK} on {PKI} and Location Privacy Challenges in Space Networks},
-  booktitle = {Proc. USENIX Security},
+  booktitle = {Proc. 33rd USENIX Security Symposium},
   year      = {2024},
-  url       = {https://www.usenix.org/system/files/usenixsecurity24-koisser.pdf}
+  url       = {https://www.usenix.org/system/files/usenixsecurity24-koisser.pdf},
+  pages = {6093--6111}
 }
 
 @article{dowling_bpsec,
-  author  = {B. Dowling and B. Hale and N. Tian and L. Wimalasiri},
+  author  = {B. Dowling and B. Hale and X. Tian and B. Wimalasiri},
   title   = {Cryptography is Rocket Science: Analysis of {BPSec}},
   journal = {IACR Communications in Cryptology},
   volume  = {1},
@@ -742,11 +745,12 @@
 }
 
 @inproceedings{jedermann_location_auth,
-  author    = {N. Benchoubane and B. Donmez and O. B. Yahia and G. K. Kurt},
+  author    = {N. Benchoubane and B. Donmez and O. {Ben Yahia} and G. K. Kurt},
   title     = {Securing Cislunar Missions: A Location-Based Authentication Approach},
-  booktitle = {Proc. 3S Conference},
+  booktitle = {Proc. 2024 Security for Space Systems (3S)},
   year      = {2024},
-  doi       = {10.23919/3s60530.2024.10592290}
+  doi       = {10.23919/3s60530.2024.10592290},
+  pages = {1--8}
 }
 
 % --- Section XIII: Power ---
@@ -754,9 +758,10 @@
 @techreport{colozza_power1991,
   author      = {J. M. Hickman and H. B. Curtis and G. A. Landis},
   title       = {Design Considerations for Lunar Base Photovoltaic Power Systems},
-  institution = {NASA NTRS},
-  year        = {1991},
-  url         = {https://ntrs.nasa.gov/api/citations/19910004946/downloads/19910004946.pdf}
+  institution = {NASA Lewis Research Center},
+  year        = {1990},
+  url         = {https://ntrs.nasa.gov/api/citations/19910004946/downloads/19910004946.pdf},
+  number = {NASA-TM-103642}
 }
 
 @article{balat_power2021,
@@ -766,15 +771,18 @@
   volume  = {14},
   number  = {4},
   year    = {2021},
-  doi     = {10.3390/en14041141}
+  doi     = {10.3390/en14041141},
+  pages = {1141}
 }
 
-@article{aguirre_lusee,
+@inproceedings{aguirre_lusee,
   author  = {B. R. B. Saliwanchik and others},
   title   = {{LuSEE-Night} Power Requirements and Power Generation Strategy},
-  journal = {arXiv preprint},
   year    = {2024},
-  doi     = {10.48550/arxiv.2407.07173}
+  doi     = {10.1117/12.3020538},
+  booktitle = {Proc. SPIE 13102, Millimeter, Submillimeter, and Far-Infrared Detectors and Instrumentation for Astronomy XII},
+  pages = {131021G},
+  note = {arXiv:2407.07173}
 }
 
 % --- Section XIV: Spectrum, regulation ---
@@ -1228,9 +1236,9 @@
 % --- draft-ietf-dtn-bpsec-cose: COSE security context for BPSec ---
 @misc{bpsec_cose,
   author = {B. Sipos},
-  title  = {{COSE} Security Context for {BPSec}},
+  title  = {Bundle Protocol Security ({BPSec}) {COSE} Context},
   year   = {2026},
-  note   = {IETF Internet-Draft draft-ietf-dtn-bpsec-cose-16, 3 June 2026. Defines PKI profile for BPSec interoperation},
+  note   = {IETF Internet-Draft draft-ietf-dtn-bpsec-cose-17, 3 Aug. 2026, work in progress},
   url    = {https://datatracker.ietf.org/doc/html/draft-ietf-dtn-bpsec-cose}
 }
 
@@ -1739,4 +1747,15 @@
   title        = {Nokia Is Putting the First Cellular Network on the Moon},
   year         = {2025},
   url          = {https://www.technologyreview.com/2025/02/18/1111984/nokia-is-putting-the-first-cellular-network-on-the-moon/}
+}
+
+@article{fraire_battery_cp,
+  author  = {J. A. Fraire and G. Nies and C. Gerstacker and H. Hermanns and K. Bay and M. Bisgaard},
+  title   = {Battery-Aware Contact Plan Design for {LEO} Satellite Constellations: The {Ulloriaq} Case Study},
+  journal = {IEEE Transactions on Green Communications and Networking},
+  volume  = {4},
+  number  = {1},
+  pages   = {236--245},
+  year    = {2020},
+  doi     = {10.1109/TGCN.2019.2954166}
 }

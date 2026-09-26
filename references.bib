@@ -191,7 +191,7 @@
 % --- LRO communications ---
 
 @techreport{lro_ka_analysis,
-  author      = {D. D. Morabito and others},
+  author      = {D. D. Morabito and D. Heckman},
   title       = {Lunar Reconnaissance Orbiter {K}-band (26 {GHz}) Signal Analysis: Updated Study Results},
   institution = {JPL, IPN Progress Report 42-222B},
   year        = {2020},
@@ -472,11 +472,12 @@
 }
 
 @article{margot_southpole_fading,
-  author  = {R. J. C. Margot and P. M. Campbell and others},
+  author  = {M. {Sanchez Net}},
   title   = {Analysis of the Fading Channel in Downlinks from the Lunar South Pole to the Deep Space Network},
   journal = {IPN Progress Report 42-216},
-  year    = {2015},
-  url     = {https://ipnpr.jpl.nasa.gov/progress_report/42-216/42-216C.html}
+  year    = {2019},
+  url     = {https://ipnpr.jpl.nasa.gov/progress_report/42-216/42-216C.html},
+  pages = {1--30}
 }
 
 % --- Section VI: Capacity and multiple access ---
@@ -644,9 +645,9 @@
 
 
 @techreport{nasa_drats2022,
-  author      = {NASA},
+  author      = {A. J. Swank and M. J. Zemba and T. C. Pember and C. M. Seidl and K. J. Johnson and N. C. Varaljay and A. J. Yingling and S. W. Caldwell},
   title       = {Lunar {LTE} Studies {DRATS} 2022 Report},
-  institution = {NASA NTRS},
+  institution = {NASA Glenn Research Center, Technical Memorandum TM-20230014072},
   year        = {2023},
   url         = {https://ntrs.nasa.gov/citations/20230014072}
 }
@@ -852,7 +853,8 @@
   booktitle = {Proc. SPIE},
   volume    = {8971},
   year      = {2014},
-  doi       = {10.1117/12.2045508}
+  doi       = {10.1117/12.2045508},
+  pages = {89710S}
 }
 
 @inproceedings{giggenbach_locl,
@@ -863,12 +865,13 @@
   url       = {https://elib.dlr.de/89313/}
 }
 
-@article{zhu_channel_ray,
-  author  = {L. Zang and others},
+@inproceedings{zhu_channel_ray,
+  author  = {L. Zang and T. Lei and Z. Wang and J. Li and X. Chen and C. Wang and Q. Zhu},
   title   = {Propagation Channel Analysis Over Lunar Surface via Ray Tracing Technique},
-  journal = {Proc. IEEE ICCT},
   year    = {2025},
-  doi     = {10.1109/icct67417.2025.11374036}
+  doi     = {10.1109/icct67417.2025.11374036},
+  booktitle = {Proc. IEEE 25th Int. Conf. Commun. Technol. (ICCT)},
+  pages = {190--194}
 }
 
 % --- Section XVI: Surveys and open problems ---
@@ -939,7 +942,7 @@
 }
 
 @article{dong_dielectric_ce5,
-  author  = {Y. Liu and others},
+  author  = {Y. Liu and Y. Su and R. Wang and S. Dai and D. Liu and B. Liu and C. Ding and J. Liu and C. Li},
   title   = {Measurements of Dielectric Properties of {Chang'E-5} Lunar Samples},
   journal = {J. Geophysical Research: Planets},
   year    = {2026},
@@ -971,7 +974,7 @@
   title       = {Methods and Models for Predicting Lunar Radio-Wave Propagation Characteristics},
   institution = {ITU-R Recommendation P.2170-0},
   year        = {2025},
-  note        = {Approved 1 September 2025. Defines the Irregular Lunar Model (ILM). Public NTIA/ITS GitHub implementation available},
+  note        = {Approved 09/2025. Defines the Irregular Lunar Model (ILM)},
   url         = {https://www.itu.int/rec/R-REC-P.2170/en}
 }
 
@@ -1334,7 +1337,7 @@
 @techreport{itu_p2170_revision,
   author      = {{ITU-R}},
   title       = {Preliminary Draft Revision of Recommendation {ITU-R} {P.2170-0}},
-  institution = {ITU-R Working Party 3J},
+  institution = {ITU-R Working Party 3J, Annex 31 to Document 3J/235 (Report of the meeting, Geneva, 15--25 June 2026)},
   year        = {2026},
   url         = {https://www.itu.int/md/R23-WP3J-C-0235/en}
 }
@@ -1795,4 +1798,67 @@
   month       = sep,
   note        = {Clause 16.14 (Non-Terrestrial Networks)},
   url         = {https://www.3gpp.org/ftp/Specs/archive/38_series/38.300/38300-j40.zip}
+}
+
+@misc{ntia_ilm_github,
+  author       = {{NTIA Institute for Telecommunication Sciences}},
+  title        = {Irregular Lunar Model ({ILM}): {US} Example Implementation},
+  howpublished = {GitHub repository},
+  year         = {2024},
+  note         = {Accessed Sep. 2026},
+  url          = {https://github.com/NTIA/ILM}
+}
+
+@misc{nasa_grc_lsp_2026,
+  author       = {{NASA Glenn Research Center}},
+  title        = {Lunar Surface Propagation},
+  howpublished = {NASA web page},
+  year         = {2026},
+  note         = {Accessed Sep. 2026},
+  url          = {https://www.nasa.gov/glenn/glenn-expertise-space-exploration/scan/lunar-surface-propagation/}
+}
+
+@techreport{sanchez_net_multipath_2020,
+  author      = {M. {Sanchez Net} and N. Rodriguez-Alvarez and D. Kahan and D. D. Morabito and H. M. Elliott},
+  title       = {Multipath Measurements at the Lunar South Pole from Opportunistic Ground-based Observations---{Part I}: Experiment Concept},
+  institution = {Jet Propulsion Laboratory},
+  type        = {IPN Progress Report},
+  number      = {42-222C},
+  pages       = {1--22},
+  year        = {2020},
+  month       = aug,
+  url         = {https://ipnpr.jpl.nasa.gov/progress_report/42-222/42-222C.pdf}
+}
+
+@techreport{sanchez_net_coherent_2025,
+  author      = {M. {Sanchez Net}},
+  title       = {Dynamics of a Coherent Reflection on Direct-with-Earth Links between a Planetary Body and an Earth Station},
+  institution = {Jet Propulsion Laboratory},
+  type        = {IPN Progress Report},
+  number      = {42-240A},
+  pages       = {1--32},
+  year        = {2025},
+  month       = feb,
+  url         = {https://ipnpr.jpl.nasa.gov/progress_report/42-240/42-240A.pdf}
+}
+
+@article{grimm_sep2018,
+  author  = {R. E. Grimm},
+  title   = {New Analysis of the {Apollo}~17 Surface Electrical Properties Experiment},
+  journal = {Icarus},
+  volume  = {314},
+  pages   = {389--399},
+  year    = {2018},
+  doi     = {10.1016/j.icarus.2018.06.007}
+}
+
+@article{hibbard_rolses2025,
+  author  = {J. J. Hibbard and J. O. Burns and R. MacDowall and N. Gopalswamy and S. A. Boardsen and W. Farrell and others},
+  title   = {Results from {NASA}'s First Radio Telescope on the {Moon}: Terrestrial Technosignatures and the Low-frequency {Galactic} Background Observed by {ROLSES-1} on Board the {Odysseus} Lander},
+  journal = {The Astronomical Journal},
+  volume  = {171},
+  number  = {1},
+  pages   = {26},
+  year    = {2025},
+  doi     = {10.3847/1538-3881/ae18d8}
 }

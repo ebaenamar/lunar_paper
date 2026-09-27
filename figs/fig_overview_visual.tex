@@ -21,16 +21,19 @@
   flag/.style={draw=accent, line width=0.9pt},
 ]
 % ================= SCENE =================
-% ---- Earth--Moon line and the L2 point beyond the far side; halo orbit circles L2 ----
-\draw[black!30, densely dotted, line width=0.5pt] (14.087,2.274) -- (5.386,3.841) (3.614,4.159) -- (1.400,4.558);
-\draw[black!70, line width=0.6pt] ($ (1.400,4.558)+(-0.06,-0.06) $) -- ($ (1.400,4.558)+(0.06,0.06) $) ($ (1.400,4.558)+(-0.06,0.06) $) -- ($ (1.400,4.558)+(0.06,-0.06) $);
-\node[lab, anchor=east, inner sep=1pt] at (1.08,4.62) {L2};
-\draw[cl2, line width=0.7pt, dashed, rotate around={-10.2:(1.400,4.558)}] (1.400,4.558) ellipse (0.26 and 0.72);
-\draw[cl2, line width=0.6pt] (1.656,4.512) -- (3.62,4.08);            % far-side relay link (Queqiao)
-\pic at (1.656,4.512) {sat=cl2};
-\node[olab, anchor=north, text=cl2, align=center] at (1.400,3.778) {\textbf{L2 halo}\\Queqiao,\\far-side relay};
+% ---- Earth--Moon line and the L2 point beyond the far side; the halo orbit circles L2 ----
+\draw[black!40, densely dotted, line width=0.6pt] (14.087,2.274) -- (5.386,3.841) (3.614,4.159) -- (1.400,4.558);
+\fill[black!70] (1.400,4.558) circle (0.045);
+\node[lab, anchor=east, inner sep=1pt] at (1.00,4.42) {L2};
+\draw[cl2, line width=0.7pt, dashed, rotate around={-10.2:(1.400,4.558)}] (1.400,4.558) ellipse (0.32 and 0.78);
+% Queqiao on the halo, out of the Earth--Moon plane: it sees the far side and, past the Moon, the Earth
+\draw[cl2, line width=0.6pt] (1.538,5.326) -- (3.72,4.45);                 % far-side relay link
+\draw[cl2, line width=0.6pt, densely dashed, -{Stealth[length=3.5pt]}] (1.66,5.40) -- (2.45,5.62);
+\node[lab, anchor=west, text=cl2] at (2.47,5.64) {to Earth};
+\pic at (1.538,5.326) {sat=cl2};
+\node[olab, anchor=north, text=cl2, align=center] at (1.30,3.72) {\textbf{L2 halo}\\Queqiao,\\far-side relay};
 % ---- Walker (medium circular orbit) ----
-\begin{scope}[shift={(1.35,6.05)}]
+\begin{scope}[shift={(1.25,6.55)}]
   \fill[black!12] (0,0) circle (0.24); \draw[black!55, line width=0.4pt] (0,0) circle (0.24);
   \foreach \a in {0,60,120} \draw[cwalk, line width=0.5pt, rotate=\a] (0,0) ellipse (0.62 and 0.2);
   \foreach \a/\t in {0/40,0/220,60/100,60/280,120/160,120/340}
@@ -47,8 +50,8 @@
 \draw[black!55, line width=0.5pt] (4.5,4.0) circle (0.9);
 % ---- LLO ----
 \draw[cllo, line width=0.7pt] (4.5,4.0) circle (1.07);
-\pic at (3.743,4.757) {sat=cllo};
-\node[olab, anchor=east, text=cllo, align=right] at (3.45,5.05) {\textbf{LLO}\\LRO, KPLO};
+\pic at (5.035,4.927) {sat=cllo};
+\node[olab, anchor=west, text=cllo] at (5.30,5.25) {\textbf{LLO}\\LRO, KPLO};
 % ---- radio telescope on the far side (Shielded Zone) ----
 \begin{scope}[shift={(3.95,4.25)}]
   \fill[white] (-0.24,0.10) arc (200:340:0.255) -- cycle;

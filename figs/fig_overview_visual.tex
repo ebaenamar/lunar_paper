@@ -21,11 +21,14 @@
   flag/.style={draw=accent, line width=0.9pt},
 ]
 % ================= SCENE =================
-% ---- L2 halo behind the far side ----
-\draw[cl2, line width=0.7pt, dashed] (1.3,4.0) ellipse (0.28 and 0.85);
-\draw[cl2, line width=0.6pt] (1.66,3.98) -- (3.63,3.75);           % far-side relay link (Queqiao)
-\pic at (1.58,4.0) {sat=cl2};
-\node[olab, anchor=north, text=cl2, align=center] at (1.3,3.1) {\textbf{L2 halo}\\Queqiao,\\far-side relay};
+% ---- Earth--Moon line and the L2 point beyond the far side; halo orbit circles L2 ----
+\draw[black!30, densely dotted, line width=0.5pt] (14.087,2.274) -- (5.386,3.841) (3.614,4.159) -- (1.400,4.558);
+\draw[black!70, line width=0.6pt] ($ (1.400,4.558)+(-0.06,-0.06) $) -- ($ (1.400,4.558)+(0.06,0.06) $) ($ (1.400,4.558)+(-0.06,0.06) $) -- ($ (1.400,4.558)+(0.06,-0.06) $);
+\node[lab, anchor=east, inner sep=1pt] at (1.08,4.62) {L2};
+\draw[cl2, line width=0.7pt, dashed, rotate around={-10.2:(1.400,4.558)}] (1.400,4.558) ellipse (0.26 and 0.72);
+\draw[cl2, line width=0.6pt] (1.656,4.512) -- (3.62,4.08);            % far-side relay link (Queqiao)
+\pic at (1.656,4.512) {sat=cl2};
+\node[olab, anchor=north, text=cl2, align=center] at (1.400,3.778) {\textbf{L2 halo}\\Queqiao,\\far-side relay};
 % ---- Walker (medium circular orbit) ----
 \begin{scope}[shift={(1.35,6.05)}]
   \fill[black!12] (0,0) circle (0.24); \draw[black!55, line width=0.4pt] (0,0) circle (0.24);

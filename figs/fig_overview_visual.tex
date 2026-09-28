@@ -23,21 +23,23 @@
 % ================= SCENE =================
 % ---- L2 halo, mini view as seen from Earth: the relay circles L2 behind the Moon and traces
 %      a ring larger than the lunar disc, so it is never hidden (far side and Earth both in view) ----
-\begin{scope}[shift={(1.80,4.30)}]
+\draw[black!35, rounded corners=3pt, line width=0.4pt] (0.55,3.30) rectangle (3.25,5.30);   % L2 halo inset box
+\begin{scope}[shift={(1.90,4.25)}]
   \node[olab, anchor=south, text=cl2, align=center] at (0,0.62) {\textbf{L2 halo}, seen from Earth};
   \fill[black!10] (0,0) circle (0.36); \draw[black!55, line width=0.4pt] (0,0) circle (0.36);
   \node[font=\scriptsize, text=black!65] at (0,0) {Moon};
   \draw[cl2, line width=0.7pt, dashed] (0,0) ellipse (0.72 and 0.52);
   \pic at (0,0.52) {sat=cl2};
-  \node[olab, anchor=north, text=cl2, align=center] at (0,-0.60) {Queqiao is never\\hidden by the Moon};
+  \node[olab, anchor=north, text=cl2] at (0,-0.55) {Queqiao};
 \end{scope}
 % ---- Walker (medium circular orbit) ----
-\begin{scope}[shift={(1.35,6.05)}]
+\draw[black!35, rounded corners=3pt, line width=0.4pt] (0.55,5.45) rectangle (3.25,7.20);   % Walker inset box
+\begin{scope}[shift={(1.90,6.15)}]
   \fill[black!12] (0,0) circle (0.24); \draw[black!55, line width=0.4pt] (0,0) circle (0.24);
   \foreach \a in {0,60,120} \draw[cwalk, line width=0.5pt, rotate=\a] (0,0) ellipse (0.62 and 0.2);
   \foreach \a/\t in {0/40,0/220,60/100,60/280,120/160,120/340}
     \pic[scale=0.55, rotate=\a] at ($(0,0)+({0.62*cos(\t)*cos(\a)-0.2*sin(\t)*sin(\a)},{0.62*cos(\t)*sin(\a)+0.2*sin(\t)*cos(\a)})$) {sat=cwalk};
-  \node[olab, anchor=west, text=cwalk] at (0.72,0.02) {\textbf{Walker}\\constellation};
+  \node[olab, anchor=south, text=cwalk] at (0,0.68) {\textbf{Walker} constellation};
 \end{scope}
 % ---- ELFO and NRHO, apolune below the south pole ----
 \draw[celfo, line width=0.7pt, rotate around={10:(4.5,3.0)}] (4.5,3.0) ellipse (1.25 and 2.1);

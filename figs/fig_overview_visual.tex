@@ -24,6 +24,9 @@
 % ---- L2 halo, mini view as seen from Earth: the relay circles L2 behind the Moon and traces
 %      a ring larger than the lunar disc, so it is never hidden (far side and Earth both in view) ----
 \begin{scope}[shift={(1.85,4.35)}]
+  % viewpoint: a small Earth with a faint cone of view towards the halo
+  \fill[blue!18] (-1.05,0) circle (0.13); \draw[black!55, line width=0.4pt] (-1.05,0) circle (0.13);
+  \draw[black!35, densely dotted, line width=0.5pt] (-0.93,0.05) -- (0,0.50) (-0.93,-0.05) -- (0,-0.50);
   \fill[black!12] (0,0) circle (0.30); \draw[black!55, line width=0.4pt] (0,0) circle (0.30);
   \draw[cl2, line width=0.7pt, dashed] (0,0) ellipse (0.62 and 0.46);
   \pic at (0,0.46) {sat=cl2};

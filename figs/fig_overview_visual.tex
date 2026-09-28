@@ -21,19 +21,16 @@
   flag/.style={draw=accent, line width=0.9pt},
 ]
 % ================= SCENE =================
-% ---- Earth--Moon line and the L2 point beyond the far side; the halo orbit circles L2 ----
-\draw[black!40, densely dotted, line width=0.6pt] (14.087,2.274) -- (5.386,3.841) (3.614,4.159) -- (1.400,4.558);
-\fill[black!70] (1.400,4.558) circle (0.045);
-\node[lab, anchor=east, inner sep=1pt] at (1.00,4.42) {L2};
-\draw[cl2, line width=0.7pt, dashed, rotate around={-10.2:(1.400,4.558)}] (1.400,4.558) ellipse (0.32 and 0.78);
-% Queqiao on the halo, out of the Earth--Moon plane: it sees the far side and, past the Moon, the Earth
-\draw[cl2, line width=0.6pt] (1.538,5.326) -- (3.72,4.45);                 % far-side relay link
-\draw[cl2, line width=0.6pt, densely dashed, -{Stealth[length=3.5pt]}] (1.66,5.40) -- (2.45,5.62);
-\node[lab, anchor=west, text=cl2] at (2.47,5.64) {to Earth};
-\pic at (1.538,5.326) {sat=cl2};
-\node[olab, anchor=north, text=cl2, align=center] at (1.30,3.72) {\textbf{L2 halo}\\Queqiao,\\far-side relay};
+% ---- L2 halo, mini view as seen from Earth: the relay circles L2 behind the Moon and traces
+%      a ring larger than the lunar disc, so it is never hidden (far side and Earth both in view) ----
+\begin{scope}[shift={(1.85,4.35)}]
+  \fill[black!12] (0,0) circle (0.30); \draw[black!55, line width=0.4pt] (0,0) circle (0.30);
+  \draw[cl2, line width=0.7pt, dashed] (0,0) ellipse (0.62 and 0.46);
+  \pic at (0,0.46) {sat=cl2};
+  \node[olab, anchor=north, text=cl2, align=center] at (0,-0.55) {\textbf{L2 halo} (Queqiao)\\seen from Earth:\\never hidden\\by the Moon};
+\end{scope}
 % ---- Walker (medium circular orbit) ----
-\begin{scope}[shift={(1.25,6.55)}]
+\begin{scope}[shift={(1.35,6.05)}]
   \fill[black!12] (0,0) circle (0.24); \draw[black!55, line width=0.4pt] (0,0) circle (0.24);
   \foreach \a in {0,60,120} \draw[cwalk, line width=0.5pt, rotate=\a] (0,0) ellipse (0.62 and 0.2);
   \foreach \a/\t in {0/40,0/220,60/100,60/280,120/160,120/340}

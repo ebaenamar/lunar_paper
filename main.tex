@@ -82,7 +82,7 @@ Lunar communications, link budget, delay-tolerant networking, non-terrestrial ne
 % Previous, text-labelled TikZ version: \input{figs/fig_overview.tex}
 % Rendered raster version of the same figure (1448x1086 px, below 300 dpi at this width):
 % \includegraphics[width=0.94\textwidth]{figs/fig_overview.png}
-\caption{Lunar communication chain and roadmap of the tutorial (not to scale). The relay orbit sets the slant range of each link, and range, band and data rate set its aperture; red icons mark where terrestrial assumptions fail on the Moon.}
+\caption{Relay orbits, the five canonical lunar links and the sections that treat them (not to scale). The relay orbit sets the slant range of each link, and range, band and data rate set its aperture; red icons mark where terrestrial assumptions fail on the Moon.}
 \label{fig:overview}
 \end{figure*}
 
@@ -173,7 +173,7 @@ In order of presentation, Section~\ref{sec:assets} inventories the assets that h
 This section reviews the lunar communication systems that have flown or are under contract and lists, for each, the four quantities that enter a link budget: orbit, band, aperture and delivered rate (Table~\ref{tab:assets}). Two observations follow from it. Every asset flown to date operates as a scheduled point-to-point link rather than as a network, with capacity allocated by a plan generated on Earth and no autonomous routing on board. The aperture and band of each asset also depend on its orbit, a dependence derived in Section~\ref{sec:fundamentals}.
 
 \begin{table*}[!t]
-\caption{Lunar Communication Assets Flown, Operating or Under Contract}
+\caption{Lunar Communication Systems Flown, Operating or Under Contract}
 \label{tab:assets}
 \centering
 \footnotesize
@@ -289,7 +289,7 @@ $\theta_{3\mathrm{dB}}$ & Half-power beamwidth (deg) \\
 Lunar communications involve five distinct slant ranges, shown on a logarithmic scale in the lower strip of Fig.~\ref{fig:overview}. Table~\ref{tab:ranges} lists these ranges together with the geometry that determines them. The relay orbits most commonly considered are the elliptical lunar frozen orbit (ELFO), the near-rectilinear halo orbit (NRHO) and the Earth--Moon L2 halo orbit. The ELFO provides stable long-duration coverage of a single lunar hemisphere with periods ranging from approximately \SI{12}{hours} to \SI{30}{hours} depending on the semi-major axis; the Queqiao-2 relay satellite occupies an elliptical frozen orbit with a \SI{24}{hour} period, to be shortened to \SI{12}{hours} for later south-polar missions~\cite{planetary_queqiao2}. The NRHO, selected for the Lunar Gateway, has a perilune altitude of approximately \SI{1629}{km} and an apolune altitude of approximately \SI{69363}{km} with a period of approximately \SI{6.56}{days}~\cite{gateway_comm}. The L2 halo orbit circles the Earth--Moon L2 point, which lies on the Earth--Moon line beyond the far side; Queqiao flies at \SI{47000}{}--\SI{79000}{km} from the Moon. Seen from Earth, the orbit never passes behind the Moon, so a relay on it sees both the far side and Earth and provides continuous far-side coverage.
 
 \begin{table}[!t]
-\caption{Lunar Link Types and Their Slant Ranges. Ranges Are Indicative and Depend on the Relay Orbit and the Deployment}
+\caption{Lunar Link Types and Indicative Slant Ranges}
 \label{tab:ranges}
 \centering
 \footnotesize
@@ -466,7 +466,7 @@ We generalize the canonical budget of Section~\ref{sec:worked} through parametri
   at (axis cs:384000,5) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
-\caption{Delivered margin against slant range at three carrier frequencies, with $D_t=\SI{0.75}{m}$, $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $R_b=\SI{100}{Mbps}$. Both antenna gains are frequency-dependent, so higher frequencies yield a net \SI{6}{dB} per octave advantage.}
+\caption{Delivered margin against slant range at three carrier frequencies, with $D_t=\SI{0.75}{m}$, $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $R_b=\SI{100}{Mbps}$. Both antenna gains are frequency-dependent, so the margin increases by \SI{6}{dB} per octave. Other parameters as in Table~\ref{tab:budget}.}
 \label{fig:margin}
 \end{figure}
 
@@ -511,7 +511,7 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
   at (axis cs:384000,0.1) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
-\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $\eta=0.6$.}
+\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $\eta=0.6$. Other parameters as in Table~\ref{tab:budget}.}
 \label{fig:aperture}
 \end{figure}
 
@@ -559,7 +559,7 @@ Fig.~\ref{fig:gainbw} shows the gain and the half-power beamwidth of a Ka-band a
   at (axis cs:8,2.5) {Beamwidth};
 \end{axis}
 \end{tikzpicture}
-\caption{Antenna gain and half-power beamwidth against aperture diameter at \SI{26}{GHz}, plotted on separate vertical scales.}
+\caption{Antenna gain (left axis) and half-power beamwidth (right axis) against aperture diameter at \SI{26}{GHz}, for $\eta=0.6$.}
 \label{fig:gainbw}
 \end{figure}
 
@@ -567,7 +567,7 @@ Fig.~\ref{fig:gainbw} shows the gain and the half-power beamwidth of a Ka-band a
 Table~\ref{tab:links} summarizes the five canonical lunar links, numbered as in Fig.~\ref{fig:overview}, each of which is an instance of \eqref{eq:aperture} evaluated at a different slant range. Four of the five are limited by geometry, whether through range, aperture or pointing. The rates of links~2 to~4 assume $P_t = \SI{10}{W}$, a \SI{500}{K} receiver on the relay, $L_{\mathrm{o}} = \SI{2}{dB}$ and uncoded QPSK. Under these assumptions the \SI{0.5}{m} pair of link~2 closes \SI{1}{Mbps} only to about \SI{8000}{km}, and at the \SI{70000}{km} apolune of an NRHO its rate falls to about \SI{14}{kbps}, which is why link~2 is limited by the aperture that a surface terminal can carry. The trunk link to Earth is the exception: it is limited by weather availability and by contention for ground-station time, because the \SI{34}{m} aperture is large enough that the range is no longer the binding term.
 
 \begin{table*}[!t]
-\caption{The Five Canonical Lunar Links and Their Dominant Constraints. Values Are Indicative}
+\caption{Five Canonical Lunar Links: Indicative Parameters and Dominant Constraints}
 \label{tab:links}
 \centering
 \footnotesize
@@ -632,9 +632,9 @@ $D_t D_r \propto R$ & Doubling the range doubles the aperture product \\
 $D_t D_r \propto \sqrt{R_b}$ & Quadrupling the rate doubles the aperture product \\
 $D_t D_r \propto \lambda$ & Higher frequency reduces aperture, narrows beam \\
 $G \propto (D/\lambda)^2$ & Doubling $D$ adds \SI{6}{dB} and halves the beamwidth \\
-Both apertures fixed & Frequency wins: net \SI{6}{dB} per octave \\
-Both gains fixed & Path loss wins: net \SI{-6}{dB} per octave \\
-One aperture, one gain fixed & Cancellation: margin unchanged \\
+Both apertures fixed & Margin \SI{+6}{dB} per octave \\
+Both gains fixed & Margin \SI{-6}{dB} per octave \\
+One aperture, one gain fixed & Margin unchanged \\
 Margin criterion & Mean margin $\geq 2\sigma$ (telemetry), $3\sigma$ (command) \\
 \bottomrule
 \end{tabularx}
@@ -673,7 +673,7 @@ Fig.~\ref{fig:flow} sets out the order in which the parameters of \eqref{eq:aper
 % remedial box loops back up the right margin to step 2
 \draw[ar] (i.east) -- ++(0.04\columnwidth,0) |- (b.east);
 \end{tikzpicture}
-\caption{Order in which the parameters of \eqref{eq:aperture} are fixed during lunar link sizing.}
+\caption{Decision-flow procedure for first-order lunar link sizing.}
 \label{fig:flow}
 \end{figure}
 
@@ -683,7 +683,7 @@ Fig.~\ref{fig:flow} sets out the order in which the parameters of \eqref{eq:aper
 This section treats the surface segment of Fig.~\ref{fig:overview}. It summarizes the demand against which surface networks are sized, including the robotic users of the current pre-crewed phase, derives the node density set by the radio horizon, and explains why terrain-limited coverage replaces measurement-driven handover with prediction. Table~\ref{tab:demand} lists the user classes with their rate and latency requirements.
 
 \begin{table*}[!t]
-\caption{Surface Demand by User Class}
+\caption{Surface Traffic Requirements by User Class}
 \label{tab:demand}
 \centering
 \footnotesize
@@ -748,7 +748,7 @@ Table~\ref{tab:orbits} summarizes the trade-off. No single orbit family is optim
 Family & Perilune & Apolune & Trade-off \\
 \midrule
 ELFO & \SI{900}{km} & \SI{8700}{km} & Low range; 5--6~sats for 4-fold (nav) polar visibility \\
-NRHO & \SI{1600}{km} & \SI{70000}{km} & 2 halo sats give continuous polar coverage; high aperture \\
+NRHO & \SI{1600}{km} & \SI{70000}{km} & 2 halo sats give continuous polar coverage; large aperture \\
 LLO & \SI{100}{km} & \SI{200}{km} & Shortest range, orbit unstable \\
 Walker (circular frozen) & ${\approx}\SI{8000}{km}$ & ${\approx}\SI{8000}{km}$ & Global nav, ${\geq}16$~sats; polar PDOP about twice equatorial \\
 \bottomrule
@@ -784,7 +784,7 @@ Three assumptions embedded in the 3GPP non-terrestrial specifications still fail
 Table~\ref{tab:ntn} compares these design values with their lunar counterparts.
 
 \begin{table}[!t]
-\caption{3GPP NTN Design Values Against Lunar Values}
+\caption{3GPP NTN Design Assumptions and Corresponding Lunar Values}
 \label{tab:ntn}
 \centering
 \footnotesize
@@ -822,13 +822,13 @@ Wood \emph{et al.} characterize the delay range over which TCP operates through 
 A lunar network is specified by three standards families at once. The space-link and file-transfer layers follow CCSDS, which LunaNet adopts as its interoperability baseline~\cite{lnis_v5,ccsds_lunar_standards}; the surface access layer, where it is proposed, follows 3GPP; and the store-and-forward layer follows the IETF delay-tolerant networking suite, which CCSDS has itself adopted as a companion series~\cite{ccsds_bp,ccsds_ltp}. The three describe overlapping functions in incompatible terms, and an engineer reading across them encounters the same function under three names. Table~\ref{tab:rosetta} maps the functions for which the three families use different mechanisms, omitting those that differ only in name. The recurring pattern is one of scope: a CCSDS mechanism is scoped to a single link, a 3GPP mechanism to an attached subscriber, and a DTN mechanism to a data unit that outlives both.
 
 \begin{table*}[!t]
-\caption{Function Names Across the Three Standards Families Governing a Lunar Network}
+\caption{Corresponding Mechanisms in the CCSDS, 3GPP and IETF DTN Standards}
 \label{tab:rosetta}
 \centering
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Function & CCSDS / LunaNet & 3GPP & IETF DTN & Substantive difference \\
+Function & CCSDS / LunaNet & 3GPP & IETF DTN & Difference \\
 \midrule
 Data unit & Space packet carried in a transfer frame~\cite{ccsds_tm,ccsds_uslp} & Transport block, PDCP PDU & Bundle~\cite{rfc9171} & The bundle carries its own creation timestamp and lifetime in an immutable primary block, so it survives storage and rehoming; frames and PDUs are scoped to one link and are discarded with it \\
 Endpoint name & Spacecraft identifier and virtual channel~\cite{ccsds_uslp} & Subscriber and cell identity & Endpoint identifier~\cite{rfc9171} & An endpoint identifier names a service that need not be reachable when addressed, whereas a subscriber identity presumes current attachment and a spacecraft identifier names a vehicle rather than a service \\
@@ -841,7 +841,7 @@ Security scope & Space Data Link Security, per hop~\cite{ccsds_sdls} & Subscribe
 \end{table*}
 
 \begin{table}[!t]
-\caption{Terrestrial Protocol Timers Against Earth--Moon Values}
+\caption{Terrestrial Protocol Timers and Their Consequences on Earth--Moon Links}
 \label{tab:timers}
 \centering
 \footnotesize
@@ -902,7 +902,7 @@ Optical (\SI{1064}{}--\SI{1550}{nm}) is selected for the inter-satellite link an
 Table~\ref{tab:spectrum} lists the principal allocated and SFCG-recommended bands. The Shielded Zone of the Moon comprises the area of the lunar surface lying more than \SI{23.2}{\degree} beyond the mean limb as seen from the center of the Earth, together with an adjacent volume of space, both shielded from emissions originating within \SI{100000}{km} of the center of the Earth~\cite{itu_rr2024,itu_ra479}. Within it, No.~22.22 of the Radio Regulations prohibits emissions causing harmful interference to radio astronomy and other passive services in the entire frequency spectrum. Two groups of bands are exempted: those allocated to the space research service using active sensors (No.~22.23), and the space operation, active Earth exploration-satellite and spaceborne radiolocation bands required to support space research, together with radiocommunications and space research transmissions within the zone (No.~22.24). In the exempted bands, where emissions are not prohibited, radio astronomy observations and passive space research in the zone may be protected from harmful interference by agreement between the administrations concerned (No.~22.25)~\cite{itu_rr2024}. The regulatory relationship is thereby inverted with respect to terrestrial practice: on Earth the communications operator is generally the protected party, whereas in the Shielded Zone the passive services are protected and active emitters are confined to the exempted bands. Recommendation ITU-R RA.479-5 further advises that transmitters located in or illuminating the zone avoid the bands of greatest astronomical importance, retain frequency flexibility and coordinate with the radio astronomy service. It also reproduces IAU Resolution~B16, which recommends that Shielded Zone radiocommunications be limited to \SI{2}{}--\SI{3}{GHz}, with an alternative band at least \SI{1}{GHz} wide used on a time-coordinated basis~\cite{itu_ra479}. In line with these provisions, the SFCG restricts its UHF lunar bands to use outside the Shielded Zone~\cite{sfcg_rec32}, and the United States and the SFCG favor S-band over L-band for lunar navigation in order to protect radio astronomy in the zone~\cite{csis_lunar_spectrum}. Preparatory studies for WRC-27 Agenda Item~1.15 are under way in ITU-R Working Party~7B, which is developing draft CPM text and a preliminary draft new Report on sharing studies of space research systems for lunar operations~\cite{wrc27_ai115}. The frequency ranges under study are those listed in Resolution~680 (WRC-23): \SI{390}{}--\SI{406.1}{MHz}, \SI{420}{}--\SI{430}{MHz} and \SI{440}{}--\SI{450}{MHz} (outside the Shielded Zone only), \SI{2400}{}--\SI{2690}{MHz}, \SI{3500}{}--\SI{3800}{MHz}, \SI{5150}{}--\SI{5725}{MHz}, \SI{5775}{}--\SI{5925}{MHz}, \SI{7190}{}--\SI{7235}{MHz}, \SI{8450}{}--\SI{8500}{MHz} and \SI{25.25}{}--\SI{28.35}{GHz}, for possible new or modified space research service allocations~\cite{itu_wrc23_res680}. ITU-R Working Party~7D is concurrently developing threshold levels of interference to radio astronomy in the Shielded Zone~\cite{itu_szm_thresholds}, which will quantify the protection criteria that far-side emitters must meet.
 
 \begin{table}[!t]
-\caption{Principal Lunar Spectrum Allocations}
+\caption{Principal Lunar Frequency Bands, Allocated or SFCG-Recommended}
 \label{tab:spectrum}
 \centering
 \footnotesize
@@ -937,7 +937,7 @@ A first campaign adequate to close this gap would require at least two surface n
 This section collects the open problems identified in Sections~\ref{sec:capacity} to~\ref{sec:measurement}. Each subsection states the problem, the related prior work and what remains open, and Table~\ref{tab:open} lists each direction with the section that motivates it and a concrete deliverable that would close it.
 
 \begin{table*}[!t]
-\caption{Open Research Problems and the Deliverables That Would Close Them}
+\caption{Open Research Problems and Proposed Deliverables}
 \label{tab:open}
 \centering
 \footnotesize

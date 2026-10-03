@@ -1,0 +1,35 @@
+% Relay payload classes: bent-pipe transponder, regenerative payload with on-board bundle node, navigation payload.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  blk/.style={draw=black!70, fill=white, minimum height=0.5cm, minimum width=1.5cm, align=center, inner sep=2pt},
+  reg/.style={blk, fill=blue!10}, nav/.style={blk, fill=green!12},
+  ar/.style={-{Stealth[length=4pt]}, thick, black!70}]
+% (a) bent pipe
+\node[font=\footnotesize\bfseries,anchor=west] at (0,2.4) {(a) Bent-pipe (transparent) relay};
+\node[blk] (a1) at (0.9,1.6) {Rx antenna\\S or Ka};
+\node[blk] (a2) at (2.8,1.6) {LNA};
+\node[blk] (a3) at (4.7,1.6) {Frequency\\converter};
+\node[blk] (a4) at (6.6,1.6) {HPA\\(TWTA or SSPA)};
+\node[blk] (a5) at (8.5,1.6) {Tx antenna\\Ka or X};
+\draw[ar] (a1)--(a2); \draw[ar] (a2)--(a3); \draw[ar] (a3)--(a4); \draw[ar] (a4)--(a5);
+\node[anchor=west,text=red!70,align=left] at (9.6,1.6) {no storage: idle unless user and\\Earth station are both in view};
+% (b) regenerative
+\node[font=\footnotesize\bfseries,anchor=west] at (0,0.3) {(b) Regenerative relay with on-board networking (LunaNet store-and-forward service)};
+\node[blk] (b1) at (0.9,-0.6) {Rx antenna};
+\node[blk] (b2) at (2.8,-0.6) {Demodulate,\\decode};
+\node[reg] (b3) at (4.9,-0.6) {Bundle node (BPv7)\\LTP, CGR, BPSec};
+\node[reg] (b4) at (4.9,-1.7) {Storage\\(far-side S\&F)};
+\node[blk] (b5) at (7.2,-0.6) {Encode,\\modulate};
+\node[blk] (b6) at (8.9,-0.6) {HPA};
+\node[blk] (b7) at (10.5,-0.6) {Tx antenna};
+\draw[ar] (b1)--(b2); \draw[ar] (b2)--(b3); \draw[ar] (b3)--(b5); \draw[ar] (b5)--(b6); \draw[ar] (b6)--(b7); \draw[ar,<->] (b3)--(b4);
+\node[anchor=west,text=black!70,align=left] at (11.5,-0.6) {adds coding gain per hop,\\routing, and the mass, power\\and rad-hard compute of a router};
+% (c) navigation payload sharing the frequency reference
+\node[font=\footnotesize\bfseries,anchor=west] at (0,-2.7) {(c) Navigation payload, sharing the frequency reference};
+\node[nav] (c1) at (1.3,-3.6) {GNSS receiver\\(Earth GNSS, weak signal)};
+\node[nav] (c2) at (4.0,-3.6) {Ultra-stable\\oscillator};
+\node[nav] (c3) at (6.6,-3.6) {Navigation signal\\generator (AFS, S-band)};
+\node[nav] (c4) at (9.3,-3.6) {Wide-beam\\S-band antenna};
+\draw[ar] (c1)--(c2); \draw[ar] (c2)--(c3); \draw[ar] (c3)--(c4);
+\draw[ar,dashed] (c2) |- ($(b3.south west)+(-0.3,-0.2)$) -| (b2.south);
+\node[anchor=west,text=black!70,align=left] at (10.6,-3.6) {time steered to GPS time between\\fixes; ranging and data share one\\power budget};
+\end{tikzpicture}

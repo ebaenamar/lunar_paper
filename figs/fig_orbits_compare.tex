@@ -1,0 +1,34 @@
+% Earth-orbit and lunar-orbit families at the same scale (1 cm = 22 000 km).
+% Ellipses are two-body schematics; the NRHO and the L2 halo are three-body orbits whose shapes are indicated, not propagated.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize]
+% ===== Earth panel =====
+\begin{scope}[shift={(4.6,0)}]
+\node[font=\footnotesize\bfseries,anchor=south] at (0,4.55) {(a) Earth orbits};
+\fill[blue!25] (0,0) circle (0.290); \draw[black!60] (0,0) circle (0.290);
+\draw[black!70,thick] (0,0) circle (0.315); \node[anchor=west,text=black!70] at (0.365,-0.35) {LEO, \SI{550}{km}};
+\draw[black!70] (0,0) circle (1.207); \node[anchor=south west,text=black!70] at (0.857,0.857) {MEO (GNSS), \SI{20200}{km}};
+\draw[black!70,thick] (0,0) circle (1.917); \node[anchor=south,text=black!70] at (0,1.967) {GEO, \SI{35786}{km}};
+\draw[black!50,dashed,rotate=63] (0.895,0) ellipse (1.209 and 0.813);
+\node[anchor=west,text=black!50] at (-2.9,-2.2) {Molniya,};\node[anchor=west,text=black!50] at (-2.9,-2.5) {$500\times\SI{39800}{km}$};
+\fill[black!70] (0,0.315) circle (0.03); \fill[black!70] (0,1.917) circle (0.04); \fill[black!70] (0.857,0.857) circle (0.03);
+\draw[-{Stealth[length=4pt]},black!60] (3.3,-3.9) -- (4.3,-3.9); \node[anchor=east,text=black!60] at (3.3,-3.9) {to the Moon, \SI{384400}{km} (17 cm at this scale)};
+\end{scope}
+% ===== Moon panel =====
+\begin{scope}[shift={(13.2,0)}]
+\node[font=\footnotesize\bfseries,anchor=south] at (0,4.55) {(b) Lunar orbits, same scale};
+\draw[black!35,densely dotted] (0,0) circle (2.727); \node[anchor=south east,text=black!45] at (-1.836,1.936) {Hill sphere, ${\approx}\SI{60000}{km}$};
+\draw[red!60,densely dotted] (0,0) circle (4.018); \node[anchor=south,text=red!70,align=center] at (0,4.05) {synchronous radius \SI{88400}{km} lies outside the Hill sphere: there is no lunar GEO};
+\fill[black!25] (0,0) circle (0.079); \draw[black!60] (0,0) circle (0.079);
+\draw[black!70,thick] (0,0) circle (0.083); \node[anchor=south west,text=black!70] at (0.12,0.08) {LLO, \SI{100}{km}};
+% ELFO: apolune south (down)
+\draw[green!45!black,thick] (0,-0.356) ellipse (0.371 and 0.514);
+\node[anchor=east,text=green!45!black,align=right] at (-0.421,-0.556) {ELFO (LCRNS)\\$1750\times\SI{17400}{km}$, \SI{30}{h}};
+% NRHO schematic: apolune south
+\draw[brown!70!black,thick,dash pattern=on 4pt off 1.5pt] (0,-1.539) ellipse (0.703 and 1.692);
+\node[anchor=west,text=brown!70!black] at (0.753,-2.539) {NRHO (Gateway), $1600\times\SI{70000}{km}$, \SI{6.6}{d}};
+% L2 point and halo, anti-Earth direction = +x
+\fill[black!60] (2.795,0) circle (0.04); \node[anchor=south,text=black!60] at (2.795,0.6) {L2 halo (Queqiao)};
+\draw[blue!50!black,thick] (2.795,0) ellipse (0.3 and 0.6);
+\draw[-{Stealth[length=4pt]},black!60] (-3.0,-3.4) -- (-4.0,-3.4); \node[anchor=west,text=black!60,align=left] at (-3.0,-3.4) {to Earth, \SI{384400}{km}: from the near side,\\Earth is the fixed point in the sky that GEO is on Earth};
+\end{scope}
+\end{tikzpicture}

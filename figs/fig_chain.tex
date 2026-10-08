@@ -1,0 +1,120 @@
+% Proposed replacement for Fig. 1 (review, October 2026). Two panels.
+% (a) The chain: surface user, surface gateway, two relays, Earth station, and the six
+%     numbered links of Table~\ref{tab:links}. One encoding only: line color = band.
+%     Three red markers locate the terrestrial assumptions that fail in the chain.
+% (b) Logarithmic strip: slant range and one-way delay of the six links, with the
+%     3GPP NTN one-way delay limit. Orbits, insets and apertures are deliberately absent;
+%     orbits to scale belong to the space-segment figure, apertures to Table~\ref{tab:links}.
+% Requires colors lowc, highc, accent from the preamble and the arrows.meta, calc libraries.
+\begin{tikzpicture}[x=1cm, y=1cm, font=\footnotesize,
+  sband/.style={draw=lowc, line width=1.0pt, -{Stealth[length=5pt]}},
+  xband/.style={draw=black!65, line width=1.0pt, densely dashed, -{Stealth[length=5pt]}},
+  kaband/.style={draw=highc, line width=1.6pt, -{Stealth[length=5pt]}},
+  both/.style={{Stealth[length=5pt]}-{Stealth[length=5pt]}},
+  num/.style={circle, draw=black!70, fill=white, inner sep=0pt, minimum size=12pt, font=\scriptsize\bfseries},
+  lab/.style={font=\scriptsize, text=black!75, align=center},
+  flag/.style={font=\scriptsize\bfseries, text=accent, align=center},
+  pics/relay/.style={code={
+    \fill[black!75] (-0.13,-0.13) rectangle (0.13,0.13);
+    \fill[black!35] (-0.55,-0.08) rectangle (-0.18,0.08);
+    \fill[black!35] (0.18,-0.08) rectangle (0.55,0.08);
+    \draw[black!75, line width=0.6pt] (0,-0.13) -- (0,-0.32);
+    \draw[black!75, line width=0.6pt] (-0.22,-0.42) arc (200:340:0.235);}},
+  pics/dish/.style={code={
+    \draw[black!75, line width=0.6pt] (0,0) -- (0,0.35);
+    \draw[black!75, line width=0.7pt, fill=white] (-0.3,0.3) arc (180:360:0.3 and 0.14);
+    \draw[black!75, line width=0.7pt] (-0.3,0.3) arc (180:0:0.3 and 0.16);}},
+]
+% ============================ (a) THE CHAIN ============================
+% lunar surface with a ridge between the user and the gateway
+\fill[black!8] (0,0) -- (2.1,0) -- (2.75,0.95) -- (3.25,0.95) -- (3.7,0) -- (7.6,0) -- (7.6,-0.35) -- (0,-0.35) -- cycle;
+\draw[black!55, line width=0.6pt] (0,0) -- (2.1,0) -- (2.75,0.95) -- (3.25,0.95) -- (3.7,0) -- (7.6,0);
+% rover (user)
+\fill[black!70, rounded corners=1pt] (0.75,0.25) rectangle (1.55,0.6);
+\fill[black!70] (0.85,0.1) circle (0.11) (1.15,0.1) circle (0.11) (1.45,0.1) circle (0.11);
+\draw[black!70, line width=0.6pt] (1.15,0.6) -- (1.15,0.95);
+\node[lab, anchor=north] at (1.15,-0.05) {rover, suit,\\instrument};
+% gateway (lander with mast and dish)
+\fill[black!60] (5.0,0) rectangle (5.9,0.55);
+\draw[black!70, line width=0.8pt] (5.45,0.55) -- (5.45,1.75);
+\pic at (5.45,1.75) {dish};
+\node[lab, anchor=north] at (5.45,-0.05) {surface gateway\\lander, mast, habitat};
+% relays
+\pic at (7.3,4.2) {relay};  \node[lab, anchor=west] at (7.9,4.2) {relay A};
+\pic at (10.6,4.6) {relay}; \node[lab, anchor=west] at (11.2,4.6) {relay B};
+% Earth and station
+\fill[highc!15] (15.3,1.3) circle (0.95); \draw[black!55, line width=0.5pt] (15.3,1.3) circle (0.95);
+\node[lab] at (15.3,1.3) {Earth};
+\pic at (15.3,2.3) {dish};
+\node[lab, anchor=west] at (15.95,2.55) {deep-space\\station};
+% ---- links ----
+% 1 surface access: rover <-> gateway (S-band), blocked by the ridge: draw over the ridge
+\draw[sband, both] (1.15,1.0) .. controls (2.3,1.6) and (4.3,1.9) .. (5.3,1.9);
+\node[num] at (3.3,1.72) {1};
+% 2 surface-to-relay: rover -> relay A (S-band)
+\draw[sband] (1.3,1.0) -- (7.0,4.0);
+\node[num] at (3.6,2.3) {2};
+% 3 gateway backhaul: gateway -> relay A (Ka)
+\draw[kaband, both] (5.6,2.05) -- (7.1,3.9);
+\node[num] at (6.1,3.2) {3};
+% 4 inter-satellite: relay A <-> relay B (Ka)
+\draw[kaband, both] (7.9,4.25) -- (10.0,4.6);
+\node[num] at (8.95,4.72) {4};
+% 5 trunk: relay B -> Earth (Ka)
+\draw[kaband, both] (11.0,4.4) -- (15.1,2.75);
+\node[num] at (13.1,3.75) {5};
+% 6 direct-to-Earth: gateway -> Earth (X-band, dashed)
+\draw[xband, both] (5.8,1.95) .. controls (8.5,1.0) and (12.5,1.0) .. (14.9,2.3);
+\node[num] at (10.4,1.2) {6};
+
+% band tags: today -> ladder
+\node[lab, anchor=south, text=lowc] at (3.3,1.95) {S};
+\node[lab, anchor=south, text=lowc] at (3.6,2.55) {S};
+\node[lab, anchor=west, text=highc] at (6.3,3.2) {Ka $\rightarrow$ E, D};
+\node[lab, anchor=south, text=highc] at (9.1,5.0) {Ka $\rightarrow$ D, optical};
+\node[lab, anchor=north, text=highc] at (13.1,3.5) {Ka, optical};
+\node[lab, anchor=north, text=black!65] at (10.4,0.95) {X $\rightarrow$ Ka};
+% ---- red markers: assumptions that fail ----
+\node[flag] at (2.95,0.42) {terrain\\blocks};
+\draw[accent, line width=0.9pt] (2.85,1.05) -- (3.15,1.35) (3.15,1.05) -- (2.85,1.35);
+\draw[accent, line width=0.8pt] (6.25,0.3) rectangle (6.8,0.55); \fill[accent] (6.8,0.35) rectangle (6.87,0.5);
+\node[flag, anchor=west] at (6.95,0.42) {354 h night};
+\draw[accent, line width=0.8pt] (12.6,4.5) circle (0.17); \draw[accent, line width=0.8pt] (12.6,4.5) -- (12.6,4.63) (12.6,4.5) -- (12.7,4.5);
+\node[flag, anchor=west] at (12.85,4.5) {2.56 s round trip};
+% ---- legend ----
+\draw[sband, -] (0.3,5.6) -- (0.9,5.6); \node[lab, anchor=west] at (0.95,5.6) {wide beam: an omnidirectional end (S-band)};
+\draw[kaband, -] (0.3,5.2) -- (0.9,5.2); \node[lab, anchor=west] at (0.95,5.2) {narrow beam: both ends pointable};
+\node[lab, anchor=west] at (0.95,4.85) {(Ka today; E, D, optical: the ladder of Sec.~\ref{sec:frequency})};
+\draw[xband, -] (0.3,4.45) -- (0.9,4.45); \node[lab, anchor=west] at (0.95,4.45) {to Earth: atmosphere at one end (X, Ka today)};
+\node[lab, anchor=west, text=accent] at (0.3,4.05) {red: terrestrial assumption that fails};
+\node[lab, anchor=west] at (0.3,3.7) {not to scale; tags: band today $\rightarrow$ ladder bands};
+\node[font=\footnotesize\bfseries, anchor=west] at (0.0,6.05) {(a) The six links of a lunar network};
+% ============================ (b) RANGE AND DELAY STRIP ============================
+\begin{scope}[shift={(0,-4.0)}]
+\node[font=\footnotesize\bfseries, anchor=west] at (0.0,2.9) {(b) Slant range and one-way delay of the six links};
+% axis: 1 km .. 1e6 km over 15 cm => 2.5 cm per decade
+\def\ax{1.0}
+\draw[black!70, line width=0.6pt, -{Stealth[length=4pt]}] (\ax,0) -- (\ax+15.6,0);
+\foreach \d/\r/\t in {0/1 km/3.3 $\mu$s, 1/10 km/33 $\mu$s, 2/100 km/0.33 ms, 3/1000 km/3.3 ms, 4/$10^4$ km/33 ms, 5/$10^5$ km/0.33 s, 6/$10^6$ km/3.3 s}{
+  \draw[black!70] ({\ax+2.5*\d},0.08) -- ({\ax+2.5*\d},-0.08);
+  \node[lab, anchor=north] at ({\ax+2.5*\d},-0.1) {\r};
+  \node[lab, anchor=south, text=black!55] at ({\ax+2.5*\d},0.1) {\t};
+}
+\node[lab, anchor=west] at (\ax+15.65,-0.28) {range};
+\node[lab, anchor=west, text=black!55] at (\ax+15.65,0.28) {delay};
+% link bars: log10(km) -> x
+% 1: 1-10 km; 2: 1750-70000; 3: 8700-70000; 4: 10000-60000; 5,6: 384000
+\draw[lowc, line width=3pt] ({\ax+2.5*0},0.75) -- ({\ax+2.5*1},0.75);     \node[num] at ({\ax+2.5*0.5},1.1) {1};
+\draw[lowc, line width=3pt] ({\ax+2.5*3.243},0.75) -- ({\ax+2.5*4.845},0.75); \node[num] at ({\ax+2.5*4.0},1.1) {2};
+\draw[highc, line width=3pt] ({\ax+2.5*3.94},1.35) -- ({\ax+2.5*4.845},1.35); \node[num] at ({\ax+2.5*4.4},1.7) {3};
+\draw[highc, line width=3pt] ({\ax+2.5*4.0},0.75) -- ({\ax+2.5*4.778},0.75);
+\node[num] at ({\ax+2.5*4.39},0.4) {4};
+\fill[highc] ({\ax+2.5*5.585},1.35) circle (0.09); \node[num] at ({\ax+2.5*5.585},1.7) {5};
+\fill[black!65] ({\ax+2.5*5.585},0.75) circle (0.09); \node[num] at ({\ax+2.5*5.585},0.4) {6};
+% 3GPP NTN one-way delay limit: 270.73 ms <-> 81,160 km -> log10 = 4.909
+\draw[black!60, densely dashed] ({\ax+2.5*4.909},0.5) -- ({\ax+2.5*4.909},2.0);
+\node[lab, anchor=south west, text=black!60] at ({\ax+2.5*4.909},1.95) {3GPP NTN one-way delay limit\\(270.73 ms, GEO transparent)};
+\node[lab, anchor=south east, text=black!60] at ({\ax+2.5*4.909},1.95) {relay links: inside the\\Earth-orbit envelope};
+\node[lab, anchor=west, text=black!60] at ({\ax+2.5*5.585+0.25},1.05) {Earth links:\\outside it};
+\end{scope}
+\end{tikzpicture}

@@ -103,12 +103,12 @@
 \node[lab, anchor=west] at (\ax+15.65,-0.28) {range};
 \node[lab, anchor=west, text=black!55] at (\ax+15.65,0.28) {delay};
 % link bars: log10(km) -> x
-% 1: 1-10 km; 2: 1750-70000; 3: 8700-70000; 4: 10000-60000; 5,6: 384000
+% 1: 1-10 km; 2: 1750-70000; 3: 8700-70000; 4: 4000-60000; 5,6: 384000
 \draw[lowc, line width=3pt] ({\ax+2.5*0},0.75) -- ({\ax+2.5*1},0.75);     \node[num] at ({\ax+2.5*0.5},1.1) {1};
-\draw[lowc, line width=3pt] ({\ax+2.5*3.243},0.75) -- ({\ax+2.5*4.845},0.75); \node[num] at ({\ax+2.5*4.0},1.1) {2};
+\draw[lowc, line width=3pt] ({\ax+2.5*3.243},0.75) -- ({\ax+2.5*4.845},0.75); \node[num] at ({\ax+2.5*3.243-0.3},0.75) {2};
 \draw[highc, line width=3pt] ({\ax+2.5*3.94},1.35) -- ({\ax+2.5*4.845},1.35); \node[num] at ({\ax+2.5*4.4},1.7) {3};
-\draw[highc, line width=3pt] ({\ax+2.5*4.0},0.75) -- ({\ax+2.5*4.778},0.75);
-\node[num] at ({\ax+2.5*4.39},0.4) {4};
+\draw[highc, line width=3pt] ({\ax+2.5*3.602},1.05) -- ({\ax+2.5*4.778},1.05);
+\node[num] at ({\ax+2.5*3.602-0.3},1.05) {4};
 \fill[highc] ({\ax+2.5*5.585},1.35) circle (0.09); \node[num] at ({\ax+2.5*5.585},1.7) {5};
 \fill[black!65] ({\ax+2.5*5.585},0.75) circle (0.09); \node[num] at ({\ax+2.5*5.585},0.4) {6};
 % 3GPP NTN one-way delay limit: 270.73 ms <-> 81,160 km -> log10 = 4.909

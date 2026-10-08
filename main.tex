@@ -805,7 +805,7 @@ Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at
 \end{figure}
 
 \subsubsection{Required Aperture Versus Slant Range}
-Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}{dB} margin at Ka-band against a \SI{34}{m} receive aperture, for data rates of 1, 10 and \SI{100}{Mbps}. The required aperture scales linearly with range and as the square root of the data rate, as predicted by \eqref{eq:aperture}. At \SI{384000}{km} and \SI{100}{Mbps} the curve returns $D_t \approx \SI{0.06}{m}$ for the \SI{3}{dB} threshold, far smaller than the \SI{0.75}{m} used in the worked example; the difference reflects the \SI{22}{dB} by which the worked example exceeds the \SI{3}{dB} closure threshold. At a range of \SI{1629}{km}, the perilune altitude of an NRHO (which lies over the north pole, so that a south-polar user sees the relay near apolune), the requirement falls below the wavelength, where \eqref{eq:gain} no longer applies, which indicates that a surface-to-relay link at short range is not aperture-limited when the far end is a large ground antenna. That condition does not hold in practice: when the receiver is a \SI{0.5}{m} relay antenna, the required transmit aperture rises by a factor of approximately sixty-eight ($34/0.5$), which is why link~2 of Table~\ref{tab:links} is classified as aperture-constrained.
+Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}{dB} margin at Ka-band against a \SI{0.5}{m} relay antenna, with the relay assumptions of links~2 to~4 ($P_t = \SI{10}{W}$, $T_{\mathrm{sys}} = \SI{500}{K}$ at the relay, $L_{\mathrm{o}} = \SI{2}{dB}$, uncoded QPSK), for data rates of 1, 10 and \SI{100}{Mbps}. The required aperture scales linearly with range and as the square root of the data rate, as predicted by \eqref{eq:aperture}. At the \SI{17400}{km} apolune of the LCRNS reference ELFO, \SI{10}{Mbps} requires $D_t \approx \SI{0.40}{m}$, consistent with the \SI{5.0}{dB} margin of a \SI{0.5}{m} pair at that range, whereas at the \SI{69400}{km} apolune of the NRHO it requires \SI{1.6}{m}; this is why links~2 and~3 are limited by the aperture that a surface terminal can carry. The curves are drawn only where $D_t$ exceeds the wavelength: in the shaded region \eqref{eq:gain} and \eqref{eq:aperture} do not apply, and at these rates it begins below about \SI{160}{}--\SI{1600}{km}. Against the \SI{34}{m}, \SI{44}{K} ground station of Table~\ref{tab:budget} the same requirement falls below the wavelength at every relay range up to \SI{70000}{km} for rates up to \SI{100}{Mbps}, which is why the trunk to Earth can close with a small spacecraft antenna while the surface-to-relay link cannot.
 
 \begin{figure}[!t]
 \centering
@@ -817,35 +817,46 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
     ylabel near ticks,
     xmode=log, ymode=log,
     xmin=100, xmax=600000,
-    ymin=1e-4, ymax=10,
+    ymin=1e-3, ymax=100,
     grid=both, grid style={gray!25},
     tick label style={font=\footnotesize},
     label style={font=\footnotesize},
-    legend style={font=\scriptsize, at={(0.02,0.03)}, anchor=south west,
+    legend columns=3, legend style={font=\scriptsize, at={(0.5,-0.3)}, anchor=north,
                   draw=gray!50, fill=white, fill opacity=0.9,
                   text opacity=1, row sep=1pt},
 ]
-\addplot[blue, thick, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e6*1.585*19.95/40)};
+\fill[gray!18] (axis cs:100,1e-3) rectangle (axis cs:600000,0.01153);
+\node[gray!70!black, font=\scriptsize, anchor=south west, inner sep=2pt] at (axis cs:120,1.2e-3) {$D_t < \lambda$: \eqref{eq:gain} does not apply};
+\addplot[blue, thick, domain=1595:600000, samples=100]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e6*1.585*19.95/10)};
 \addlegendentry{$R_b=1$\,Mbps}
-\addplot[red, thick, dashed, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e7*1.585*19.95/40)};
+\addplot[blue, thin, densely dotted, domain=100:1595, samples=30, forget plot]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e6*1.585*19.95/10)};
+\addplot[red, thick, dashed, domain=504:600000, samples=100]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e7*1.585*19.95/10)};
 \addlegendentry{$R_b=10$\,Mbps}
-\addplot[green!55!black, thick, dashdotted, domain=100:600000, samples=120]
-  {4*x*1e3*0.01154/(pi*0.6*34)*sqrt(1.38e-23*44*1e8*1.585*19.95/40)};
+\addplot[red, thin, densely dotted, domain=100:504, samples=30, forget plot]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e7*1.585*19.95/10)};
+\addplot[green!55!black, thick, dashdotted, domain=160:600000, samples=100]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e8*1.585*19.95/10)};
 \addlegendentry{$R_b=100$\,Mbps}
-\draw[gray, densely dashed] (axis cs:1629,1e-4) -- (axis cs:1629,10);
+\addplot[green!55!black, thin, densely dotted, domain=100:160, samples=30, forget plot]
+  {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e8*1.585*19.95/10)};
+\draw[gray, densely dashed] (axis cs:1629,1e-3) -- (axis cs:1629,100);
+\node[gray, font=\scriptsize, rotate=90, anchor=east, inner sep=2pt]
+  at (axis cs:1629,70) {NRHO perilune};
+\draw[gray, densely dashed] (axis cs:17400,1e-3) -- (axis cs:17400,100);
+\node[gray, font=\scriptsize, rotate=90, anchor=east, inner sep=2pt]
+  at (axis cs:17400,70) {LCRNS apolune};
+\draw[gray, densely dashed] (axis cs:69363,1e-3) -- (axis cs:69363,100);
 \node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:1629,0.1) {NRHO perilune};
-\draw[gray, densely dashed] (axis cs:69363,1e-4) -- (axis cs:69363,10);
+  at (axis cs:69363,0.0135) {NRHO apolune};
+\draw[gray, densely dashed] (axis cs:384400,1e-3) -- (axis cs:384400,100);
 \node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:69363,0.1) {NRHO apolune};
-\draw[gray, densely dashed] (axis cs:384000,1e-4) -- (axis cs:384000,10);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:384000,0.1) {Earth--Moon};
+  at (axis cs:384400,0.0135) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
-\caption{Transmit aperture required for a \SI{3}{dB} margin at Ka-band against slant range, for three data rates, with $D_r=\SI{34}{m}$, $P_t=\SI{40}{W}$, $T_{\mathrm{sys}}=\SI{44}{K}$ and $\eta=0.6$. Other parameters as in Table~\ref{tab:budget}.}
+\caption{Transmit aperture required for a \SI{3}{dB} margin at \SI{26}{GHz} against slant range, for three data rates, with a \SI{0.5}{m} relay receive antenna, $P_t=\SI{10}{W}$, $T_{\mathrm{sys}}=\SI{500}{K}$, $L_{\mathrm{o}}=\SI{2}{dB}$, uncoded QPSK and $\eta=0.6$. Curves are dotted, and the region shaded, where $D_t$ is smaller than the wavelength.}
 \label{fig:aperture}
 \end{figure}
 
@@ -898,7 +909,7 @@ Fig.~\ref{fig:gainbw} shows the gain and the half-power beamwidth of a Ka-band a
 \end{figure}
 
 
-\todo{Clip the curves of Fig.~\ref{fig:aperture} at $D=\lambda$ and shade the invalid region.}
+
 
 \subsection{The Six Canonical Links}
 Table~\ref{tab:links} summarizes the six canonical lunar links, numbered as in Fig.~\ref{fig:overview}, each of which is an instance of \eqref{eq:aperture} evaluated at a different slant range. Five of the six are limited by geometry, whether through range, aperture or pointing. The rates of links~2 to~4 assume $P_t = \SI{10}{W}$, a \SI{500}{K} receiver on the relay, $L_{\mathrm{o}} = \SI{2}{dB}$ and uncoded QPSK. Under these assumptions the \SI{0.5}{m} pair of link~2 closes \SI{1}{Mbps} only to about \SI{8000}{km}, and at the \SI{70000}{km} apolune of an NRHO its rate falls to about \SI{14}{kbps}, which is why link~2 is limited by the aperture that a surface terminal can carry. The trunk link to Earth is the exception: it is limited by weather availability and by contention for ground-station time, because the \SI{34}{m} aperture is large enough that the range is no longer the binding term.

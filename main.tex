@@ -124,8 +124,10 @@ Third, the Earth end of the trunk is not an operator's gateway but a shared, sch
 
 \begin{figure*}[!t]
 \centering
-\resizebox{\textwidth}{!}{\input{figs/fig_orbits_compare.tex}}
-\caption{Earth-orbit and lunar-orbit families drawn at the same scale (\SI{1}{cm} = \SI{22000}{km}). The lunar relay orbits are larger in absolute size than GEO around a body one quarter the radius of Earth; the ELFO and the NRHO are drawn as two-body ellipses and the L2 halo as a schematic. The Moon has no synchronous orbit because the synchronous radius lies outside the Hill sphere; from the near side the Earth plays the role that a GEO satellite plays on Earth.}
+\resizebox{\textwidth}{!}{\input{figs/fig_orbits_compare.tex}}\\[4pt]
+{\footnotesize\bfseries (c) LCRNS reference constellation, propagated}\\[2pt]
+\includegraphics[width=0.92\textwidth]{figs/fig_isl_topology.png}
+\caption{(a), (b) Earth-orbit and lunar-orbit families drawn at the same scale (\SI{1}{cm} = \SI{22000}{km}). The lunar relay orbits are larger in absolute size than GEO around a body one quarter the radius of Earth; the ELFO and the NRHO are drawn as two-body ellipses and the L2 halo as a schematic. The Moon has no synchronous orbit because the synchronous radius lies outside the Hill sphere; from the near side the Earth plays the role that a GEO satellite plays on Earth. (c) Orbital planes of the LCRNS reference constellation at epoch in the design frame (left), and per-pair mean crosslink range over unblocked samples with 10th--90th percentile bars and the fraction of a \SI{90}{d} GMAT propagation in which the Moon blocks the link (right), from~\cite{asok2027space}.}
 \label{fig:orbits}
 \end{figure*}
 
@@ -419,22 +421,25 @@ Table~\ref{tab:orbits} summarizes the trade-off. No single orbit family is optim
 \label{tab:orbits}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}lrrR@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{1.55cm}rrR@{}}
 \toprule
 Family & Perilune & Apolune & Trade-off \\
 \midrule
-ELFO & \SI{900}{km} & \SI{8700}{km} & Low range; 5--6~sats for 4-fold (nav) polar visibility \\
-NRHO & \SI{1600}{km} & \SI{70000}{km} & 2 halo sats give continuous polar coverage; large aperture \\
+ELFO (frozen family) & \SI{900}{km} & \SI{8700}{km} & Low range; 5--6~sats for 4-fold (nav) polar visibility \\
+ELFO (LCRNS ref.) & \SI{1750}{km} & \SI{17400}{km} & 5~sats, 3~planes, \SI{30}{h}; 2~sats per relay path, 13--18 for nav~\cite{lcrns_ref_const,asok2027space} \\
+NRHO & \SI{1600}{km} & \SI{70000}{km} & 2 halo sats give continuous polar coverage~\cite{asok2027space}; large aperture \\
+L2 halo (Queqiao) & \SI{47000}{km}$^{\mathrm{a}}$ & \SI{79000}{km}$^{\mathrm{a}}$ & One relay sees far side and Earth \\
 LLO & \SI{100}{km} & \SI{200}{km} & Shortest range, orbit unstable \\
 Walker (circular frozen) & ${\approx}\SI{8000}{km}$ & ${\approx}\SI{8000}{km}$ & Global nav, ${\geq}16$~sats; polar PDOP about twice equatorial \\
 \bottomrule
 \end{tabularx}
+\par\smallskip\raggedright\footnotesize $^{\mathrm{a}}$Distance from the Moon as flown by Queqiao~\cite{chen_ce4_relay}; the other rows give altitudes.
 \end{table}
 
 
 
-The L2 halo orbit used by Queqiao circles the second Earth--Moon libration point, which lies on the Earth--Moon line about \SI{61500}{km} beyond the far side; Queqiao flies at \SI{47000}{}--\SI{79000}{km} from the Moon, and because the orbit never passes behind the Moon as seen from Earth, a relay on it sees both the far side and Earth continuously. Fig.~\ref{fig:orbits} shows the families at one scale, and Table~\ref{tab:ranges} gives the slant range of each link type.
-\todo{Add an LCRNS reference-constellation row and an L2 halo row to Table~\ref{tab:orbits}; replace Fig.~\ref{fig:orbits}(b) or complement it with the propagated orbital planes and per-pair range and occultation figure of the space-segment companion paper.}
+The L2 halo orbit used by Queqiao circles the second Earth--Moon libration point, which lies on the Earth--Moon line about \SI{64500}{km} from the lunar center, beyond the far side; Queqiao flies at \SI{47000}{}--\SI{79000}{km} from the Moon, and because the orbit never passes behind the Moon as seen from Earth, a relay on it sees both the far side and Earth continuously. Fig.~\ref{fig:orbits}(a) and~(b) show the families at one scale, and Table~\ref{tab:ranges} gives the slant range of each link type. Fig.~\ref{fig:orbits}(c) shows the propagated LCRNS reference constellation~\cite{asok2027space}: its three planes lie about \SI{120}{\degree} apart at epoch, and while a crosslink is not blocked by the Moon its range runs from about \SI{4100}{} to \SI{22400}{km}, with a mean of \SI{16809}{km} over the ten pairs. Occultation depends on phasing rather than on whether two satellites share a plane: the four pairs that are never blocked are cross-plane, and they are also the four shortest, so they are the natural persistent crosslinks.
 
 Lunar communications involve six distinct slant ranges, shown on the logarithmic axis of Fig.~\ref{fig:overview}(b). Table~\ref{tab:ranges} lists these ranges together with the geometry that determines them. 
 \begin{table}[!t]
@@ -448,7 +453,7 @@ Link type & Range & Determined by \\
 \midrule
 Surface-to-surface & 1--10\,km & Terrain, mast height \\
 Surface-to-relay & 1\,000--70\,000\,km & Relay orbit \\
-Relay-to-relay & 10\,000--60\,000\,km & Relative orbit geometry \\
+Relay-to-relay & 4\,000--60\,000\,km & Relative orbit geometry \\
 Relay-to-Earth & 384\,000\,km & Earth--Moon distance \\
 Surface-to-Earth & 384\,000\,km & Earth--Moon distance; near side only \\
 \bottomrule

@@ -1,0 +1,24 @@
+% 5G NR PUSCH throughput against SNR over the lunar line-of-sight channel (18.4 MHz, one layer),
+% per modulation-and-coding scheme, the link-adaptation envelope and the Shannon bound of the
+% same bandwidth. Data: amc_per_mcs.csv of the surface companion's code (NUWiNS/lunacov, v1.0.0-aero2027).
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=5.6cm,
+  xmin=-4, xmax=30, ymin=0, ymax=200,
+  xlabel={SNR (dB)}, ylabel={Throughput (Mbit/s)},
+  grid=both, grid style={gray!20},
+  tick label style={font=\footnotesize}, label style={font=\footnotesize},
+  unbounded coords=jump,
+  legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, draw=gray!50, fill=white, fill opacity=0.9, text opacity=1, row sep=1pt, cells={anchor=west}},
+]
+\addplot[black, dashed, thick] table[x=snr, y=shannon] {figs/nr_amc.dat};
+\addlegendentry{Shannon bound, \SI{18.4}{MHz}}
+\addplot[blue, very thick] table[x=snr, y=env] {figs/nr_amc.dat};
+\addlegendentry{Link-adaptation envelope}
+\addplot[gray!65, thin] table[x=snr, y=m0] {figs/nr_amc.dat};
+\addlegendentry{Each scheme, QPSK 0.12 to 256QAM 0.87}
+\foreach \m in {m1,m2,m3,m4,m5,m6,m7} {
+  \addplot[gray!65, thin, forget plot] table[x=snr, y=\m] {figs/nr_amc.dat};
+}
+\end{axis}
+\end{tikzpicture}

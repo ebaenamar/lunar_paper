@@ -1,0 +1,32 @@
+% What moves terrain-limited coverage on a 10 km south-polar tile: served fraction against
+% (a) carrier band at two sites, (b) mast height, (c) number of nodes, (d) EIRP (S-band,
+% Connecting Ridge unless noted). Values from the surface companion paper; drawn for the tutorial.
+\begin{tikzpicture}
+\pgfplotsset{lev/.style={width=0.31\textwidth, height=4.6cm, ymin=0, ymax=60, ytick={0,10,20,30,40,50,60},
+  grid=major, grid style={gray!20}, tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  title style={font=\footnotesize\bfseries, yshift=-4pt}}}
+\begin{axis}[lev, name=a, title={(a) Carrier band}, ylabel={Served fraction of the tile (\%)},
+  xmode=log, xmin=0.3, xmax=40, xtick={0.442,2.5,27}, xticklabels={UHF,S,Ka},
+  legend style={font=\scriptsize, at={(0.98,0.98)}, anchor=north east, draw=gray!50, cells={anchor=west}, row sep=0pt}]
+\addplot[lowc, very thick, mark=*] coordinates {(0.442,42.8) (2.5,30.2) (27,22.8)};
+\addlegendentry{Shackleton rim}
+\addplot[highc, very thick, mark=square*] coordinates {(0.442,35.1) (2.5,18.7) (27,12.4)};
+\addlegendentry{Connecting Ridge}
+\draw[highc, densely dashed] (axis cs:0.3,12.3) -- (axis cs:40,12.3) node[pos=0.03, anchor=south west, font=\scriptsize] {LOS core};
+\end{axis}
+\begin{axis}[lev, name=b, at={($(a.east)+(0.55cm,0)$)}, anchor=west, title={(b) Mast height},
+  xmin=0, xmax=110, xtick={10,30,50,100}, xlabel={Height (m)}, yticklabels={}]
+\addplot[highc, very thick, mark=square*] coordinates {(10,4.8) (30,18.7) (50,27.8) (100,44.3)};
+\end{axis}
+\begin{axis}[lev, name=c, at={($(b.east)+(0.35cm,0)$)}, anchor=west, title={(c) Number of nodes},
+  xmin=0.5, xmax=3.5, xtick={1,2,3}, xlabel={Nodes on high points}, yticklabels={}]
+\addplot[highc, very thick, mark=square*] coordinates {(1,18.7) (2,28.3) (3,33.9)};
+\end{axis}
+\begin{axis}[lev, name=d, at={($(c.east)+(0.35cm,0)$)}, anchor=west, title={(d) Transmit EIRP},
+  xmin=15, xmax=85, xtick={23,53,80}, xlabel={EIRP (dBm)}, yticklabels={}]
+\addplot[highc, very thick, mark=square*] coordinates {(22,12) (23,12) (53,19) (80,37)};
+\node[font=\scriptsize, anchor=west] at (axis cs:17,6.5) {EVA radio};
+\node[font=\scriptsize, anchor=north] at (axis cs:53,17.5) {base station};
+\node[font=\scriptsize, anchor=north west, text=black!60, align=left] at (axis cs:16,59) {Friis without\\terrain: 100\%};
+\end{axis}
+\end{tikzpicture}

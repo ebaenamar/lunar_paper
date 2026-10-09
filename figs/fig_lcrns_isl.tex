@@ -1,0 +1,53 @@
+% Crosslink geometry of the LCRNS reference constellation over a 90-day GMAT propagation:
+% per pair, range span while unblocked (thin: min-max; thick: 10th-90th percentile; dot: mean)
+% and the fraction of time the Moon blocks the link. Data: pair_statistics.csv of the space-segment
+% companion's code (ISL-topology). Drawn for the tutorial.
+\begin{tikzpicture}
+\begin{axis}[width=0.78\textwidth, height=5.4cm, xmin=0, xmax=24, ymin=0.4, ymax=10.6,
+  xlabel={Crosslink range while unblocked ($10^3$\,km)}, ytick={1,2,3,4,5,6,7,8,9,10}, yticklabels={{SV1--SV5, A--C},{SV2--SV3, A--B},{SV4--SV5, B--C},{SV1--SV4, A--B},{SV3--SV4, B\,=\,B},{SV1--SV2, A\,=\,A},{SV2--SV5, A--C},{SV3--SV5, B--C},{SV2--SV4, A--B},{SV1--SV3, A--B}},
+  y dir=reverse, xmajorgrids, grid style={gray!20}, tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  clip=false]
+\draw[highc!55, line width=0.6pt] (axis cs:10.31,1) -- (axis cs:20.52,1);
+\draw[highc, line width=3.2pt] (axis cs:11.32,1) -- (axis cs:18.82,1);
+\fill[white] (axis cs:15.22,1) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:15.22,1) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=highc] at (axis cs:24.4,1) {never blocked};
+\draw[highc!55, line width=0.6pt] (axis cs:10.38,2) -- (axis cs:20.34,2);
+\draw[highc, line width=3.2pt] (axis cs:11.43,2) -- (axis cs:19.06,2);
+\fill[white] (axis cs:15.35,2) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:15.35,2) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=highc] at (axis cs:24.4,2) {never blocked};
+\draw[highc!55, line width=0.6pt] (axis cs:9.83,3) -- (axis cs:20.41,3);
+\draw[highc, line width=3.2pt] (axis cs:11.52,3) -- (axis cs:19.01,3);
+\fill[white] (axis cs:15.38,3) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:15.38,3) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=highc] at (axis cs:24.4,3) {never blocked};
+\draw[highc!55, line width=0.6pt] (axis cs:10.26,4) -- (axis cs:20.48,4);
+\draw[highc, line width=3.2pt] (axis cs:11.34,4) -- (axis cs:19.22,4);
+\fill[white] (axis cs:15.42,4) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:15.42,4) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=highc] at (axis cs:24.4,4) {never blocked};
+\draw[lowc!55, line width=0.6pt] (axis cs:12.75,5) -- (axis cs:22.42,5);
+\draw[lowc, line width=3.2pt] (axis cs:13.73,5) -- (axis cs:21.11,5);
+\fill[white] (axis cs:16.76,5) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:16.76,5) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,5) {blocked 5.2\%};
+\draw[lowc!55, line width=0.6pt] (axis cs:13.20,6) -- (axis cs:22.43,6);
+\draw[lowc, line width=3.2pt] (axis cs:14.10,6) -- (axis cs:21.22,6);
+\fill[white] (axis cs:17.04,6) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:17.04,6) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,6) {blocked 5.5\%};
+\draw[lowc!55, line width=0.6pt] (axis cs:4.33,7) -- (axis cs:21.92,7);
+\draw[lowc, line width=3.2pt] (axis cs:9.48,7) -- (axis cs:20.93,7);
+\fill[white] (axis cs:18.06,7) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:18.06,7) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,7) {blocked 6.2\%};
+\draw[lowc!55, line width=0.6pt] (axis cs:4.14,8) -- (axis cs:22.02,8);
+\draw[lowc, line width=3.2pt] (axis cs:9.62,8) -- (axis cs:21.35,8);
+\fill[white] (axis cs:18.26,8) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:18.26,8) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,8) {blocked 6.2\%};
+\draw[lowc!55, line width=0.6pt] (axis cs:4.37,9) -- (axis cs:21.76,9);
+\draw[lowc, line width=3.2pt] (axis cs:9.75,9) -- (axis cs:21.15,9);
+\fill[white] (axis cs:18.30,9) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:18.30,9) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,9) {blocked 6.2\%};
+\draw[lowc!55, line width=0.6pt] (axis cs:4.33,10) -- (axis cs:21.86,10);
+\draw[lowc, line width=3.2pt] (axis cs:9.63,10) -- (axis cs:21.21,10);
+\fill[white] (axis cs:18.30,10) circle (1.6pt); \draw[black, line width=0.5pt] (axis cs:18.30,10) circle (1.6pt);
+\node[anchor=west, font=\scriptsize, text=lowc] at (axis cs:24.4,10) {blocked 6.2\%};
+\draw[black!50, densely dashed] (axis cs:16.809,0.4) -- (axis cs:16.809,10.6);
+\node[anchor=south, font=\scriptsize, text=black!60] at (axis cs:16.809,0.4) {mean 16\,809\,km};
+\end{axis}
+\end{tikzpicture}

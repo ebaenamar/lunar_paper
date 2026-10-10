@@ -1556,12 +1556,14 @@ Table~\ref{tab:acronyms} lists the acronyms used in the paper; each is also spel
 \caption{Acronyms}
 \label{tab:acronyms}
 \centering
+\rowcolors{1}{white}{white}
+\setlength{\aboverulesep}{0.4ex}\setlength{\belowrulesep}{0.65ex}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.0}
-\begin{tabularx}{\textwidth}{@{}>{\bfseries}lX>{\bfseries}lX>{\bfseries}lX@{}}
+\begin{tabularx}{\textwidth}{@{}lXlXlX@{}}
 \toprule
-\rowcolor{tabhead}\textbf{Acronym} & \textbf{Definition} & \textbf{Acronym} & \textbf{Definition} & \textbf{Acronym} & \textbf{Definition} \\
+Acronym & Definition & Acronym & Definition & Acronym & Definition \\
 \midrule
 3GPP & 3rd Generation Partnership Project & ILRS & International Lunar Research Station & PDOP & Position dilution of precision \\
 AFS & Augmented Forward Signal (LunaNet navigation signal) & IM & Intuitive Machines (IM-1, IM-2 missions) & PDU & Protocol data unit \\
@@ -1611,11 +1613,11 @@ IETF & Internet Engineering Task Force & PDCP & Packet Data Convergence Protocol
 \end{table*}
 
 
+\input{figs/dct_table.tex}
+
 \section{Design-Control Table and Code}
 \label{app:dct}
 Table~\ref{tab:dct} gives the design-control table for the six canonical links at the bands of Table~\ref{tab:links}, and for links~3 and~4 at E-band (\SI{81}{GHz}) and D-band (\SI{140}{GHz}). Every entry is computed from a single parameter dictionary by the script \texttt{scripts/dct.py} distributed with the source of this paper, which also produces the trunk recomputation against the DSN handbook and the 99.9~percent check of Section~\ref{sec:budgets}, the LRO example and the chain budget of Table~\ref{tab:chain}; \texttt{scripts/ladder.py}, \texttt{scripts/jitter.py}, \texttt{scripts/admissibility.py} and \texttt{scripts/contact\_timeline.py} produce Figs.~\ref{fig:ladder}, \ref{fig:dutycycle} and~\ref{fig:contacts}. Antenna gain follows \eqref{eq:gain} with $\eta = 0.6$, except at the DSN end, where the gain, beamwidth and system temperature of the handbook~\cite{dsn_34m_bwg} are used; the trunk includes the \SI{0.18}{dB} zenith atmosphere of Canberra in clear weather. Beamwidth follows $\theta_{3\mathrm{dB}} = 70\lambda/D$, and the pointing requirement is the error that costs \SI{0.5}{dB} at one end. The relay-side transmitters radiate \SI{10}{W}, so the E- and D-band columns isolate the effect of frequency at constant RF power; at these bands that power is delivered only by the laboratory tubes of Table~\ref{tab:ladder}. The required $E_b/N_0$ is that of uncoded QPSK at a bit error rate of $10^{-5}$, and $L_{\mathrm{o}}$ lumps the implementation, polarization and pointing losses. At constant RF power, moving link~3 from Ka- to D-band raises its rate at a \SI{3}{dB} margin from 16 to \SI{153}{Mbps} and tightens the pointing requirement from \SI{0.33}{\degree} to \SI{0.061}{\degree}; link~4 rises from 21 to \SI{205}{Mbps}, with the pointing requirement tightening from \SI{0.16}{\degree} to \SI{0.031}{\degree}.
-
-\input{figs/dct_table.tex}
 
 \clearpage
 \bibliographystyle{IEEEtran}

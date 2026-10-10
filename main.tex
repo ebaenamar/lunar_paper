@@ -1169,14 +1169,14 @@ A one-way user must hold its clock between contacts, and Table~\ref{tab:holdover
 \toprule
 Oscillator & $\sigma_y$ & Aging & \SI{1}{h} & \SI{1}{d} & \SI{14}{d} \\
 \midrule
-TCXO~\cite{vig_tutorial} & $10^{-9}$ & $5\times10^{-7}$/yr & \SI{3.7}{\micro\second} & \SI{146}{\micro\second} & \SI{13}{ms} \\
-OCXO~\cite{vig_tutorial} & $10^{-12}$ & $5\times10^{-9}$/yr & \SI{4.6}{ns} & \SI{0.68}{\micro\second} & \SI{117}{\micro\second} \\
-CSAC~\cite{microchip_csac} & $10^{-11}$ & $9\times10^{-10}$/month & \SI{38}{ns} & \SI{2.2}{\micro\second} & \SI{266}{\micro\second} \\
-Quartz USO~\cite{enzer2013,weaver2016} & $10^{-13}$ & $3.8\times10^{-11}$/d & \SI{3.2}{ns} & \SI{1.6}{\micro\second} & \SI{322}{\micro\second} \\
-Hg$^{+}$ ion (DSAC)~\cite{burt2021} & $3\times10^{-15}$ & $3\times10^{-16}$/d & \SI{0.01}{ns} & \SI{0.27}{ns} & \SI{6.2}{ns} \\
+TCXO & $10^{-9}$ & $5\times10^{-7}$/yr & \SI{3.7}{\micro\second} & \SI{146}{\micro\second} & \SI{13}{ms} \\
+OCXO & $10^{-12}$ & $5\times10^{-9}$/yr & \SI{4.6}{ns} & \SI{0.68}{\micro\second} & \SI{117}{\micro\second} \\
+CSAC & $10^{-11}$ & $9\times10^{-10}$/month & \SI{38}{ns} & \SI{2.2}{\micro\second} & \SI{266}{\micro\second} \\
+Quartz USO & $10^{-13}$ & $3.8\times10^{-11}$/d & \SI{3.2}{ns} & \SI{1.6}{\micro\second} & \SI{322}{\micro\second} \\
+DSAC (Hg$^{+}$) & $3\times10^{-15}$ & $3\times10^{-16}$/d & \SI{0.01}{ns} & \SI{0.27}{ns} & \SI{6.2}{ns} \\
 \bottomrule
 \end{tabularx}
-\par\smallskip\raggedright\footnotesize Time error $x(\tau)\approx \tau\sigma_y + \tfrac12 D\tau^2$ with time and frequency set at the last contact, $\sigma_y$ held at its specified value and drift $D$ uncorrected; temperature effects excluded. The USO drift is the in-flight value of the New Horizons oscillator at launch. \SI{1}{ns} is about \SI{0.3}{m} of range.
+\par\smallskip\raggedright\footnotesize Time error $x(\tau)\approx \tau\sigma_y + \tfrac12 D\tau^2$ with time and frequency set at the last contact, $\sigma_y$ held at its specified value and drift $D$ uncorrected; temperature effects excluded. The USO drift is the in-flight value of the New Horizons oscillator at launch. \SI{1}{ns} is about \SI{0.3}{m} of range. Sources: TCXO and OCXO~\cite{vig_tutorial}, CSAC~\cite{microchip_csac}, USO~\cite{enzer2013,weaver2016}, DSAC~\cite{burt2021}.
 \end{table}
 
 \subsection{The Relay Payload}

@@ -7,22 +7,23 @@
 \def\stack#1#2#3{\foreach \t/\s [count=\i from 0] in {#3}{\node[\s] (#1\i) at (#2,{0.5*\i}) {\t};}}
 \node[col] at (0,-0.8) {Rover or suit\\(surface user)};
 \stack{u}{0}{{S-band radio}/cell, {NR PHY}/cell, {MAC, RLC, PDCP, SDAP}/cell, {IP}/layer, {Application}/app}
-\node[col] at (3.4,-0.8) {Surface gateway\\(lander, mast, habitat)};
-\stack{g}{3.4}{{S-band / Ka-band radios}/cell, {NR PHY; Ka modem}/cell, {gNB, local 5G core}/cell, {IP $\leftrightarrow$ bundle (BPv7)}/dtn, {Local services, cache}/app}
-\node[col] at (6.8,-0.8) {Relay\\(regenerative)};
-\stack{r}{6.8}{{Ka / S / optical}/ccsds, {Proximity-1, USLP}/ccsds, {LTP}/ccsds, {BPv7 node, storage, CGR, BPSec}/dtn, {Navigation signal}/app}
-\node[col] at (10.2,-0.8) {Deep-space station\\(Earth)};
-\stack{e}{10.2}{{Ka / X / optical}/ccsds, {USLP, SLE}/ccsds, {LTP}/ccsds, {BPv7 node}/dtn, {CFDP, mission ops}/app}
-\node[col] at (13.6,-0.8) {Earth user\\(science center)};
-\stack{s}{13.6}{{Terrestrial network}/layer, {IP}/layer, {TCP / QUIC}/layer, {BPv7 endpoint}/dtn, {Application}/app}
+\node[col] at (3.8,-0.8) {Surface gateway\\(lander, mast, habitat)};
+\stack{g}{3.8}{{S-band / Ka-band radios}/cell, {NR PHY; Ka modem}/cell, {gNB, local 5G core}/cell, {IP $\leftrightarrow$ bundle (BPv7)}/dtn, {Local services, cache}/app}
+\node[col] at (7.6,-0.8) {Relay\\(regenerative)};
+\stack{r}{7.6}{{Ka / S / optical}/ccsds, {Proximity-1, USLP}/ccsds, {LTP}/ccsds, {BPv7 node, storage, CGR, BPSec}/dtn, {Navigation signal}/app}
+\node[col] at (11.4,-0.8) {Deep-space station\\(Earth)};
+\stack{e}{11.4}{{Ka / X / optical}/ccsds, {USLP, SLE}/ccsds, {LTP}/ccsds, {BPv7 node}/dtn, {CFDP, mission ops}/app}
+\node[col] at (15.2,-0.8) {Earth user\\(science center)};
+\stack{s}{15.2}{{Terrestrial network}/layer, {IP}/layer, {TCP / QUIC}/layer, {BPv7 endpoint}/dtn, {Application}/app}
 % links between stacks
 \draw[orange!80!black,thick,<->] (u0.east) -- (g0.west) node[midway,above,font=\tiny] {link 1};
 \draw[blue!60!black,thick,<->] (g0.east) -- (r0.west) node[midway,above,font=\tiny] {link 3};
 \draw[blue!60!black,thick,<->] (r0.east) -- (e0.west) node[midway,above,font=\tiny] {link 5};
 \draw[black!60,thick,<->] (e0.east) -- (s0.west) node[midway,above,font=\tiny] {fiber};
 % gateway highlight
-\node[gw, fit=(g2)(g3), label={[text=red!70,font=\scriptsize\bfseries]above:5G-to-DTN gateway}] {};
+\node[gw, fit=(g2)(g3)] (gwbox) {};
+\node[text=red!70,font=\scriptsize\bfseries,rotate=90,align=center,anchor=south] at (gwbox.west) {5G-to-DTN\\gateway};
 % regime labels
-\node[anchor=north,text=orange!80!black,font=\scriptsize\itshape] at (1.7,-1.5) {3GPP: closed loop, continuous};
-\node[anchor=north,text=blue!60!black,font=\scriptsize\itshape] at (8.5,-1.5) {CCSDS and DTN: predicted, scheduled, store-and-forward};
+\node[anchor=north,text=orange!80!black,font=\scriptsize\itshape] at (1.9,-1.5) {3GPP: closed loop, continuous};
+\node[anchor=north,text=blue!60!black,font=\scriptsize\itshape] at (9.5,-1.5) {CCSDS and DTN: predicted, scheduled, store-and-forward};
 \end{tikzpicture}

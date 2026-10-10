@@ -2,7 +2,7 @@
 % the 90-day GMAT propagation (5 deg mask): (a) slant range of each satellite in view, (b) satellites in
 % view, (c) PDOP. Data: scripts/contact_timeline.py. Drawn for the tutorial.
 \begin{tikzpicture}
-\pgfplotsset{ct/.style={width=\columnwidth, height=3.0cm, xmin=0, xmax=96, xtick={0,12,24,36,48,60,72,84,96},
+\pgfplotsset{ct/.style={width=0.94\columnwidth, height=3.0cm, xmin=0, xmax=96, xtick={0,12,24,36,48,60,72,84,96},
   grid=major, grid style={gray!20}, tick label style={font=\scriptsize}, label style={font=\footnotesize},
   unbounded coords=jump, ylabel style={align=center}}}
 \begin{axis}[ct, name=r, ymin=0, ymax=20, ytick={0,5,10,15,20}, ylabel={Range\\($10^3$ km)}, xticklabels={},

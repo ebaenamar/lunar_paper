@@ -1,0 +1,30 @@
+% Contact timeline of the LCRNS reference constellation from Malapert Peak over the first four days of
+% the 90-day GMAT propagation (5 deg mask): (a) slant range of each satellite in view, (b) satellites in
+% view, (c) PDOP. Data: scripts/contact_timeline.py. Drawn for the tutorial.
+\begin{tikzpicture}
+\pgfplotsset{ct/.style={width=\columnwidth, height=3.0cm, xmin=0, xmax=96, xtick={0,12,24,36,48,60,72,84,96},
+  grid=major, grid style={gray!20}, tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  unbounded coords=jump, ylabel style={align=center}}}
+\begin{axis}[ct, name=r, ymin=0, ymax=20, ytick={0,5,10,15,20}, ylabel={Range\\($10^3$ km)}, xticklabels={},
+  legend style={font=\tiny, at={(0.5,1.03)}, anchor=south, legend columns=5, draw=none, fill=none}]
+\addplot[blue!70!black, thick] table[x expr=\thisrow{t_d}*24, y=sv1] {figs/contact_range.dat}; \addlegendentry{SV1}
+\addplot[red!70!black, thick] table[x expr=\thisrow{t_d}*24, y=sv2] {figs/contact_range.dat}; \addlegendentry{SV2}
+\addplot[green!45!black, thick] table[x expr=\thisrow{t_d}*24, y=sv3] {figs/contact_range.dat}; \addlegendentry{SV3}
+\addplot[orange!80!black, thick] table[x expr=\thisrow{t_d}*24, y=sv4] {figs/contact_range.dat}; \addlegendentry{SV4}
+\addplot[violet, thick] table[x expr=\thisrow{t_d}*24, y=sv5] {figs/contact_range.dat}; \addlegendentry{SV5}
+\node[font=\scriptsize\bfseries, anchor=north west, fill=white, inner sep=1pt] at (rel axis cs:0.005,0.97) {(a)};
+\end{axis}
+\begin{axis}[ct, name=n, at={($(r.south)+(0,-0.25cm)$)}, anchor=north, ymin=0, ymax=5.5, ytick={0,1,2,3,4,5},
+  ylabel={Satellites\\in view}, xticklabels={}]
+\addplot[black, thick, const plot] table[x expr=\thisrow{t_d}*24, y=n] {figs/contact_count.dat};
+\draw[highc, densely dashed] (axis cs:0,4) -- (axis cs:96,4) node[pos=0.995, anchor=south east, font=\scriptsize, fill=white, inner sep=1pt] {4: navigation fix};
+\draw[lowc, densely dashed] (axis cs:0,1) -- (axis cs:96,1) node[pos=0.995, anchor=north east, font=\scriptsize, fill=white, inner sep=1pt] {1: relay path};
+\node[font=\scriptsize\bfseries, anchor=north west, fill=white, inner sep=1pt] at (rel axis cs:0.005,0.97) {(b)};
+\end{axis}
+\begin{axis}[ct, name=p, at={($(n.south)+(0,-0.25cm)$)}, anchor=north, ymode=log, ymin=1, ymax=50, ytick={1,2,6,20,50}, yticklabels={1,2,6,20,50},
+  ylabel={PDOP}, xlabel={Time (h)}]
+\addplot[black, thick] table[x expr=\thisrow{t_d}*24, y=pdop] {figs/contact_count.dat};
+\draw[highc, densely dashed] (axis cs:0,6) -- (axis cs:96,6);
+\node[font=\scriptsize\bfseries, anchor=north west, fill=white, inner sep=1pt] at (rel axis cs:0.005,0.97) {(c)};
+\end{axis}
+\end{tikzpicture}

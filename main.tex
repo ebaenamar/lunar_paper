@@ -5,7 +5,7 @@
 \usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{textcomp}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
@@ -31,7 +31,22 @@
 \sisetup{detect-all}
 \renewcommand{\arraystretch}{1.25}
 \newcolumntype{R}{>{\raggedright\arraybackslash}X}
-\newtheorem{remark}{Remark}
+\usepackage{etoolbox}
+\usepackage[most]{tcolorbox}
+% Table style: shaded header, banded rows, group bands, highlighted key rows
+\definecolor{tabhead}{RGB}{196,214,236}
+\definecolor{tabrow}{RGB}{234,240,248}
+\definecolor{tabgroup}{RGB}{214,224,238}
+\definecolor{tabkey}{RGB}{255,240,205}
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\AtBeginEnvironment{table}{\rowcolors{2}{tabrow}{white}}
+\AtBeginEnvironment{table*}{\rowcolors{2}{tabrow}{white}}
+% Remarks and takeaways: shaded box with a left rule, kept apart from floats
+\newtcolorbox[auto counter]{remark}[1][]{enhanced, breakable=false, colback=ojcolor!5, colframe=ojcolor!75!black,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt, left=5pt, right=5pt, top=4pt, bottom=4pt,
+  before skip=8pt, after skip=8pt, fontupper=\small,
+  before upper={\textbf{\textcolor{ojcolor!80!black}{Remark~\thetcbcounter\ifstrempty{#1}{}{ (#1)}.}}\ }}
 
 % ---- Working-draft markup. Set \shownotesfalse for a clean copy. ----
 \newif\ifshownotes \shownotestrue
@@ -144,9 +159,9 @@ Third, the Earth end of the trunk is not an operator's gateway but a shared, sch
 \label{tab:satcom}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.6cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Quantity & Geostationary (GEO) & Low Earth orbit (LEO), \SI{600}{km} & Lunar service link, elliptical lunar frozen orbit (ELFO) & Lunar service link, near-rectilinear halo orbit (NRHO) & Earth--Moon trunk or direct-to-Earth \\
+\rowcolor{tabhead}\textbf{Quantity} & \textbf{Geostationary (GEO)} & \textbf{Low Earth orbit (LEO), \SI{600}{km}} & \textbf{Lunar service link, elliptical lunar frozen orbit (ELFO)} & \textbf{Lunar service link, near-rectilinear halo orbit (NRHO)} & \textbf{Earth--Moon trunk or direct-to-Earth} \\
 \midrule
 Slant range & \SI{35786}{}--\SI{41000}{km} & \SI{600}{}--\SI{1930}{km} & \SI{8700}{}--\SI{17700}{km}$^{\dagger}$ & \SI{16800}{}--\SI{69400}{km}$^{\dagger}$ & \SI{384000}{km} \\
 One-way delay & \SI{119}{}--\SI{137}{ms} & \SI{2.0}{}--\SI{6.4}{ms} & \SI{29}{}--\SI{59}{ms}$^{\dagger}$ & \SI{56}{}--\SI{232}{ms}$^{\dagger}$ & \SI{1.28}{\second} \\
@@ -174,9 +189,9 @@ An engineer trained on terrestrial cellular systems already has a name for every
 \label{tab:terminology}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.4cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Terrestrial concept & Lunar counterpart & Assumption that fails \\
+\rowcolor{tabhead}\textbf{Terrestrial concept} & \textbf{Lunar counterpart} & \textbf{Assumption that fails} \\
 \midrule
 User equipment & Rover, EVA suit, emplaced instrument & The user population comprises crewed EVA with multi-camera video, teleoperated and autonomous rovers, and fixed science instruments, with requirements that range from continuous low-latency control links of a few hundred kbit/s to bulk returns of several gigabytes per day, so no single terminal profile applies (\S\ref{sec:demand}) \\
 Base station & Lander, deployed mast, or relay satellite & The role is transient and power-limited; for a lander or mast the coverage is bounded by terrain and mast height, and for a relay satellite the served range follows from the relay orbit (\S\ref{sec:coverage}, \S\ref{sec:payload}) \\
@@ -199,9 +214,9 @@ The relays, orbiters and landers inventoried in Section~\ref{sec:assets} are bui
 \label{tab:rosetta_radio}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.2cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Function & Deep-space and CCSDS practice & 3GPP NR practice & Consequence for a lunar link \\
+\rowcolor{tabhead}\textbf{Function} & \textbf{Deep-space and CCSDS practice} & \textbf{3GPP NR practice} & \textbf{Consequence for a lunar link} \\
 \midrule
 Rate selection & Fixed for the contact from a predicted budget & Adaptive modulation and coding driven by channel-quality reports & On the trunk the report is stale by the round trip, so the rate must be set from predicted geometry rather than from a measurement \\
 Power control & Constant EIRP with a static margin & Closed loop, adjusted per slot~\cite{3gpp_tr_38821} & The loop cannot close within the delay, so the margin absorbs statically what the loop would otherwise track \\
@@ -225,18 +240,18 @@ The band plan that the lunar infrastructure now under contract follows, S-band f
 \label{tab:governance}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Function & Earth and Earth orbit & Moon & Same or different \\
+\rowcolor{tabhead}\textbf{Function} & \textbf{Earth and Earth orbit} & \textbf{Moon} & \textbf{Same or different} \\
 \midrule
-Treaty-level allocation & ITU Radio Regulations, Article~5; allocations to services & Same treaty; lunar stations are space stations; links fall under space research and space operation, surface links are space-to-space & Same body, different service class; no IMT identification \\
-Band plan & World Radiocommunication Conference decisions and national tables & SFCG Recommendation 32-2, agency consensus, adopted by LunaNet and by procurement & Different: written by an agency club, enforced by contract \\
-Licensing & National regulator per station & Same regulators license spacecraft and Earth stations; filing templates describe Earth orbits & Same, with lunar orbits notified by practice \\
-Coordination between operators & Formal ITU procedures, first-come-first-served status & No procedure for lunar space-to-space links; SFCG and bilateral agreements & Different: no priority rights exist \\
-Protected party & Communications incumbents & Radio astronomy and passive services inside the Shielded Zone (Nos.~22.22 to~22.25) & Inverted \\
-Interference paradigm & Frequency reuse by distance; interference-limited & Few terminals, no reuse pressure; Earth-origin emissions in shared bands reach the near side & Different in both directions \\
-Regulatory frontier & Conference agenda cycle & WRC-27 Agenda Item~1.15 from Resolution~680; study ranges stop at \SI{28.35}{GHz} & Same machinery, with a ceiling \\
-Above \SI{28}{GHz} & Allocations to \SI{275}{GHz}, passive identifications to \SI{3000}{GHz}; band structure shaped by atmospheric windows & No lunar recommendation; inter-satellite and space research allocations written for Earth orbit; passive bands apply everywhere and bind absolutely in the Shielded Zone & Different: on the Moon the terrestrial band ladder is an atmospheric artifact \\
+Treaty-level allocation & ITU Radio Regulations, Article~5; allocations to services & Same treaty; lunar stations are space stations; links fall under space research and space operation, surface links are space-to-space & \textbf{Same} body, different service class; no IMT identification \\
+Band plan & World Radiocommunication Conference decisions and national tables & SFCG Recommendation 32-2, agency consensus, adopted by LunaNet and by procurement & \textbf{Different}: written by an agency club, enforced by contract \\
+Licensing & National regulator per station & Same regulators license spacecraft and Earth stations; filing templates describe Earth orbits & \textbf{Same}, with lunar orbits notified by practice \\
+Coordination between operators & Formal ITU procedures, first-come-first-served status & No procedure for lunar space-to-space links; SFCG and bilateral agreements & \textbf{Different}: no priority rights exist \\
+Protected party & Communications incumbents & Radio astronomy and passive services inside the Shielded Zone (Nos.~22.22 to~22.25) & \textbf{Inverted} \\
+Interference paradigm & Frequency reuse by distance; interference-limited & Few terminals, no reuse pressure; Earth-origin emissions in shared bands reach the near side & \textbf{Different} in both directions \\
+Regulatory frontier & Conference agenda cycle & WRC-27 Agenda Item~1.15 from Resolution~680; study ranges stop at \SI{28.35}{GHz} & \textbf{Same} machinery, with a ceiling \\
+Above \SI{28}{GHz} & Allocations to \SI{275}{GHz}, passive identifications to \SI{3000}{GHz}; band structure shaped by atmospheric windows & No lunar recommendation; inter-satellite and space research allocations written for Earth orbit; passive bands apply everywhere and bind absolutely in the Shielded Zone & \textbf{Different}: on the Moon the terrestrial band ladder is an atmospheric artifact \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -262,35 +277,35 @@ This section reviews the lunar communication systems that have flown or are unde
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.12}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Asset & Orbit or location & Bands & Aperture & Rate delivered or specified \\
+\rowcolor{tabhead}\textbf{Asset} & \textbf{Orbit or location} & \textbf{Bands} & \textbf{Aperture} & \textbf{Rate delivered or specified} \\
 \midrule
-\multicolumn{5}{@{}l}{\emph{Relays and orbiters, flown or operating}}\\
+\rowcolor{tabgroup}\multicolumn{5}{@{}l}{\emph{Relays and orbiters, flown or operating}}\\
 Queqiao~\cite{chen_ce4_relay,queqiao_relay_review_2021} & Earth--Moon L2 halo & X to surface, S to Earth (X backup) & \SI{4.2}{m} & \SI{125}{bps} forward, up to \SI{555}{kbps} return (lander); \SI{2}{}--\SI{4}{Mbps} S to Earth (X backup over \SI{10}{Mbps}) \\
 Queqiao-2~\cite{cnsa_queqiao2,planetary_queqiao2,hong_lovex_2026,lei_queqiao2_data_2026} & Elliptical frozen, period \SI{24}{hours} (\SI{12}{hours} planned) & X to surface, S and Ka to Earth & \SI{4.2}{m}; \SI{0.6}{m} S/Ka & Up to \SI{500}{Mbps} Ka to Earth; surface-link rates not published \\
 LRO~\cite{lro_ka_analysis} & Polar, \SI{50}{km} (to 2011), then ${\approx}\SI{30}{}\times\SI{180}{km}$ & S \SI{2.2}{GHz}, Ka \SI{25.65}{GHz} & \SI{0.75}{m} & \SI{100}{Mbps} Ka downlink \\
 KPLO~\cite{kim_kplo_dtn} & Polar, \SI{100}{km} & S, X & --- & \SI{8.5}{Mbps} X downlink; delay-tolerant payload \\
 \addlinespace[2pt]
-\multicolumn{5}{@{}l}{\emph{Relay and navigation systems, planned or under contract}}\\
+\rowcolor{tabgroup}\multicolumn{5}{@{}l}{\emph{Relay and navigation systems, planned or under contract}}\\
 Gateway~\cite{gateway_comm,nasa_ignition2026} & NRHO; program paused in March 2026 & S, X, Ka, optical & \SI{1}{m}; \SI{1.25}{m} & \SI{16}{Mbps} forward, \SI{40}{Mbps} return on the lunar link \\
 LCRNS~\cite{lcrns_ref_const,nasa_lunar_relay_srd} & Five ELFOs, period near \SI{30}{hours} & S, Ka to users; X, Ka to Earth; optical (TBR) & --- & \SI{1}{}--\SI{50}{Mbps} Ka \\
 Moonlight~\cite{esa_moonlight_overview,telespazio_moonlight,telespazio_moonlight_web} & One communications ELFO at \SI{12}{hours}, four navigation ELFOs at \SI{24}{hours} & S, K to users; Earth link not published & --- & Not published \\
 Lunar Pathfinder~\cite{sstl_pathfinder_guide,sstl_pathfinder_mission,esa_pathfinder_2026} & ELFO, $\SI{673}{}\times\SI{7331}{km}$ altitude, \SI{54.9}{\degree} inclination & S and UHF to users; X to Earth & --- & \SI{0.5}{kbps}--\SI{2}{Mbps} user links; up to \SI{5}{Mbps} X to Earth \\
 LNSS~\cite{jaxa_lnss} & Eight satellites, two ELFOs at \SI{12}{hours} & S navigation; X, Ka, optical to Earth & --- & Navigation payload, target horizontal DOP 1.3; relay target \SI{10}{Mbps} (goal \SI{1}{Gbps}) to Earth \\
 \addlinespace[2pt]
-\multicolumn{5}{@{}l}{\emph{Landers, flown since 2023}}\\
+\rowcolor{tabgroup}\multicolumn{5}{@{}l}{\emph{Landers, flown since 2023}}\\
 Chandrayaan-3~\cite{isro_ch3_brochure,isro_ch3_details,esa_ch3_support2023} & Surface, \SI{69.4}{\degree}\,S; propulsion module in lunar orbit & S (propulsion module) to the Indian \SI{32}{m} station; X antenna on the lander & --- & Not published \\
 SLIM~\cite{jaxa_slim_review2024} & Surface, near Shioli crater & S to JAXA stations, then DSN & --- & Not published \\
 IM-1~\cite{im_fcc_icd2021,im_fcc_narrative2021,gopalswamy2026_rolses} & Surface, near Malapert~A; tipped over & S, to \SI{21}{}--\SI{64}{m} stations & High-gain dish; four low-gain antennas & \SI{62.5}{}--\SI{4000}{kbps} specified; flown on low-gain antennas \\
 Blue Ghost Mission~1~\cite{nssdca_bgm1,firefly_bgm1_14days2025} & Surface, Mare Crisium & X (one antenna) and S (three antennas) & --- & \SI{6}{Mbps} average, \SI{10}{Mbps} peak down; ${>}\SI{119}{GB}$ returned \\
 IM-2, Chang'e-5, Chang'e-6~\cite{nssdca_im2,esa_three_moon2024} & Surface & Not published & --- & Not published \\
 \addlinespace[2pt]
-\multicolumn{5}{@{}l}{\emph{Surface payloads, flown}}\\
+\rowcolor{tabgroup}\multicolumn{5}{@{}l}{\emph{Surface payloads, flown}}\\
 Nokia LSCS~\cite{nokia_im2_outcome,nasa_grc_surface_3gpp_2025} & Surface & 4G/LTE; flight band not published & --- & Powered on; no link to user terminals \\
 Lunar Node-1~\cite{nasa_ln1,anzalone_ln1_2021} & Surface & S & --- & Navigation beacon to the DSN (one-way ranging and Doppler); two 15-min transmissions \\
 \addlinespace[2pt]
-\multicolumn{5}{@{}l}{\emph{Optical terminals}}\\
+\rowcolor{tabgroup}\multicolumn{5}{@{}l}{\emph{Optical terminals}}\\
 LLCD~\cite{boroson_llcd} & Lunar orbit to Earth & \SI{1550}{nm} & \SI{0.107}{m} & \SI{622}{Mbps} down, \SI{20}{Mbps} up \\
 O2O~\cite{nasa_o2o,nasa_o2o2026} & Cislunar to Earth (Artemis~II, 2026) & \SI{1550}{nm} & \SI{0.10}{m} & \SI{260}{Mbps} down, \SI{20}{Mbps} up; \SI{484}{GB} exchanged \\
 \bottomrule
@@ -347,9 +362,9 @@ Table~\ref{tab:phases} summarizes three phases, with the published requirements 
 \label{tab:phases}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Phase & Users & Dominant traffic & Aggregate return & Architecture it implies \\
+\rowcolor{tabhead}\textbf{Phase} & \textbf{Users} & \textbf{Dominant traffic} & \textbf{Aggregate return} & \textbf{Architecture it implies} \\
 \midrule
 Robotic exploration (today) & About ten orbiters; two to four landers a year, each living days to weeks; no permanent surface node & Telemetry, imagery, instrument data; teleoperation of rovers from Earth & Individual links of kbit/s to \SI{500}{Mbit/s}; aggregate unpublished & Scheduled direct-to-Earth passes; relays only for the far side \\
 Crewed sorties (Artemis~IV onward, from 2028) & Two to four crew for a week; a rover; a lander; relays in orbit & EVA video at \SI{3}{}--\SI{12}{Mbit/s} per camera, voice, telemetry; \SI{4}{GB/day} science; rover control at \SI{384}{}/\SI{10}{kbit/s} & \SI{20}{}--\SI{40}{Mbit/s} EVA downlink; \SI{1}{}--\SI{50}{Mbit/s} per relay user & Single relay plus direct-to-Earth; local surface cell; store-and-forward for science \\
@@ -367,9 +382,9 @@ The most detailed public demand model for a lunar surface network is the Nokia B
 \label{tab:traffic}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.6cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Class & Rate & Delay tolerance (one way) & Pattern & Served by \\
+\rowcolor{tabhead}\textbf{Class} & \textbf{Rate} & \textbf{Delay tolerance (one way)} & \textbf{Pattern} & \textbf{Served by} \\
 \midrule
 Swarm coordination, shared state & kbit/s per robot & \SI{20}{}--\SI{50}{ms} & Continuous, bursty & Surface cell or mesh only \\
 Fine teleoperation of a rover & \SI{384}{kbit/s} down, \SI{10}{kbit/s} up; \SI{1}{Mbit/s} with LiDAR~\cite{lidar_teleops2012} & Round trip under \SI{200}{ms} & Continuous while driving & Surface cell only; Earth operators drive at reduced speed~\cite{ltv_teleops2025} \\
@@ -430,9 +445,9 @@ Table~\ref{tab:orbits} summarizes the trade-off. No single orbit family is optim
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{1.55cm}rrR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.55cm}rrR@{}}
 \toprule
-Family & Perilune & Apolune & Trade-off \\
+\rowcolor{tabhead}\textbf{Family} & \textbf{Perilune} & \textbf{Apolune} & \textbf{Trade-off} \\
 \midrule
 ELFO (frozen family) & \SI{900}{km} & \SI{8700}{km} & Low range; 5--6~sats for 4-fold (nav) polar visibility \\
 ELFO (LCRNS ref.) & \SI{1750}{km} & \SI{17400}{km} & 5~sats, 3~planes, \SI{30}{h}; 2~sats per relay path, 13--18 for nav~\cite{lcrns_ref_const,asok2027space} \\
@@ -455,9 +470,9 @@ The slant ranges of lunar links span five orders of magnitude, shown on the loga
 \label{tab:ranges}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}lrR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}lrR@{}}
 \toprule
-Link type & Range & Determined by \\
+\rowcolor{tabhead}\textbf{Link type} & \textbf{Range} & \textbf{Determined by} \\
 \midrule
 Surface-to-surface & 1--10\,km & Terrain, mast height \\
 Surface-to-relay & 100--70\,000\,km & Relay orbit, from LLO to NRHO apolune \\
@@ -526,9 +541,9 @@ With the geometry given, the carrier frequency is the free variable, and this se
 \label{tab:notation}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}lR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}lR@{}}
 \toprule
-Symbol & Definition (unit) \\
+\rowcolor{tabhead}\textbf{Symbol} & \textbf{Definition (unit)} \\
 \midrule
 $P_t$ & Transmit power (W; dBW in \eqref{eq:linkdb}) \\
 $G_t$, $G_r$ & Transmit and receive antenna gain (dBi in \eqref{eq:linkdb}) \\
@@ -612,9 +627,9 @@ The second hardware variable is the power the platform can supply. A relay small
 \footnotesize
 \renewcommand{\arraystretch}{1.0}
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{1.45cm}>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.45cm}>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Band & Gain of a \SI{0.5}{m} dish & Beam\-width, \SI{0.5}{m} & Transmit power and status & Receiver $T_{\mathrm{sys}}$ & Lunar allocation status & Zenith loss (dB), Goldstone / \SI{5}{km}~\cite{itur_p676_13} & Heritage and fit \\
+\rowcolor{tabhead}\textbf{Band} & \textbf{Gain of a \SI{0.5}{m} dish} & \textbf{Beam\-width, \SI{0.5}{m}} & \textbf{Transmit power and status} & \textbf{Receiver $T_{\mathrm{sys}}$} & \textbf{Lunar allocation status} & \textbf{Zenith loss (dB), Goldstone / \SI{5}{km}~\cite{itur_p676_13}} & \textbf{Heritage and fit} \\
 \midrule
 UHF, \SI{0.4}{GHz} & \SI{3}{dBi} (omni used) & --- & 10s W SSPA; flight & \SI{300}{K} & SFCG, outside the Shielded Zone only & 0.02 / 0.01 & Proximity links; outside the zone only \\
 S, \SI{2.5}{GHz} & \SI{20}{dBi} & \SI{17}{\degree} & SSPA 300~W~\cite{giofre2016}; TWT 65--150~W~\cite{menninger2005}; flight & \SI{300}{K} & SFCG surface and navigation bands & 0.03 / 0.01 & Deep space; surface access, PNT \\
@@ -718,9 +733,9 @@ To illustrate the methodology, we evaluate a single budget in full: the trunk li
 \label{tab:budget}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}lrR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}lrR@{}}
 \toprule
-Parameter & Value & Description \\
+\rowcolor{tabhead}\textbf{Parameter} & \textbf{Value} & \textbf{Description} \\
 \midrule
 $f$ & 26\,GHz & Ka-band downlink \\
 $R$ & 384\,000\,km & Earth--Moon distance \\
@@ -925,9 +940,9 @@ Table~\ref{tab:links} summarizes the six canonical lunar links, numbered as in F
 \label{tab:links}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}lrlllrR@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.6cm}r>{\raggedright\arraybackslash}p{2.1cm}llrR@{}}
 \toprule
-Link & Range & Band & Aperture, Tx / Rx & Beamwidth & Data rate & Dominant constraint \\
+\rowcolor{tabhead}\textbf{Link} & \textbf{Range} & \textbf{Band} & \textbf{Aperture, Tx / Rx} & \textbf{Beamwidth} & \textbf{Data rate} & \textbf{Dominant constraint} \\
 \midrule
 1. Surface access & 1--10\,km & S, 2.5035--2.655\,GHz & omni / omni & --- & 13\,Mbps & Terrain blockage \\
 2. Surface-to-relay & 1\,000--70\,000\,km & S, 2.2\,GHz & 0.5 / 0.5\,m & 19\textdegree & 34\,Mbps to 7\,kbps & Surface aperture \\
@@ -980,10 +995,10 @@ The six links form a network only when they are chained, and Table~\ref{tab:chai
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}Xrrr@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}Xrrr@{}}
 \toprule
- & Link 1 & Link 3 & Link 5 \\
- & rover--gateway & gateway--relay & relay--Earth \\
+\rowcolor{tabhead} & \textbf{Link 1} & \textbf{Link 3} & \textbf{Link 5} \\
+\rowcolor{tabhead} & \textbf{rover--gateway} & \textbf{gateway--relay} & \textbf{relay--Earth} \\
 \midrule
 Band, apertures & S, omni & Ka, 0.5 / 0.5\,m & Ka, 0.75 / 34\,m \\
 Range & 10\,km & 17\,400\,km & 384\,400\,km \\
@@ -993,7 +1008,7 @@ Rate at 3\,dB margin & 13\,Mbps & 16\,Mbps & ${>}1$\,Gbps$^{\mathrm{a}}$ \\
 Propagation delay & 0.03\,ms & 58\,ms & 1.282\,s \\
 Other delay & 10\,ms (cell)$^{\mathrm{b}}$ & ${<}1$\,s (relay, TBR) & --- \\
 Contact duty cycle & 1.0 & 0.83 & 0.33$^{\mathrm{b}}$ \\
-Rate $\times$ duty cycle & 1.0\,Mbps & 8.3\,Mbps & 33\,Mbps \\
+\rowcolor{tabkey}Rate $\times$ duty cycle & 1.0\,Mbps & 8.3\,Mbps & 33\,Mbps \\
 \bottomrule
 \end{tabularx}
 \par\smallskip\raggedright\footnotesize $^{\mathrm{a}}$Bounded by the \SI{1.5}{GHz} allocation. $^{\mathrm{b}}$Assumed: a surface-cell latency allowance and one \SI{8}{h} pass per day. $^{\mathrm{c}}$With the gain and system temperature of the DSN handbook (Section~\ref{sec:budgets}).
@@ -1013,9 +1028,9 @@ Table~\ref{tab:scaling} collects the scaling relations that follow from \eqref{e
 \label{tab:scaling}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}lR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}lR@{}}
 \toprule
-Relation & Consequence for design \\
+\rowcolor{tabhead}\textbf{Relation} & \textbf{Consequence for design} \\
 \midrule
 $D_t D_r \propto R$ & Doubling the range doubles the aperture product \\
 $D_t D_r \propto \sqrt{R_b}$ & Quadrupling the rate doubles the aperture product \\
@@ -1174,9 +1189,9 @@ A one-way user must hold its clock between contacts. Table~\ref{tab:holdover} gi
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}Xccccc@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}Xccccc@{}}
 \toprule
-Oscillator & $\sigma_y$ & Aging & \SI{1}{h} & \SI{1}{d} & \SI{14}{d} \\
+\rowcolor{tabhead}\textbf{Oscillator} & \textbf{$\sigma_y$} & \textbf{Aging} & \textbf{\SI{1}{h}} & \textbf{\SI{1}{d}} & \textbf{\SI{14}{d}} \\
 \midrule
 TCXO & $10^{-9}$ & $5\times10^{-7}$/yr & \SI{3.7}{\micro\second} & \SI{146}{\micro\second} & \SI{13}{ms} \\
 OCXO & $10^{-12}$ & $5\times10^{-9}$/yr & \SI{4.6}{ns} & \SI{0.68}{\micro\second} & \SI{117}{\micro\second} \\
@@ -1226,9 +1241,9 @@ Wood \emph{et al.} characterize the delay range over which TCP operates through 
 \label{tab:timers}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}llR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}llR@{}}
 \toprule
-Timer & Terrestrial value & Consequence for lunar links \\
+\rowcolor{tabhead}\textbf{Timer} & \textbf{Terrestrial value} & \textbf{Consequence for lunar links} \\
 \midrule
 TCP initial RTO & 1\,s~\cite{rfc6298} & Spurious retransmission at \SI{2.56}{s} RTT~\cite{wood_tcp_radius} \\
 HARQ round trip & $\sim$1\,ms & Terrestrial timing exceeded on any relay service link; NTN scheduling offsets and per-process HARQ disabling~\cite{3gpp_ts_38300} absorb the relay range but not the \SI{2.56}{s} trunk RTT \\
@@ -1256,9 +1271,9 @@ Table~\ref{tab:ntn} compares the design values of the 3GPP non-terrestrial speci
 \label{tab:ntn}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.9cm}R@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.1cm}>{\raggedright\arraybackslash}p{2.9cm}R@{}}
 \toprule
-Assumption & 3GPP NTN value & Lunar value \\
+\rowcolor{tabhead}\textbf{Assumption} & \textbf{3GPP NTN value} & \textbf{Lunar value} \\
 \midrule
 Slant range & ${\approx}\SI{41000}{km}$ (GEO, \SI{10}{\degree} elevation)~\cite{3gpp_tr_38821} & \SI{384000}{km} on the trunk \\
 One-way delay & ${\leq}\SI{270.73}{ms}$ (GEO, transparent)~\cite{3gpp_tr_38821} & \SI{1.28}{\second} \\
@@ -1277,9 +1292,9 @@ A lunar network is specified by three standards families at once. The space-link
 \label{tab:rosetta}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Function & CCSDS / LunaNet & 3GPP & IETF DTN & Difference \\
+\rowcolor{tabhead}\textbf{Function} & \textbf{CCSDS / LunaNet} & \textbf{3GPP} & \textbf{IETF DTN} & \textbf{Difference} \\
 \midrule
 Data unit & Space packet carried in a transfer frame~\cite{ccsds_tm,ccsds_uslp} & Transport block, PDCP PDU & Bundle~\cite{rfc9171} & The bundle carries its own creation timestamp and lifetime in an immutable primary block, so it survives storage and rehoming; frames and PDUs are scoped to one link and are discarded with it \\
 Endpoint name & Spacecraft identifier and virtual channel~\cite{ccsds_uslp} & Subscriber and cell identity & Endpoint identifier~\cite{rfc9171} & An endpoint identifier names a service that need not be reachable when addressed, whereas a subscriber identity presumes current attachment and a spacecraft identifier names a vehicle rather than a service \\
@@ -1344,9 +1359,9 @@ A solar-powered surface node must operate through the \SI{354}{h} lunar night, a
 \label{tab:power}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.4cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Source & Scale & Night & Status & Consequence for the network \\
+\rowcolor{tabhead}\textbf{Source} & \textbf{Scale} & \textbf{Night} & \textbf{Status} & \textbf{Consequence for the network} \\
 \midrule
 Solar arrays with lithium-ion batteries & Tens of W to kW; 90--160 Wh/kg at battery level~\cite{manzo2009,gilligan_rfc2023}, 143 Wh/kg for LuSEE-Night~\cite{aguirre_lusee} & 7 kWh and 45--80 kg of cells per 20 W of night load; most landers to date have not carried it & Flown on every lander and relay & Surface nodes duty-cycled by the night; topology varies over the lunar day \\
 Radioisotope heater units and generators & Heaters of watts thermal; MMRTG 110 W electrical, 2.8 W/kg~\cite{mmrtg} & Survives & Heaters and an RTG flown on the Chang'e landers~\cite{li_ce4rtg2023}; MMRTG on Mars rovers & Keeps a node alive, not transmitting; beacons and housekeeping \\
@@ -1382,9 +1397,9 @@ Preparatory studies for WRC-27 Agenda Item~1.15 are under way in ITU-R Working P
 \label{tab:spectrum}
 \centering
 \footnotesize
-\begin{tabularx}{\columnwidth}{@{}llR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\bfseries}llR@{}}
 \toprule
-Band & Frequency & Use \\
+\rowcolor{tabhead}\textbf{Band} & \textbf{Frequency} & \textbf{Use} \\
 \midrule
 S & 2025--2110 / 2200--2290\,MHz & Relay proximity; direct-to-Earth for existing missions~\cite{itu_space_research_handbook,sfcg_rec32} \\
 S & 2400--2480 / 2503.5--2655\,MHz & Surface wireless network~\cite{sfcg_rec32} \\
@@ -1462,9 +1477,9 @@ This section collects the open problems identified in Sections~\ref{sec:surface}
 \label{tab:open}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{4.0cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-Direction & Motivated by & Horizon & Deliverable \\
+\rowcolor{tabhead}\textbf{Direction} & \textbf{Motivated by} & \textbf{Horizon} & \textbf{Deliverable} \\
 \midrule
 In-situ propagation validation & \S\ref{sec:measurement} & 1 & Calibrated S- and Ka-band data set from fixed and mobile nodes over several terrain types and one day-night cycle \\
 Proactive handover in binary coverage & \S\ref{sec:surface} & 2 & Visibility predictor combining elevation model, relay ephemeris and rover position that runs within the time to occlusion \\
@@ -1544,9 +1559,9 @@ Table~\ref{tab:acronyms} lists the acronyms used in the paper; each is also spel
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.0}
-\begin{tabularx}{\textwidth}{@{}lXlXlX@{}}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}lX>{\bfseries}lX>{\bfseries}lX@{}}
 \toprule
-Acronym & Definition & Acronym & Definition & Acronym & Definition \\
+\rowcolor{tabhead}\textbf{Acronym} & \textbf{Definition} & \textbf{Acronym} & \textbf{Definition} & \textbf{Acronym} & \textbf{Definition} \\
 \midrule
 3GPP & 3rd Generation Partnership Project & ILRS & International Lunar Research Station & PDOP & Position dilution of precision \\
 AFS & Augmented Forward Signal (LunaNet navigation signal) & IM & Intuitive Machines (IM-1, IM-2 missions) & PDU & Protocol data unit \\

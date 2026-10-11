@@ -1,32 +1,52 @@
-% An architecture for the sustained Moon: two-tier constellation, mountain-top repeaters, Moon-local core,
-% inter-relay mesh and a shared far-side relay. Schematic, not to scale.
+% Architecture for the sustained Moon (schematic). View perpendicular to the Earth--Moon line,
+% Earth to the left (near side left, far side right), south pole at the bottom.
 \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
-  pics/sat/.style={code={\fill[#1] (-0.09,-0.09) rectangle (0.09,0.09); \fill[#1!50] (-0.3,-0.05) rectangle (-0.12,0.05); \fill[#1!50] (0.12,-0.05) rectangle (0.3,0.05);}},
-  lab/.style={font=\scriptsize,align=center}]
-\fill[black!10] (0,0) circle (2.0); \fill[black!22] (0,2.0) arc (90:-90:2.0) -- cycle; \draw[black!55] (0,0) circle (2.0);
-\node[text=black!55] at (1.0,0.9) {far side}; \node[text=black!55] at (-1.0,0.9) {near side};
-% Tier 2 LLO ring
-\draw[blue!60!black,thick,dashed] (0,0) circle (2.4);
-\foreach \a in {15,75,135,195,255,315}{\pic[rotate=\a] at (\a:2.4) {sat=blue!60!black};}
-\node[lab,text=blue!60!black,anchor=south] at (0,2.75) {Tier 2: low lunar orbit ring, direct-to-device and capacity};
-% Tier 1 ELFO
-\draw[green!45!black,thick] (0,-1.3) ellipse (1.3 and 3.4);
-\pic at (0,-4.7) {sat=green!45!black};
-\node[lab,text=green!45!black,anchor=north] at (0,-4.95) {Tier 1: high-dwell relays (ELFO, L2): coverage, trunking, navigation};
-% far-side L2 relay
-\pic at (4.6,0) {sat=blue!50!black}; \node[lab,text=blue!50!black,anchor=west] at (5.0,0) {shared far-side relay};
-% pole: mountains and repeaters
-\fill[black!50] (-0.6,-2.0) -- (-0.4,-1.55) -- (-0.2,-2.0) -- cycle; \fill[black!50] (0.35,-2.0) -- (0.5,-1.6) -- (0.65,-2.0) -- cycle;
-\draw[orange!80!black,thick] (-0.4,-1.55) -- (-0.4,-1.3) (0.5,-1.6) -- (0.5,-1.35) (-0.4,-1.3) -- (0.5,-1.35);
-\node[lab,text=orange!80!black,anchor=east] at (-2.6,-1.7) {mountain-top repeaters on lit ridges:\\radio horizon 80 km, local-cell latency};
-\draw[orange!80!black] (-2.6,-1.7) -- (-0.5,-1.45);
-% base
-\fill[black!65] (0.0,-1.95) rectangle (0.3,-1.8); \node[lab,anchor=west,text=black!70] at (2.6,-1.7) {base: Moon-local core, local DTN,\\lunar time, key management};
-\draw[black!50] (2.6,-1.7) -- (0.32,-1.87);
-% inter-relay mesh
-\draw[red!70!black,thick] (0,-4.7) -- (4.6,0); \draw[red!70!black,thick] (0,-4.7) -- (135:2.4);
-\node[lab,text=red!70!black,anchor=west] at (2.7,-3.3) {inter-relay mesh:\\E- to D-band, optical};
-% trunk
-\draw[highc,thick] (0,-4.7) -- (-4.8,-0.6); \node[lab,text=highc,anchor=east] at (-2.9,-3.3) {trunk to Earth:\\Ka-band and optical};
-\draw[-{Stealth[length=4pt]},black!60] (-4.9,-0.6) -- (-5.6,-0.6); \node[anchor=east,text=black!60] at (-5.6,-0.6) {to Earth};
+  lab/.style={align=center, inner sep=1pt},
+  leader/.style={black!45, line width=0.4pt},
+  pics/sat/.style={code={
+    \fill[#1] (-0.07,-0.07) rectangle (0.07,0.07);
+    \fill[#1!45] (-0.30,-0.035) rectangle (-0.10,0.035);
+    \fill[#1!45] (0.10,-0.035) rectangle (0.30,0.035);}},
+  pics/sat/.default=black]
+\def\R{1.8}
+% ---- Moon, near side toward Earth (left) ----
+\fill[black!10] (0,\R) arc (90:270:\R) -- cycle;        % near side (left half)
+\fill[black!22] (0,\R) arc (90:-90:\R) -- cycle;        % far side (right half)
+\draw[black!55, line width=0.6pt] (0,0) circle (\R);
+\draw[black!40, densely dotted] (0,\R) -- (0,-\R);
+\node[lab, text=black!60] at (-0.6,0.85) {near\\side};
+\node[lab, text=black!60] at (0.6,0.85) {far\\side};
+% Earth direction
+\draw[-{Stealth[length=4pt]}, black!60] (-2.75,0) -- (-3.75,0);
+\node[anchor=east, text=black!60] at (-3.8,0) {to Earth};
+% ---- Tier 2: low lunar orbit ring ----
+\draw[blue!60!black, dashed, line width=0.6pt] (0,0) circle (2.3);
+\foreach \a in {35,145,200,315} {\pic[rotate=\a-90] at (\a:2.3) {sat=blue!60!black};}
+\node[lab, anchor=south, text=blue!60!black] at (0,2.45) {tier~2: low lunar orbit ring\\direct-to-device access and capacity};
+% ---- Tier 1: high-dwell relay, ELFO with apolune over the south pole ----
+\draw[green!45!black, line width=0.7pt] (0,-1.15) ellipse (1.3 and 3.35);
+\pic at (0,-4.5) {sat=green!45!black};
+\node[lab, anchor=north, text=green!45!black] at (0,-4.65) {tier~1: high-dwell relays (ELFO, L2)\\coverage, trunking, navigation};
+% ---- South-polar surface: repeaters on ridges and the base ----
+\fill[black!60] (-0.62,-1.68) -- (-0.45,-1.30) -- (-0.28,-1.73) -- cycle;
+\fill[black!60] (0.28,-1.73) -- (0.45,-1.30) -- (0.62,-1.68) -- cycle;
+\fill[black!75] (-0.12,-1.80) rectangle (0.12,-1.66);
+\draw[orange!80!black, line width=0.7pt] (-0.45,-1.30) -- (-0.45,-1.15) -- (0.45,-1.15) -- (0.45,-1.30);
+% feeder from the base to the tier-1 relay
+\draw[green!45!black, line width=0.6pt] (0,-1.82) -- (0,-4.38);
+% ---- Links from the tier-1 relay ----
+% trunk to Earth (left)
+\draw[highc, line width=0.9pt, -{Stealth[length=5pt]}] (-0.35,-4.5) -- (-4.6,-4.5);
+\node[lab, anchor=south, text=highc] at (-3.0,-4.45) {trunk to Earth: Ka-band and optical};
+% inter-relay mesh to a tier-2 satellite and to the shared far-side relay
+\pic at (4.4,0) {sat=red!65!black};
+\node[lab, anchor=west, text=red!65!black] at (4.75,0) {shared far-side\\relay (L2 or ELFO)};
+\draw[red!65!black, line width=0.7pt] (0.3,-4.45) -- (4.3,-0.1);
+\draw[red!65!black, line width=0.7pt] (0.25,-4.4) -- ($(315:2.3)+(0.04,-0.04)$);
+\node[lab, anchor=west, text=red!65!black] at (1.75,-3.15) {inter-relay mesh:\\E- to D-band, optical};
+% ---- Callouts ----
+\draw[leader] (-0.45,-1.25) -- (-2.6,-1.6);
+\node[lab, anchor=east, text=orange!80!black] at (-2.65,-1.6) {mountain-top repeaters on the most\\illuminated ridges: radio horizon of\\\SI{83}{km} at \SI{2}{km}, local-cell latency};
+\draw[leader] (-0.12,-1.76) -- (-2.6,-2.75);
+\node[lab, anchor=east, text=black!75] at (-2.65,-2.75) {base: Moon-local core,\\millimeter-wave surface backbone,\\local DTN, lunar time, key management};
 \end{tikzpicture}

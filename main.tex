@@ -1459,7 +1459,7 @@ Fig.~\ref{fig:architecture} sketches a network specified for the sustained-prese
 The Moon-centric core implies a decision about where computation is located, and the limited trunk capacity determines how much processing each location performs. At the instrument, LuSEE-Night forms correlation spectra in an FPGA before relaying them~\cite{bale_lusee_2023}, and the FARSIDE array concept correlates 128 antennas at its base station into \SI{65}{GB} per day, with \SI{192}{GB} of storage for three days of outage~\cite{burns_farside_2019}; at the gateway, the local core and the 5G-to-DTN boundary of Section~\ref{sec:protocol} keep base traffic on the Moon; on the relay, the LCRNS requirements imply bundle and Internet Protocol processing at about \SI{100}{Mbit/s} per node~\cite{nasa_onboard_lunanet}. Dedicated lunar data centers remain demonstrations: a storage payload on IM-1 exchanged files in transit, in lunar orbit and on the surface~\cite{dcd_lonestar_im1}, and its successor flew on IM-2, which came to rest on its side and ended operations within a day~\cite{storagenl_freedom_2025,nasa_im2}.
 \begin{figure*}[!t]
 \centering
-\resizebox{\textwidth}{!}{\input{figs/fig_architecture.tex}}
+\includegraphics[width=\textwidth]{figs/fig_architecture.png}
 \caption{An architecture for the sustained Moon (schematic).}
 \label{fig:architecture}
 \end{figure*}

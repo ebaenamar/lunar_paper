@@ -11,7 +11,7 @@
 \def\R{1.8}
 % ---- Moon, near side toward Earth (left) ----
 \fill[black!10] (0,\R) arc (90:270:\R) -- cycle;        % near side (left half)
-\fill[black!22] (0,\R) arc (90:-90:\R) -- cycle;        % far side (right half)
+\fill[black!10] (0,\R) arc (90:-90:\R) -- cycle;        % far side (right half); same fill: near/far is not day/night
 \draw[black!55, line width=0.6pt] (0,0) circle (\R);
 \draw[black!40, densely dotted] (0,\R) -- (0,-\R);
 \node[lab, text=black!60] at (-0.6,0.85) {near\\side};

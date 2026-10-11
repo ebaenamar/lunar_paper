@@ -40,7 +40,7 @@
 \pic at (5.45,1.75) {dish};
 \node[lab, anchor=north] at (5.45,-0.05) {surface gateway\\lander, mast, habitat};
 % relays
-\pic at (7.3,4.2) {relay};  \node[lab, anchor=west] at (7.9,4.2) {relay A};
+\pic at (7.3,4.2) {relay};  \node[lab, anchor=north west] at (7.65,3.95) {relay A};
 \pic at (10.6,4.6) {relay}; \node[lab, anchor=west] at (11.2,4.6) {relay B};
 % Earth and station
 \fill[highc!15] (15.3,1.3) circle (0.95); \draw[black!55, line width=0.5pt] (15.3,1.3) circle (0.95);
@@ -49,35 +49,36 @@
 \node[lab, anchor=west] at (15.95,2.55) {deep-space\\station};
 % ---- links ----
 % 1 surface access: rover <-> gateway (S-band), blocked by the ridge: draw over the ridge
-\draw[sband, both] (1.15,1.0) .. controls (2.3,1.6) and (4.3,1.9) .. (5.3,1.9);
-\node[num] at (3.3,1.72) {1};
+\fill[black!70] (1.15,0.98) circle (0.045);
+\draw[sband, both] (1.36,1.0) .. controls (2.3,1.6) and (4.3,1.9) .. (5.3,1.9);
+\node[num] at (3.74,1.76) {1};
 % 2 surface-to-relay: rover -> relay A (S-band)
-\draw[sband] (1.3,1.0) -- (7.0,4.0);
-\node[num] at (3.6,2.3) {2};
+\draw[sband, both] (1.13,1.12) -- (7.0,4.0);
+\node[num] at (4.6,2.72) {2};
 % 3 gateway backhaul: gateway -> relay A (Ka)
 \draw[kaband, both] (5.6,2.05) -- (7.1,3.9);
-\node[num] at (6.1,3.2) {3};
+\node[num] at (6.37,3.0) {3};
 % 4 inter-satellite: relay A <-> relay B (Ka)
 \draw[kaband, both] (7.9,4.25) -- (10.0,4.6);
 \node[num] at (8.95,4.72) {4};
 % 5 trunk: relay B -> Earth (Ka)
 \draw[kaband, both] (11.0,4.4) -- (15.1,2.75);
-\node[num] at (13.1,3.75) {5};
+\node[num] at (13.1,3.56) {5};
 % 6 direct-to-Earth: gateway -> Earth (X-band, dashed)
 \draw[xband, both] (5.8,1.95) .. controls (8.5,1.0) and (12.5,1.0) .. (14.9,2.3);
 \node[num] at (10.4,1.2) {6};
 
 % band tags: today -> ladder
-\node[lab, anchor=south, text=lowc] at (3.3,1.95) {S};
-\node[lab, anchor=south, text=lowc] at (3.6,2.55) {S};
-\node[lab, anchor=west, text=highc] at (6.3,3.2) {Ka $\rightarrow$ E, D};
+\node[lab, anchor=north, text=lowc] at (3.74,1.5) {S};
+\node[lab, anchor=south east, text=lowc] at (4.42,2.88) {S};
+\node[lab, anchor=west, text=highc] at (6.66,2.95) {Ka $\rightarrow$ E, D};
 \node[lab, anchor=south, text=highc] at (9.1,5.0) {Ka $\rightarrow$ E, D, optical};
-\node[lab, anchor=north, text=highc] at (13.1,3.5) {Ka, optical};
+\node[lab, anchor=north east, text=highc] at (12.95,3.42) {Ka, optical};
 \node[lab, anchor=north, text=black!65] at (10.4,0.95) {X $\rightarrow$ Ka};
 % ---- red markers: assumptions that fail ----
 \node[flag] at (2.95,0.42) {terrain\\blocks};
 \draw[accent, line width=0.9pt] (2.85,1.05) -- (3.15,1.35) (3.15,1.05) -- (2.85,1.35);
-\draw[accent, line width=0.8pt] (6.25,0.3) rectangle (6.8,0.55); \fill[accent] (6.8,0.35) rectangle (6.87,0.5);
+\draw[accent, line width=0.8pt] (6.25,0.3) rectangle (6.8,0.55); \fill[accent] (6.8,0.35) rectangle (6.87,0.5); \fill[accent] (6.3,0.35) rectangle (6.4,0.5);
 \node[flag, anchor=west] at (6.95,0.42) {354 h night};
 \draw[accent, line width=0.8pt] (12.6,4.5) circle (0.17); \draw[accent, line width=0.8pt] (12.6,4.5) -- (12.6,4.63) (12.6,4.5) -- (12.7,4.5);
 \node[flag, anchor=west] at (12.85,4.5) {2.56 s round trip};

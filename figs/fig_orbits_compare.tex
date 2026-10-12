@@ -4,7 +4,14 @@
 % ===== Earth panel =====
 \begin{scope}[shift={(4.6,0)}]
 \node[font=\footnotesize\bfseries,anchor=south] at (0,4.55) {(a) Earth orbits};
-\fill[blue!25] (0,0) circle (0.290); \draw[black!60] (0,0) circle (0.290);
+\fill[blue!55!cyan!70!black] (0,0) circle (0.290);
+\begin{scope}\clip (0,0) circle (0.290);
+\fill[green!45!black!80] (-0.20,0.05) .. controls (-0.12,0.20) and (0.02,0.16) .. (0.04,0.04) .. controls (0.06,-0.08) and (-0.05,-0.20) .. (-0.12,-0.12) .. controls (-0.18,-0.06) and (-0.24,-0.03) .. cycle;
+\fill[green!40!brown!80] (0.10,0.12) .. controls (0.18,0.20) and (0.26,0.10) .. (0.22,0.0) .. controls (0.18,-0.10) and (0.12,-0.02) .. cycle;
+\fill[white!90!blue] (-0.12,0.25) rectangle (0.12,0.30);
+\fill[white,opacity=0.35] (-0.09,0.10) circle (0.10);
+\end{scope}
+\draw[black!60] (0,0) circle (0.290);
 \draw[black!70,thick] (0,0) circle (0.315); \draw[black!40,thin] (-0.297,-0.105) -- (-2.25,-0.75); \node[anchor=east,text=black!70] at (-2.3,-0.75) {LEO, \SI{600}{km}};
 \draw[black!70] (0,0) circle (1.207); \draw[black!40,thin] (-0.925,0.776) -- (-2.25,1.45); \node[anchor=east,text=black!70] at (-2.3,1.45) {MEO (GNSS), \SI{20200}{km}};
 \draw[black!70,thick] (0,0) circle (1.917); \node[anchor=south,text=black!70] at (0,1.967) {GEO, \SI{35786}{km}};
@@ -18,7 +25,9 @@
 \node[font=\footnotesize\bfseries,anchor=south] at (0,4.55) {(b) Lunar orbits, same scale};
 \draw[black!35,densely dotted] (0,0) circle (2.727); \node[anchor=south,text=black!45] at (0,2.76) {Hill sphere, ${\approx}\SI{60000}{km}$};
 \draw[red!60,densely dotted] (0,0) circle (4.018); \node[anchor=south,text=red!70,align=center] at (0,4.05) {synchronous radius \SI{88400}{km} lies outside the Hill sphere: there is no lunar GEO};
-\fill[black!25] (0,0) circle (0.079); \draw[black!60] (0,0) circle (0.079);
+\fill[black!22] (0,0) circle (0.079);
+\fill[black!38] (-0.025,0.02) circle (0.022); \fill[black!38] (0.03,-0.025) circle (0.015);
+\draw[black!60] (0,0) circle (0.079);
 \draw[black!70,thick] (0,0) circle (0.083); \node[anchor=south west,text=black!70] at (0.12,0.08) {LLO, \SI{100}{km}};
 % ELFO: apolune south (down)
 \draw[green!45!black,thick] (0,-0.356) ellipse (0.371 and 0.514);

@@ -107,7 +107,7 @@
 \node[lab, anchor=north east, text=highc] at (12.95,3.42) {Ka, optical};
 \node[lab, anchor=north, text=black!65] at (10.4,0.95) {X $\rightarrow$ Ka};
 % ---- red markers: assumptions that fail ----
-\node[flag] at (2.95,0.42) {terrain\\blocks};
+\node[flag] at (2.95,0.42) {terrain\\blockage};
 \draw[accent, line width=0.9pt] (2.85,1.05) -- (3.15,1.35) (3.15,1.05) -- (2.85,1.35);
 \draw[accent, line width=0.8pt] (6.25,0.3) rectangle (6.8,0.55); \fill[accent] (6.8,0.35) rectangle (6.87,0.5); \fill[accent] (6.3,0.35) rectangle (6.4,0.5);
 \node[flag, anchor=west] at (6.95,0.42) {354 h night};
@@ -117,9 +117,9 @@
 \draw[sband, -] (0.3,5.6) -- (0.9,5.6); \node[lab, anchor=west] at (0.95,5.6) {wide beam (S-band): omnidirectional or a small dish};
 \draw[kaband, -] (0.3,5.2) -- (0.9,5.2); \node[lab, anchor=west] at (0.95,5.2) {narrow beam: both ends pointable};
 \draw[xband, -] (0.3,4.8) -- (0.9,4.8); \node[lab, anchor=west] at (0.95,4.8) {to Earth: atmosphere at one end};
-\node[lab, anchor=west, text=accent] at (0.3,4.4) {red: terrestrial assumption that fails};
+\node[lab, anchor=west, text=accent] at (0.3,4.4) {red: violated terrestrial assumption};
 
-\node[font=\scriptsize\itshape, text=black!60, anchor=south east, align=right] at (16.9,-0.76) {Note: link labels give the band used today $\rightarrow$ candidate bands (Sec.~\ref{sec:frequency}).\\Distances are not to scale.};
+\node[font=\scriptsize\itshape, text=black!60, anchor=south east, align=right] at (16.9,-0.76) {Note: link labels give the current band $\rightarrow$ candidate bands (Sec.~\ref{sec:frequency}).\\Distances are not to scale.};
 \node[font=\footnotesize\bfseries, anchor=west] at (0.0,6.05) {(a) The six links of a lunar network};
 % ============================ (b) RANGE AND DELAY STRIP ============================
 \begin{scope}[shift={(0,-4.25)}]
@@ -146,7 +146,7 @@
 % 3GPP NTN one-way delay limit: 270.73 ms <-> 81,160 km -> log10 = 4.909
 \draw[black!60, densely dashed] ({\ax+2.5*4.909},0.5) -- ({\ax+2.5*4.909},2.0);
 \node[lab, anchor=south west, text=black!60] at ({\ax+2.5*4.909},1.95) {3GPP NTN one-way delay limit\\(270.73 ms, GEO transparent)};
-\node[lab, anchor=south east, text=black!60] at ({\ax+2.5*4.909},1.95) {relay links: inside the\\Earth-orbit envelope};
-\node[lab, anchor=west, text=black!60] at ({\ax+2.5*5.585+0.25},1.05) {Earth links:\\outside it};
+\node[lab, anchor=south east, text=black!60] at ({\ax+2.5*4.909},1.95) {relay links: below the\\GEO delay limit};
+\node[lab, anchor=west, text=black!60] at ({\ax+2.5*5.585+0.25},1.05) {Earth links:\\above it};
 \end{scope}
 \end{tikzpicture}

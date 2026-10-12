@@ -12,7 +12,7 @@
 \node[blk] (a4) at (6.6,1.6) {HPA\\(TWTA or SSPA)};
 \node[blk] (a5) at (8.5,1.6) {Tx antenna\\Ka or X};
 \draw[ar] (a1)--(a2); \draw[ar] (a2)--(a3); \draw[ar] (a3)--(a4); \draw[ar] (a4)--(a5);
-\node[note, draw=red!55, fill=red!5, text=red!60!black, anchor=west] (na) at (11.6,1.6) {\textbf{No storage:} idle unless user and Earth station are both in view};
+\node[note, draw=red!55, fill=red!5, text=red!60!black, anchor=west] (na) at (11.6,1.6) {\textbf{No storage:} relays only when user and Earth station are in view};
 % (b) regenerative
 \node[font=\footnotesize\bfseries,anchor=west] at (0,0.3) {(b) Regenerative relay with on-board networking (LunaNet store-and-forward service)};
 \node[blk] (b1) at (0.9,-0.6) {Rx antenna};
@@ -23,7 +23,7 @@
 \node[blk] (b6) at (8.9,-0.6) {HPA};
 \node[blk] (b7) at (10.5,-0.6) {Tx antenna};
 \draw[ar] (b1)--(b2); \draw[ar] (b2)--(b3); \draw[ar] (b3)--(b5); \draw[ar] (b5)--(b6); \draw[ar] (b6)--(b7); \draw[ar,<->] (b3)--(b4);
-\node[note, draw=blue!45, fill=blue!5, text=black!75, anchor=west] (nb) at (11.6,-0.6) {\textbf{Adds} coding gain per hop and routing; \textbf{costs} the mass, power and rad-hard compute of a router};
+\node[note, draw=blue!45, fill=blue!5, text=black!75, anchor=west] (nb) at (11.6,-0.6) {\textbf{Gain:} per-hop coding gain and routing; \textbf{Cost:} router mass, power and radiation-tolerant compute};
 % (c) navigation payload sharing the frequency reference
 \node[font=\footnotesize\bfseries,anchor=west] at (0,-2.7) {(c) Navigation payload};
 \node[nav] (c1) at (1.3,-3.6) {GNSS receiver\\(Earth GNSS, weak signal)};

@@ -62,6 +62,8 @@
 \renewcommand{\p@subsection}{\thesection-}
 \renewcommand{\p@subsubsection}{\thesection-\thesubsection}
 \makeatother
+% Columns end where the text ends: no vertical stretching to fill a column
+\raggedbottom
 \begin{document}
 \receiveddate{XX Month, XXXX}
 \reviseddate{XX Month, XXXX}
@@ -1616,6 +1618,8 @@ IETF & Internet Engineering Task Force & PDCP & Packet Data Convergence Protocol
 Table~\ref{tab:dct} gives the design-control table for the six canonical links at the bands of Table~\ref{tab:links}, and for links~3 and~4 at E-band (\SI{81}{GHz}) and D-band (\SI{140}{GHz}). Every entry is computed from a single parameter set by the code distributed with the source of this paper, which also reproduces the trunk budgets of Section~\ref{sec:budgets}, the chain budget of Table~\ref{tab:chain} and the computed figures. Antenna gain follows \eqref{eq:gain} with $\eta = 0.6$, except at the DSN end, where the gain, beamwidth and system temperature of the handbook~\cite{dsn_34m_bwg} are used; the trunk includes the \SI{0.18}{dB} zenith atmosphere of Canberra in clear weather. Beamwidth follows $\theta_{3\mathrm{dB}} = 70\lambda/D$, and the pointing requirement is the error that costs \SI{0.5}{dB} at one end. The relay-side transmitters radiate \SI{10}{W}, so the E- and D-band columns isolate the effect of frequency at constant RF power; at these bands that power is delivered only by the laboratory tubes of Table~\ref{tab:ladder}. The required $E_b/N_0$ is that of uncoded QPSK at a bit error rate of $10^{-5}$, and $L_{\mathrm{o}}$ lumps the implementation, polarization and pointing losses. At constant RF power, moving link~3 from Ka- to D-band raises its rate at a \SI{3}{dB} margin from 16 to \SI{153}{Mbps} and tightens the pointing requirement from \SI{0.33}{\degree} to \SI{0.061}{\degree}; link~4 rises from 21 to \SI{205}{Mbps}, with the pointing requirement tightening from \SI{0.16}{\degree} to \SI{0.031}{\degree}.
 
 \clearpage
+% restart the two-column layout: otherwise the first reference page leaves its left column almost empty
+\onecolumn\twocolumn
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

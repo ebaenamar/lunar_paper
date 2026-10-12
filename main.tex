@@ -15,6 +15,9 @@
 \usepackage{siunitx}
 \usepackage{pgfplots}
 \usepackage{tikz}
+\usepackage{sansmath}
+% Figures set in the sans-serif face of the captions (Helvetica), including math
+\tikzset{every picture/.append style={execute at begin picture={\sffamily\sansmath}}}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, patterns, fit, shadings}
 \definecolor{lowc}{RGB}{216,90,48}   % low-band, wide-beam links
 \definecolor{highc}{RGB}{83,74,183}  % high-band, narrow-beam links
@@ -148,7 +151,7 @@ Third, the Earth end of the trunk is a shared, scheduled deep-space asset with a
 \begin{figure*}[!t]
 \centering
 \resizebox{\textwidth}{!}{\input{figs/fig_orbits_compare.tex}}\\[4pt]
-{\footnotesize\bfseries (c) Crosslinks of the LCRNS reference constellation, propagated}\\[2pt]
+{\sffamily\footnotesize\bfseries (c) Crosslinks of the LCRNS reference constellation, propagated}\\[2pt]
 \input{figs/fig_lcrns_isl.tex}
 \caption{(a), (b)~Earth-orbit and lunar-orbit families at the same scale. (c)~Range and occultation of the crosslinks of the LCRNS reference constellation.}
 \label{fig:orbits}
@@ -654,9 +657,9 @@ Fig.~\ref{fig:ladder} puts the five terms together for the three links whose two
 
 \begin{figure*}[!t]
 \centering
-{\footnotesize\bfseries (a)}\par
+{\sffamily\footnotesize\bfseries (a)}\par
 \input{figs/fig_ladder.tex}\\[4pt]
-{\footnotesize\bfseries (b)}\par
+{\sffamily\footnotesize\bfseries (b)}\par
 \input{figs/fig_jitter_tol.tex}
 \caption{(a)~Achievable rate against carrier frequency for links~3 and~4 and a surface backbone. (b)~Largest pointing jitter at which a \SI{290}{GHz} and a \SI{1550}{nm} crosslink hold a given rate.}
 \label{fig:ladder}

@@ -130,7 +130,7 @@ def dct_latex(P):
         ("$T_{\\mathrm{sys}}$ (K)", lambda b: f"{b['tsys']:.4g}"),
         ("$G/T$ (dB/K)", lambda b: f"{b['gt_ratio']:.1f}"),
         ("$C/N_0$ (dBHz)", lambda b: f"{b['cn0']:.1f}"),
-        ("$R_b$ (bit/s)", lambda b: fmt_rate(b["rb"])),
+        ("$R_b$ (bps)", lambda b: fmt_rate(b["rb"])),
         ("$E_b/N_0$ (dB)", lambda b: f"{b['ebn0']:.1f}"),
         ("Required (dB)", lambda b: f"{b['req']:.1f}"),
         ("Margin (dB)", lambda b: f"{b['margin']:.1f}"),

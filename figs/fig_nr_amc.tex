@@ -5,7 +5,7 @@
 \begin{axis}[
   width=0.94\columnwidth, height=5.6cm,
   xmin=-4, xmax=30, ymin=0, ymax=270, ytick={0,50,100,150,200,250},
-  xlabel={SNR (dB)}, ylabel={Throughput (Mbit/s)},
+  xlabel={SNR (dB)}, ylabel={Throughput (Mbps)},
   grid=both, grid style={gray!20},
   tick label style={font=\footnotesize}, label style={font=\footnotesize},
   unbounded coords=jump,
@@ -15,10 +15,10 @@
 \addlegendentry{Shannon bound, \SI{18.4}{MHz}}
 \addplot[blue, very thick] table[x=snr, y=env] {figs/nr_amc.dat};
 \addlegendentry{Link-adaptation envelope}
-\addplot[gray!65, thin] table[x=snr, y=m0] {figs/nr_amc.dat};
+\addplot[black!55, semithick] table[x=snr, y=m0] {figs/nr_amc.dat};
 \addlegendentry{Each scheme, QPSK 0.12 to 256QAM 0.87}
 \foreach \m in {m1,m2,m3,m4,m5,m6,m7} {
-  \addplot[gray!65, thin, forget plot] table[x=snr, y=\m] {figs/nr_amc.dat};
+  \addplot[black!55, semithick, forget plot] table[x=snr, y=\m] {figs/nr_amc.dat};
 }
 \end{axis}
 \end{tikzpicture}

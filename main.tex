@@ -202,7 +202,7 @@ An engineer trained on terrestrial cellular systems already has a name for every
 \toprule
 \rowcolor{tabhead}\textbf{Terrestrial concept} & \textbf{Lunar counterpart} & \textbf{Assumption that fails} \\
 \midrule
-User equipment & Rover, EVA suit, emplaced instrument & No single terminal profile: from control links of hundreds of kbit/s to science returns of GB/day (\S\ref{sec:demand}) \\
+User equipment & Rover, EVA suit, emplaced instrument & No single terminal profile: from control links of hundreds of kbps to science returns of GB/day (\S\ref{sec:demand}) \\
 Base station & Lander, deployed mast, or relay satellite & Transient and power-limited; coverage set by terrain, mast height or relay orbit (\S\ref{sec:coverage}, \S\ref{sec:payload}) \\
 Core network & Local surface core, or an Earth-side core \SI{1.28}{\second} away & No always-reachable core: local termination or store-and-forward (\S\ref{sec:protocol}) \\
 Backhaul & Gateway-to-relay link (link~3) and trunk to Earth (link~5) & No wireline: a radio link limited by aperture, pointing, weather and station time (\S\ref{sec:trunk}, \S\ref{sec:sixlinks}) \\
@@ -271,7 +271,7 @@ A lunar network joins two radio traditions. Its relay links resemble GEO links i
 
 \section{What Has Flown and What Is Contracted}
 \label{sec:assets}
-Both radio traditions of Section~\ref{sec:bridge} are already in use at the Moon. This section reviews the lunar communication systems that have flown or are under contract and lists, for each, the four quantities that enter a link budget: orbit, band, aperture and delivered rate (Table~\ref{tab:assets}, Fig.~\ref{fig:assets_timeline}). Every asset flown to date operates as a scheduled point-to-point link, with capacity allocated by a plan generated on Earth and no autonomous routing on board. The aperture and band of each asset also depend on its orbit, a dependence derived in Section~\ref{sec:budgets}.
+Both radio traditions of Section~\ref{sec:bridge} are already in use at the Moon. This section reviews the lunar communication systems that have flown or are under contract and lists, for each, the four quantities that enter a link budget: orbit, band, aperture and delivered rate (Table~\ref{tab:assets}, Fig.~\ref{fig:assets_timeline}). The timeline shows that the Chinese relays are the only relays flown, and that every other relay and constellation enters service from 2027 onward. Every asset flown to date operates as a scheduled point-to-point link, with capacity allocated by a plan generated on Earth and no autonomous routing on board. The aperture and band of each asset also depend on its orbit, a dependence derived in Section~\ref{sec:budgets}.
 
 \begin{figure*}[!t]
 \centering
@@ -365,7 +365,7 @@ Everything that has flown to the Moon is a scheduled point-to-point link closed 
 A network is sized against a demand, and the lunar demand is unusual in two ways: it is small and sparse, and it was specified for the week-long crewed sortie, a profile that later plans extend to bases and commercial operations. This section quantifies the demand by phase and by traffic class and orders every class by the delay it tolerates, which constrains the architecture.
 
 \subsection{Demand by Phase}
-Table~\ref{tab:phases} summarizes four phases, with the published requirements where they exist and indicative values otherwise. There are roughly ten active orbiters, two to four landers a year, each operating for days to weeks, and no permanent surface user. Each is a scheduled point-to-point link; the individual rates are known (Table~\ref{tab:assets}) and no aggregate has been published. The demand the infrastructure under contract was specified against is the crewed sortie: the extravehicular activity (EVA) traffic of the study described below, an EVA Moon-to-Earth downlink requirement of \SI{20}{}--\SI{40}{Mbit/s}~\cite{nasa_arts_comm}, \SI{4}{GB/day} of science, rover teleoperation (Table~\ref{tab:traffic}) and relay user rates of \SI{1}{}--\SI{50}{Mbit/s}~\cite{nasa_lunar_relay_srd}. A base phase follows, with four crew for 30 to 60 days, a pressurized rover, a resource-extraction plant, robotic swarms and the first far-side instruments, and then a sustained international presence with commercial users and far-side observatories. No agency plan puts hundreds of people on the Moon before the 2040s, and no architecture document plans a colony; the projected growth in demand comes from robots and instruments. Far-side radio astronomy arrays, once they exist, will be the largest data producers on the Moon by orders of magnitude, with raw rates in the tens of gigabits per second reduced on site to gigabit-class return.
+Table~\ref{tab:phases} summarizes four phases, with the published requirements where they exist and indicative values otherwise. There are roughly ten active orbiters, two to four landers a year, each operating for days to weeks, and no permanent surface user. Each is a scheduled point-to-point link; the individual rates are known (Table~\ref{tab:assets}) and no aggregate has been published. The demand the infrastructure under contract was specified against is the crewed sortie: the extravehicular activity (EVA) traffic of the study described below, an EVA Moon-to-Earth downlink requirement of \SI{20}{}--\SI{40}{Mbps}~\cite{nasa_arts_comm}, \SI{4}{GB/day} of science, rover teleoperation (Table~\ref{tab:traffic}) and relay user rates of \SI{1}{}--\SI{50}{Mbps}~\cite{nasa_lunar_relay_srd}. A base phase follows, with four crew for 30 to 60 days, a pressurized rover, a resource-extraction plant, robotic swarms and the first far-side instruments, and then a sustained international presence with commercial users and far-side observatories. No agency plan puts hundreds of people on the Moon before the 2040s, and no architecture document plans a colony; the projected growth in demand comes from robots and instruments. Far-side radio astronomy arrays, once they exist, will be the largest data producers on the Moon by orders of magnitude, with raw rates in the tens of gigabits per second reduced on site to gigabit-class return.
 
 \begin{table*}[!t]
 \caption{Lunar Communications Demand by Phase, as of October 2026}
@@ -376,10 +376,10 @@ Table~\ref{tab:phases} summarizes four phases, with the published requirements w
 \toprule
 \rowcolor{tabhead}\textbf{Phase} & \textbf{Users} & \textbf{Dominant traffic} & \textbf{Aggregate return} & \textbf{Architecture it implies} \\
 \midrule
-Robotic exploration (through 2027) & About ten orbiters; two to four short-lived landers a year & Telemetry, imagery, instrument data; rover teleoperation from Earth & kbit/s to \SI{500}{Mbit/s} per link; no published aggregate & Scheduled direct-to-Earth passes; relays for the far side \\
-Crewed sorties (Artemis~IV onward, target 2028) & Two to four crew for a week; rover, lander, relays & EVA video at \SI{3}{}--\SI{12}{Mbit/s} per camera; \SI{4}{GB/day} science; rover control at \SI{384}{}/\SI{10}{kbit/s} & \SI{20}{}--\SI{40}{Mbit/s} EVA downlink; \SI{1}{}--\SI{50}{Mbit/s} per relay user & One relay plus direct-to-Earth; local cell; store-and-forward \\
-Base (2030s) & Four crew for 30--60 days; pressurized rover, resource plant, swarms & 4K video, telepresence, plant control, swarm coordination, science & Hundreds of Mbit/s; multi-TB per month & Routed multi-relay constellation; Moon-local core; backhaul at Ka-band or above \\
-Sustained presence (2035 and beyond) & International bases, commercial operators, far-side observatories & Observatory data at Gbit/s after reduction; industrial telemetry; video & Gbit/s-class return; mostly Moon-local traffic & Two-tier constellation, surface backbone, mesh (\S\ref{sec:architecture}) \\
+Robotic exploration (through 2027) & About ten orbiters; two to four short-lived landers a year & Telemetry, imagery, instrument data; rover teleoperation from Earth & kbps to \SI{500}{Mbps} per link; no published aggregate & Scheduled direct-to-Earth passes; relays for the far side \\
+Crewed sorties (Artemis~IV onward, target 2028) & Two to four crew for a week; rover, lander, relays & EVA video at \SI{3}{}--\SI{12}{Mbps} per camera; \SI{4}{GB/day} science; rover control at \SI{384}{}/\SI{10}{kbps} & \SI{20}{}--\SI{40}{Mbps} EVA downlink; \SI{1}{}--\SI{50}{Mbps} per relay user & One relay plus direct-to-Earth; local cell; store-and-forward \\
+Base (2030s) & Four crew for 30--60 days; pressurized rover, resource plant, swarms & 4K video, telepresence, plant control, swarm coordination, science & Hundreds of Mbps; multi-TB per month & Routed multi-relay constellation; Moon-local core; backhaul at Ka-band or above \\
+Sustained presence (2035 and beyond) & International bases, commercial operators, far-side observatories & Observatory data at Gbps after reduction; industrial telemetry; video & Gbps-class return; mostly Moon-local traffic & Two-tier constellation, surface backbone, mesh (\S\ref{sec:architecture}) \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -396,16 +396,16 @@ The most detailed public demand model for a lunar surface network is the Nokia B
 \toprule
 \rowcolor{tabhead}\textbf{Class} & \textbf{Rate} & \textbf{Delay tolerance (one way)} & \textbf{Pattern} & \textbf{Served by} \\
 \midrule
-Swarm coordination, shared state & kbit/s per robot & \SI{20}{}--\SI{50}{ms} & Continuous, bursty & Surface cell or mesh only \\
-Fine teleoperation of a rover & \SI{384}{kbit/s} down, \SI{10}{kbit/s} up; \SI{1}{Mbit/s} with LiDAR~\cite{lidar_teleops2012} & Round trip under \SI{200}{ms} & Continuous while driving & Surface cell only; Earth operators drive at reduced speed~\cite{ltv_teleops2025} \\
-Telepresence, interactive video & \SI{10}{}--\SI{50}{Mbit/s} & \SI{100}{}--\SI{150}{ms} & Continuous & Surface cell; relay near apolune at the margin \\
-Conversational voice & \SI{64}{kbit/s} & \SI{150}{}--\SI{400}{ms} (ITU-T G.114) & Continuous & Surface and relay; Earth--Moon voice is push-to-talk \\
-EVA cameras & \SI{3}{}--\SI{12}{Mbit/s} per camera~\cite{nokia_lunar_3gpp} & Seconds (buffered) & Continuous during EVA & Any regime including Earth \\
-Safety alert to a human & kbit/s & \SI{1}{}--\SI{3}{\second} & Event-driven & Any live regime; never store-and-forward \\
-Supervisory commands & kbit/s & Seconds to minutes & Event-driven & Any regime including Earth \\
+Swarm coordination, shared state & kbps per robot & \SI{20}{}--\SI{50}{ms} & Continuous, bursty & Surface cell or mesh only \\
+Fine teleoperation of a rover & \SI{384}{kbps} down, \SI{10}{kbps} up; \SI{1}{Mbps} with LiDAR~\cite{lidar_teleops2012} & Round trip under \SI{200}{ms} & Continuous while driving & Surface cell only; Earth operators drive at reduced speed~\cite{ltv_teleops2025} \\
+Telepresence, interactive video & \SI{10}{}--\SI{50}{Mbps} & \SI{100}{}--\SI{150}{ms} & Continuous & Surface cell; relay near apolune at the margin \\
+Conversational voice & \SI{64}{kbps} & \SI{150}{}--\SI{400}{ms} (ITU-T G.114) & Continuous & Surface and relay; Earth--Moon voice is push-to-talk \\
+EVA cameras & \SI{3}{}--\SI{12}{Mbps} per camera~\cite{nokia_lunar_3gpp} & Seconds (buffered) & Continuous during EVA & Any regime including Earth \\
+Safety alert to a human & kbps & \SI{1}{}--\SI{3}{\second} & Event-driven & Any live regime; never store-and-forward \\
+Supervisory commands & kbps & Seconds to minutes & Event-driven & Any regime including Earth \\
 Medical imaging & Hundreds of MB per study & Minutes to hours & Bursts & Store-and-forward acceptable \\
 Science return & \SI{4}{GB/day} initial~\cite{nasa_arts_comm}; TB/month at base scale & Hours to days & Bulk & Store-and-forward by design \\
-Far-side observatory data & Gbit/s after on-site reduction & Days & Bulk & Dedicated relay capacity \\
+Far-side observatory data & Gbps after on-site reduction & Days & Bulk & Dedicated relay capacity \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -417,7 +417,7 @@ Autonomous multi-robot exploration adopts the second strategy, which relaxes the
 Science data return from fixed or mobile instruments is the third class, and it is bulk transfer with no latency constraint, at \SI{4}{GB/day} for an initial science payload mission~\cite{nasa_arts_comm}. This traffic can use any available contact window and is well matched to the store-and-forward service, but it competes with teleoperation video for the same aperture during crewed periods, which is the contention the scheduling layer of Section~\ref{sec:protocol} must resolve.
 
 \subsection{Classification of Traffic by Delay}
-Fig.~\ref{fig:delay} sets the delay each regime of the chain produces, as vertical lines and bands, against the delay each class tolerates, as bars; a class can be served by every regime whose line lies to the left of the end of its bar. Three delay thresholds separate the classes. Below about \SI{100}{ms} one way, only the surface cell and a direct hop to an ELFO relay, \SI{29}{}--\SI{59}{ms} from the south pole, qualify, and the relay hop qualifies only if its processing stays far below the \SI{1}{s} that the LCRNS requirements allow (Table~\ref{tab:chain}); swarm coordination, fine teleoperation and telepresence are therefore local in practice. Between \SI{100}{ms} and about \SI{400}{ms}, the relay links qualify, so voice and interactive applications can run through an ELFO or NRHO relay but not through Earth. Above \SI{1}{s}, the Earth link qualifies for the classes that tolerate it, namely bulk data and supervision, which are the traffic carried by store-and-forward. Earth--Moon conversational voice fails the ITU-T G.114 limit by a factor of three and is therefore operated as push-to-talk regardless of link rate.
+Fig.~\ref{fig:delay} sets the delay each regime of the chain produces, as vertical lines and bands, against the delay each class tolerates, as bars; a class can be served by every regime whose line lies to the left of the end of its bar. The rows of Table~\ref{tab:traffic} are ordered by tolerated delay, from swarm coordination to far-side observatory data, and three delay thresholds separate the classes. Below about \SI{100}{ms} one way, only the surface cell and a direct hop to an ELFO relay, \SI{29}{}--\SI{59}{ms} from the south pole, qualify, and the relay hop qualifies only if its processing stays far below the \SI{1}{s} that the LCRNS requirements allow (Table~\ref{tab:chain}); swarm coordination, fine teleoperation and telepresence are therefore local in practice. Between \SI{100}{ms} and about \SI{400}{ms}, the relay links qualify, so voice and interactive applications can run through an ELFO or NRHO relay but not through Earth. Above \SI{1}{s}, the Earth link qualifies for the classes that tolerate it, namely bulk data and supervision, which are the traffic carried by store-and-forward. Earth--Moon conversational voice fails the ITU-T G.114 limit by a factor of three and is therefore operated as push-to-talk regardless of link rate.
 
 The safety-alert class of Table~\ref{tab:traffic} cannot wait for a scheduled contact, and the requirements address it through a separate low-rate layer and operating rules. The concept of operations for the crewed lander requires continuous communications in all crewed phases over dissimilar paths to Earth and tolerance of 12--24~h of unplanned loss~\cite{hls_conop008}; on the surface, suit alarms are broadcast locally to every crewmember, and loss of communication ends the extravehicular activity~\cite{eva_conops}. The relay requirements specify a critical-service availability of 98 to 99.5~percent (TBR) and a search-and-rescue service that detects a distress beacon within \SI{5}{min} and relays its message to Earth within another \SI{5}{min}~\cite{nasa_lunar_relay_srd}, and LunaNet defines contingency signals at 15.625 and 250~symbols/s for nodes whose power or antenna pointing is degraded~\cite{lnis_v5}. Wherever an alert must cross the trunk, its delivery bound is therefore of the order of minutes, against the 1--3~s tolerance in Table~\ref{tab:traffic}, and the alarm path from suit to crew and lander must not depend on any relay.
 
@@ -457,7 +457,7 @@ Table~\ref{tab:orbits} summarizes the trade-off. No single orbit family is optim
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.55cm}rrR@{}}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.9cm}rrR@{}}
 \toprule
 \rowcolor{tabhead}\textbf{Family} & \textbf{Perilune} & \textbf{Apolune} & \textbf{Trade-off} \\
 \midrule
@@ -489,8 +489,8 @@ The slant ranges of lunar links span five orders of magnitude, shown on the loga
 Surface-to-surface & 1--10\,km & Terrain, mast height \\
 Surface-to-relay & 100--70\,000\,km & Relay orbit, from LLO to NRHO apolune \\
 Relay-to-relay & 4\,000--60\,000\,km & Relative orbit geometry: 4\,100--22\,400\,km within the LCRNS ELFO set; of order 60\,000\,km from an ELFO to an NRHO relay \\
-Relay-to-Earth & 384\,000\,km & Earth--Moon distance \\
-Surface-to-Earth & 384\,000\,km & Earth--Moon distance; near side only \\
+Relay-to-Earth & 384\,400\,km & Earth--Moon distance \\
+Surface-to-Earth & 384\,400\,km & Earth--Moon distance; near side only \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -531,7 +531,7 @@ The lunar day is \SI{29.5}{Earth-days} with a night of \SI{14.77}{Earth-days}~\c
 
 \subsection{The Shielded Zone as Geometry}
 \label{sec:szgeom}
-The Shielded Zone of the Moon comprises the area of the lunar surface lying more than \SI{23.2}{\degree} beyond the mean limb as seen from the center of the Earth, together with an adjacent volume of space, both shielded from emissions originating within \SI{100000}{km} of the center of the Earth~\cite{itu_rr2024,itu_ra479} (Fig.~\ref{fig:szm}). It is a geometric definition with regulatory force: within it, No.~22.22 of the Radio Regulations protects radio astronomy and the other passive services across the whole spectrum, with the exemptions set out in Section~\ref{sec:spectrum}. Because libration moves the limb by \SI{\pm 7}{\degree}, the zone is defined from the mean limb and its edge is a band of the surface that is sometimes Earth-visible and sometimes not.
+The Shielded Zone of the Moon comprises the area of the lunar surface lying more than \SI{23.2}{\degree} beyond the mean limb as seen from the center of the Earth, together with an adjacent volume of space, both shielded from emissions originating within \SI{100000}{km} of the center of the Earth~\cite{itu_rr2024,itu_ra479} (Fig.~\ref{fig:szm}); the far-side band within \SI{23.2}{\degree} of the mean limb therefore lies outside the zone. It is a geometric definition with regulatory force: within it, No.~22.22 of the Radio Regulations protects radio astronomy and the other passive services across the whole spectrum, with the exemptions set out in Section~\ref{sec:spectrum}. Because libration moves the limb by \SI{\pm 7}{\degree}, the zone is defined from the mean limb and its edge is a band of the surface that is sometimes Earth-visible and sometimes not.
 \begin{figure}[!t]
 \centering
 \resizebox{\columnwidth}{!}{\input{figs/fig_shielded_zone.tex}}
@@ -569,7 +569,7 @@ $c$ & Speed of light (m/s) \\
 $R$ & Slant range (m) \\
 $k$ & Boltzmann constant, $1.38\times10^{-23}$~J/K ($-228.6$~dBW/K/Hz) \\
 $T_{\mathrm{sys}}$ & System noise temperature (K) \\
-$R_b$ & Data rate (bit/s) \\
+$R_b$ & Data rate (bps) \\
 $L_{\mathrm{FS}}$ & Free-space path loss \\
 $L_{\mathrm{o}}$ & Other losses, including implementation loss ($\geq 1$) \\
 $E_b/N_0$ & Energy per bit to noise spectral density ratio \\
@@ -755,7 +755,7 @@ To illustrate the methodology, we evaluate a single budget in full: the trunk li
 \rowcolor{tabhead}\textbf{Parameter} & \textbf{Value} & \textbf{Description} \\
 \midrule
 $f$ & 26\,GHz & Ka-band downlink \\
-$R$ & 384\,000\,km & Earth--Moon distance \\
+$R$ & 384\,400\,km & Earth--Moon distance \\
 $R_b$ & 100\,Mbps & Data rate \\
 $P_t$ & 40\,W & Relay transmit power \\
 $D_t$ & 0.75\,m & Relay antenna \\
@@ -1013,15 +1013,15 @@ The six links form a network only when they are chained, and Table~\ref{tab:chai
 Band, apertures & S, omni & Ka, 0.5 / 0.5\,m & Ka, 0.75 / 34\,m \\
 Range & 10\,km & 17\,400\,km & 384\,400\,km \\
 Operating rate & 1\,Mbps & 10\,Mbps & 100\,Mbps \\
-Margin at that rate & 14.3\,dB & 5.0\,dB & 24.7\,dB$^{\mathrm{c}}$ \\
-Rate at 3\,dB margin & 13\,Mbps & 16\,Mbps & ${>}0.5$\,Gbps$^{\mathrm{a}}$ \\
+Margin at that rate & 14.3\,dB & 5.0\,dB & 24.7\,dB$^{\mathrm{a}}$ \\
+Rate at 3\,dB margin & 13\,Mbps & 16\,Mbps & ${>}0.5$\,Gbps$^{\mathrm{b}}$ \\
 Propagation delay & 0.03\,ms & 58\,ms & 1.282\,s \\
-Other delay & 10\,ms (cell)$^{\mathrm{b}}$ & ${<}1$\,s (relay, TBR) & --- \\
-Contact duty cycle & 1.0 & 0.83 & 0.33$^{\mathrm{b}}$ \\
-\rowcolor{tabkey}Rate $\times$ duty cycle & 1.0\,Mbps & 8.3\,Mbps & 33\,Mbps \\
+Other delay & 10\,ms (cell)$^{\mathrm{c}}$ & ${<}1$\,s (relay, TBR) & --- \\
+Contact duty cycle & 1.0 & 0.83 & 0.33$^{\mathrm{d}}$ \\
+\rowcolor{tabkey}Operating rate $\times$ duty cycle & 1.0\,Mbps & 8.3\,Mbps & 33\,Mbps \\
 \bottomrule
 \end{tabularx}
-\par\smallskip\raggedright\footnotesize $^{\mathrm{a}}$Down to \SI{10}{\degree} elevation at 99~percent availability; bounded by the \SI{1.5}{GHz} allocation. $^{\mathrm{b}}$Assumed: a surface-cell latency allowance and one \SI{8}{h} pass per day. $^{\mathrm{c}}$With the gain and system temperature of the DSN handbook (Section~\ref{sec:trunk}).
+\par\smallskip\raggedright\footnotesize $^{\mathrm{a}}$With the gain and system temperature of the DSN handbook (Section~\ref{sec:trunk}). $^{\mathrm{b}}$Down to \SI{10}{\degree} elevation at 99~percent availability; bounded by the \SI{1.5}{GHz} allocation. $^{\mathrm{c}}$Assumed surface-cell latency allowance. $^{\mathrm{d}}$Assumed one \SI{8}{h} pass per day.
 \end{table}
 
 \subsection{Design Guidelines and Decision Flow}
@@ -1104,7 +1104,7 @@ Sections~\ref{sec:geometry} to~\ref{sec:budgets} treated each link in isolation;
 
 \subsection{Terrain-Limited Coverage}
 \label{sec:coverage}
-On the Moon, coverage depends on antenna height and node placement more than on transmit power. Link~1 of Table~\ref{tab:links} closes with \SI{14}{dB} of margin over \SI{10}{km} at \SI{1}{Mbit/s} with omnidirectional antennas; its coverage is limited by visibility. The horizon of Section~\ref{sec:geometry} is the first limit, and the terrain within it the second: a line-of-sight path over regolith is served at close to the free-space level, modulated by two-ray interference, and a path behind a ridge is served, if at all, through diffraction over one or more edges, whose loss grows with frequency. Reference~\cite{baena2027surface} quantifies this over a \SI{10}{km} tile at Connecting Ridge from the Lunar Orbiter Laser Altimeter (LOLA) elevation model, with a two-ray model for line-of-sight paths and multi-edge diffraction for shadowed ones. A single \SI{30}{m} mast on the highest point of the tile serves 35.1~percent of it at UHF, 18.7~percent at S-band and 12.4~percent at Ka-band, against about 12~percent in line of sight and 100~percent for a Friis budget without terrain; the Shackleton rim tile gives 42.8, 30.2 and 22.8~percent.
+On the Moon, coverage depends on antenna height and node placement more than on transmit power. Link~1 of Table~\ref{tab:links} closes with \SI{14}{dB} of margin over \SI{10}{km} at \SI{1}{Mbps} with omnidirectional antennas; its coverage is limited by visibility. The horizon of Section~\ref{sec:geometry} is the first limit, and the terrain within it the second: a line-of-sight path over regolith is served at close to the free-space level, modulated by two-ray interference, and a path behind a ridge is served, if at all, through diffraction over one or more edges, whose loss grows with frequency. Reference~\cite{baena2027surface} quantifies this over a \SI{10}{km} tile at Connecting Ridge from the Lunar Orbiter Laser Altimeter (LOLA) elevation model, with a two-ray model for line-of-sight paths and multi-edge diffraction for shadowed ones. A single \SI{30}{m} mast on the highest point of the tile serves 35.1~percent of it at UHF, 18.7~percent at S-band and 12.4~percent at Ka-band, against about 12~percent in line of sight and 100~percent for a Friis budget without terrain; the Shackleton rim tile gives 42.8, 30.2 and 22.8~percent.
 
 Fig.~\ref{fig:coverage}(a) compares the two tiles, with the line-of-sight core of Connecting Ridge, and panels~(b) to~(d) vary one parameter at a time at S-band on Connecting Ridge, where a Friis budget without terrain would serve the whole tile in every case. Raising the mast from 10 to \SI{100}{m} raises the S-band served fraction from 4.8 to 44.3~percent, three nodes on high points serve 33.9~percent, whereas raising the EIRP from the \SI{23}{dBm} of a suit radio to a \SI{53}{dBm} base station, at a \SI{10}{m} mast, only takes it from 12 to 19~percent. Coverage therefore consists of a line-of-sight core with large margin and a diffraction fringe that shrinks with frequency, and the distribution of S-band margin over the tile is bimodal: the served locations have a median margin of \SI{+34}{dB}, with the line-of-sight peak near \SI{+38}{dB}, and the unserved locations a median of \SI{-59}{dB}.
 
@@ -1150,7 +1150,7 @@ The information is nonetheless available, because the obstruction is static. Lun
 
 
 \subsection{Link-Level Performance Over the Lunar Channel}
-Baena \emph{et al.}~\cite{baena2027surface} run a 5G New Radio uplink simulation, a physical uplink shared channel (PUSCH) of one layer over \SI{18.4}{MHz} with two receive antennas, with the channels exported from the ray-traced terrain. The lunar line-of-sight channel is frequency-flat, because the two-ray excess delay is far shorter than the cyclic prefix, and reaches a block error rate of 10~percent about \SI{5}{dB} below the frequency-selective terrestrial reference channel; it has no block errors from \SI{9.5}{dB}, where a single modulation and coding scheme saturates at \SI{28}{Mbit/s}, and link adaptation over eight schemes reaches \SI{102}{Mbit/s}. Fig.~\ref{fig:bler} places these schemes against the Shannon bound of the same \SI{18.4}{MHz}: the envelope delivers \SI{31}{Mbit/s} at \SI{10}{dB} and \SI{65}{Mbit/s} at \SI{18}{dB}, between half and 60~percent of the bound, and the gap is due to the reference-signal, coding and modulation overhead of the 3GPP waveform and to a practical receiver. A non-line-of-sight stress case with two taps behaves like the terrestrial reference, but a real diffracted lunar link carries a single tap. A served lunar link therefore needs less signal-to-noise ratio than a terrestrial one, so coverage is limited by visibility; this is the link-level counterpart of the binary coverage above. Section~\ref{sec:measurement} describes how the same channels are reproduced on radio hardware.
+Baena \emph{et al.}~\cite{baena2027surface} run a 5G New Radio uplink simulation, a physical uplink shared channel (PUSCH) of one layer over \SI{18.4}{MHz} with two receive antennas, with the channels exported from the ray-traced terrain. The lunar line-of-sight channel is frequency-flat, because the two-ray excess delay is far shorter than the cyclic prefix, and reaches a block error rate of 10~percent about \SI{5}{dB} below the frequency-selective terrestrial reference channel; it has no block errors from \SI{9.5}{dB}, where a single modulation and coding scheme saturates at \SI{28}{Mbps}, and link adaptation over eight schemes reaches \SI{102}{Mbps}. Fig.~\ref{fig:bler} places these schemes against the Shannon bound of the same \SI{18.4}{MHz}: the envelope delivers \SI{31}{Mbps} at \SI{10}{dB} and \SI{65}{Mbps} at \SI{18}{dB}, between half and 60~percent of the bound, and the gap is due to the reference-signal, coding and modulation overhead of the 3GPP waveform and to a practical receiver. A non-line-of-sight stress case with two taps behaves like the terrestrial reference, but a real diffracted lunar link carries a single tap. A served lunar link therefore needs less signal-to-noise ratio than a terrestrial one, so coverage is limited by visibility; this is the link-level counterpart of the binary coverage above. Section~\ref{sec:measurement} describes how the same channels are reproduced on radio hardware.
 \begin{figure}[!t]
 \centering
 \input{figs/fig_nr_amc.tex}
@@ -1207,6 +1207,7 @@ A one-way user must hold its clock between contacts. Table~\ref{tab:holdover} gi
 \setlength{\tabcolsep}{3pt}
 \begin{tabularx}{\columnwidth}{@{}>{\bfseries}Xccccc@{}}
 \toprule
+\rowcolor{tabhead} & & & \multicolumn{3}{c}{\textbf{Time error after a gap of}} \\
 \rowcolor{tabhead}\textbf{Oscillator} & \textbf{$\sigma_y$} & \textbf{Aging} & \textbf{\SI{1}{h}} & \textbf{\SI{1}{d}} & \textbf{\SI{14}{d}} \\
 \midrule
 TCXO & $10^{-9}$ & $5\times10^{-7}$/yr & \SI{3.7}{\micro\second} & \SI{146}{\micro\second} & \SI{13}{ms} \\
@@ -1294,7 +1295,7 @@ Table~\ref{tab:ntn} compares the design values of the 3GPP non-terrestrial speci
 \toprule
 \rowcolor{tabhead}\textbf{Assumption} & \textbf{3GPP NTN value} & \textbf{Lunar value} \\
 \midrule
-Slant range & ${\approx}\SI{41000}{km}$ (GEO, \SI{10}{\degree} elevation)~\cite{3gpp_tr_38821} & \SI{384000}{km} on the trunk \\
+Slant range & ${\approx}\SI{41000}{km}$ (GEO, \SI{10}{\degree} elevation)~\cite{3gpp_tr_38821} & \SI{384400}{km} on the trunk \\
 One-way delay & ${\leq}\SI{270.73}{ms}$ (GEO, transparent)~\cite{3gpp_tr_38821} & \SI{1.28}{\second} \\
 Connectivity & Continuous & Contact and outage on a scale of hours \\
 Terminal GNSS fix & Assumed in Rel-19; temporary loss in Rel-20~\cite{3gpp_rp261568} & No Earth GNSS on the far side \\
@@ -1368,7 +1369,7 @@ Three open problems remain. First, no deployed system performs certificate revoc
 
 \subsection{Power as a Network Variable}
 \label{sec:power}
-Terrestrial network design usually treats power as supplied by the grid. On the Moon power affects the design in three ways: as the ceiling on transmit power through the bus of the platform (Section~\ref{sec:frequency}), as the variable that decides whether a surface node is awake, and as a site-selection criterion. Table~\ref{tab:power} summarizes the sources and Fig.~\ref{fig:powertimeline} the power state of each node over one lunar day, which sets the timeline for the contact plan of Section~\ref{sec:protocol}.
+Terrestrial network design usually treats power as supplied by the grid. On the Moon power affects the design in three ways: as the ceiling on transmit power through the bus of the platform (Section~\ref{sec:frequency}), as the variable that decides whether a surface node is awake, and as a site-selection criterion. Table~\ref{tab:power} summarizes the sources and Fig.~\ref{fig:powertimeline} the power state of each node over one lunar day, which sets the timeline for the contact plan of Section~\ref{sec:protocol}. In the figure only the radioisotope and fission nodes stay on through the night; the ridge mast stays on except for dark spells of up to a few days, the relay loses power only in short eclipses, and the solar nodes shut down or fall to a survival mode, so the contact plan changes at each sunset and sunrise.
 
 A solar-powered surface node must operate through the \SI{354}{h} lunar night, and the energy storage required for that night dominates the mass of a photovoltaic power system~\cite{colozza_power1991}. For a \SI{20}{W} night load the stored energy is \SI{7.08}{kWh}, which at a battery specific energy of \SI{100}{Wh/kg} and full depth of discharge corresponds to approximately \SI{71}{kg} of cells. At lunar-base scale, hybrid solar-nuclear systems minimize mass in a parametric study of power configurations~\cite{balat_power2021}. For comparison, the LuSEE-Night instrument carries a \SI{7.16}{kWh} lithium-ion battery of \SI{50}{kg}, within a total instrument mass limit of \SI{128}{kg}, to operate through the \SI{328}{h} night at its landing site~\cite{aguirre_lusee}.
 
@@ -1407,7 +1408,7 @@ Three properties established earlier combine on the far side and make it a separ
 
 \subsection{Spectrum Regulation and the Shielded Zone}
 \label{sec:spectrum}
-Table~\ref{tab:spectrum} lists the principal allocated and SFCG-recommended bands. The Shielded Zone was defined geometrically in Section~\ref{sec:szgeom}. Within it, No.~22.22 of the Radio Regulations prohibits emissions causing harmful interference to radio astronomy and other passive services in the entire frequency spectrum. Nos.~22.23 and~22.24 exempt the bands of the space research service using active sensors and the space operation, active sensing and radiolocation bands that support space research, together with radiocommunications within the zone; in these bands radio astronomy may be protected only by agreement between the administrations concerned (No.~22.25)~\cite{itu_rr2024}.
+Table~\ref{tab:spectrum} lists the principal allocated and SFCG-recommended bands; all radio bands in it lie below \SI{28.35}{GHz}, and the optical links lie outside the Radio Regulations. The Shielded Zone was defined geometrically in Section~\ref{sec:szgeom}. Within it, No.~22.22 of the Radio Regulations prohibits emissions causing harmful interference to radio astronomy and other passive services in the entire frequency spectrum. Nos.~22.23 and~22.24 exempt the bands of the space research service using active sensors and the space operation, active sensing and radiolocation bands that support space research, together with radiocommunications within the zone; in these bands radio astronomy may be protected only by agreement between the administrations concerned (No.~22.25)~\cite{itu_rr2024}.
 
 Recommendation ITU-R RA.479-5 further advises that transmitters located in or illuminating the zone avoid the bands of greatest astronomical importance, retain frequency flexibility and coordinate with the radio astronomy service. It also reproduces IAU Resolution~B16, which recommends that Shielded Zone radiocommunications be limited to \SI{2}{}--\SI{3}{GHz}, with an alternative band at least \SI{1}{GHz} wide used on a time-coordinated basis~\cite{itu_ra479}. In line with these provisions, the SFCG restricts its UHF lunar bands to use outside the Shielded Zone~\cite{sfcg_rec32}, and the United States and the SFCG favor S-band over L-band for lunar navigation in order to protect radio astronomy in the zone~\cite{csis_lunar_spectrum}.
 
@@ -1426,7 +1427,7 @@ S & 2025--2110 / 2200--2290\,MHz & Relay proximity; direct-to-Earth for existing
 S & 2400--2480 / 2503.5--2655\,MHz & Surface wireless network~\cite{sfcg_rec32} \\
 S & 2483.5--2500\,MHz & Lunar navigation~\cite{sfcg_rec32} \\
 X & 7190--7235 / 8450--8500\,MHz & Direct-to-Earth; Res.~680 study range~\cite{sfcg_rec32,itu_wrc23_res680} \\
-K/Ka & 22.55--23.15 / 25.5--27.0\,GHz & Direct-to-Earth~\cite{lnis_v5} \\
+K/Ka & 22.55--23.15 / 25.5--27.0\,GHz & Trunk and direct-to-Earth~\cite{lnis_v5} \\
 K/Ka & 23.15--23.55 / 27.0--27.5\,GHz & Relay proximity, cross-link~\cite{lnis_v5,sfcg_rec32} \\
 Optical & 1064 / 1550\,nm & Inter-satellite, trunk; Orion O2O at 1550\,nm (no ITU allocation)~\cite{nasa_o2o} \\
 \bottomrule
@@ -1462,7 +1463,7 @@ Most quantitative results in lunar communications come from simulation. The only
 The measurement gap of Section~\ref{sec:measurement} limits the numbers; this section examines the design choices those numbers inform. Everything to this point has taken the infrastructure under contract as given. This section asks whether it is the right infrastructure for the sustained-presence Moon of Table~\ref{tab:phases}, with bases, commercial operators and far-side observatories, and what form a network specified for that Moon would take. 
 
 \subsection{Origins of the Current Infrastructure Design}
-The relay and navigation systems under contract were specified between 2022 and 2024 for robotic science and for crewed sorties of a week: few users, one polar cap, scheduled contacts, and every bit terminating on Earth. Their specifications reflect this: five satellites, \SI{1}{}--\SI{50}{Mbit/s} per user, one cap, and a requirements document that allots each relay a processing allowance but no routing among relays~\cite{nasa_lunar_relay_srd}. It is the deep-space paradigm applied to the Moon, with Earth as the center and the Moon as a destination, and each agency owning its segment. The paradigm matches the demand of Table~\ref{tab:phases} for the sortie phase only. Meanwhile, stated program objectives have shifted from science missions to sustained presence and resource extraction. Two blocs are building parallel infrastructures, the Artemis partners around LunaNet and the International Lunar Research Station partners around the Chinese relays, each with its own band usage, its own time reference and its own interoperability baseline. Both intend to operate on the far side, the one place where two uncoordinated networks would interfere with each other and with radio astronomy. Design decisions made for a first network generation tend to persist, the first-generation lunar decisions are being made in the current procurement cycle, and this section evaluates them in addition to explaining them.
+The relay and navigation systems under contract were specified between 2022 and 2024 for robotic science and for crewed sorties of a week: few users, one polar cap, scheduled contacts, and every bit terminating on Earth. Their specifications reflect this: five satellites, \SI{1}{}--\SI{50}{Mbps} per user, one cap, and a requirements document that allots each relay a processing allowance but no routing among relays~\cite{nasa_lunar_relay_srd}. It is the deep-space paradigm applied to the Moon, with Earth as the center and the Moon as a destination, and each agency owning its segment. The paradigm matches the demand of Table~\ref{tab:phases} for the sortie phase only. Meanwhile, stated program objectives have shifted from science missions to sustained presence and resource extraction. Two blocs are building parallel infrastructures, the Artemis partners around LunaNet and the International Lunar Research Station partners around the Chinese relays, each with its own band usage, its own time reference and its own interoperability baseline. Both intend to operate on the far side, the one place where two uncoordinated networks would interfere with each other and with radio astronomy. Design decisions made for a first network generation tend to persist, the first-generation lunar decisions are being made in the current procurement cycle, and this section evaluates them in addition to explaining them.
 
 \subsection{Limits of Direct-to-Satellite Surface Access}
 This subsection examines whether surface users can rely on relays alone, without surface infrastructure. The link budgets show that a handset-class omnidirectional S-band terminal falls about \SI{55}{dB} short of filling a \SI{20}{MHz} channel to an ELFO relay at \SI{15000}{}--\SI{17400}{km} (link~2, Section~\ref{sec:sixlinks}). Lowering the relay to \SI{150}{km} recovers most of this deficit: the path loss there is \SI{11}{dB} lower than that of the Earth-orbit direct-to-cell systems at \SI{550}{km}, so the large relay arrays those systems use would close the remaining gap. The obstacles are satellite count and cost. Low lunar orbits are perturbed by the mass concentrations and need stationkeeping except at the frozen inclinations (Section~\ref{sec:geometry}), passes last minutes, and continuity for one site takes dozens of satellites. Delivery is also costly: NASA estimated about \$1~million per kilogram delivered to the surface under its commercial lander services~\cite{oig2024clps}; published commercial prices are \$0.3~million per kilogram to lunar orbit and \$1.2 to 1.5~million to the surface~\cite{astrobotic2021pug,ispace2024brief}, against about \$2700 per kilogram to LEO~\cite{jones2018launch}. At these prices a \SI{100}{kg} low-orbit relay costs about \$30~million to deliver, so a low-orbit tier of several dozen satellites costs more than a set of surface repeaters; ispace has bought \SI{500}{kg} of Starship capacity to the Moon for \$50~million, for launch no earlier than 2030~\cite{ispace2026starship}. Such a constellation becomes cost-effective when the user population grows from about ten users to about a thousand sensors and robots, or when heavy-lift landing lowers the cost per kilogram. The preferred architecture therefore depends on the user count, which is expected to grow in the sustained-presence phase.
@@ -1479,7 +1480,7 @@ Fig.~\ref{fig:architecture} sketches a network specified for the sustained-prese
 \item \emph{Spectrum above \SI{28.35}{GHz} ahead of deployment.} The regulatory work of Section~\ref{sec:governance} should be completed before the first relay operating above \SI{28.35}{GHz} is launched.
 \end{itemize}
 
-A Moon-centric core requires deciding where computation is placed: at the instrument, at the gateway or on the relay. The limited trunk capacity sets how much processing each location performs. At the instrument, LuSEE-Night is designed to form correlation spectra in a field-programmable gate array (FPGA) before relaying them~\cite{bale_lusee_2023}, and the FARSIDE array concept correlates 128 antennas at its base station into \SI{65}{GB} per day, with \SI{192}{GB} of storage for three days of outage~\cite{burns_farside_2019}; at the gateway, the local core and the 5G-to-DTN boundary of Section~\ref{sec:protocol} keep base traffic on the Moon; on the relay, the LCRNS requirements imply bundle and Internet Protocol processing at about \SI{100}{Mbit/s} per node~\cite{nasa_onboard_lunanet}. Dedicated lunar data centers remain demonstrations: a storage payload on IM-1 exchanged files in transit, in lunar orbit and on the surface~\cite{dcd_lonestar_im1}, and a successor flew on IM-2~\cite{storagenl_freedom_2025,nasa_im2}.
+A Moon-centric core requires deciding where computation is placed: at the instrument, at the gateway or on the relay. The limited trunk capacity sets how much processing each location performs. At the instrument, LuSEE-Night is designed to form correlation spectra in a field-programmable gate array (FPGA) before relaying them~\cite{bale_lusee_2023}, and the FARSIDE array concept correlates 128 antennas at its base station into \SI{65}{GB} per day, with \SI{192}{GB} of storage for three days of outage~\cite{burns_farside_2019}; at the gateway, the local core and the 5G-to-DTN boundary of Section~\ref{sec:protocol} keep base traffic on the Moon; on the relay, the LCRNS requirements imply bundle and Internet Protocol processing at about \SI{100}{Mbps} per node~\cite{nasa_onboard_lunanet}. Dedicated lunar data centers remain demonstrations: a storage payload on IM-1 exchanged files in transit, in lunar orbit and on the surface~\cite{dcd_lonestar_im1}, and a successor flew on IM-2~\cite{storagenl_freedom_2025,nasa_im2}.
 \begin{figure*}[!t]
 \centering
 \resizebox{0.9\textwidth}{!}{\input{figs/fig_architecture.tex}}
@@ -1493,7 +1494,7 @@ The current architecture was specified for about ten users and a scientific miss
 
 \section{Open Research Problems}
 \label{sec:open}
-This section collects the open problems identified in Sections~\ref{sec:frequency} to~\ref{sec:architecture}, which the roadmap of Section~\ref{sec:roadmap} then places in time. Table~\ref{tab:open} lists them with the section that motivates each and the horizon in which it becomes actionable; the horizons are those of Section~\ref{sec:roadmap}: 2026--2028, 2028--2032 and from 2032. The subsections below state what is open and the deliverable for the directions not developed elsewhere; delay-tolerant security, capacity under intermittency, Earth-origin interference, higher-frequency links, a lunar 3GPP profile and the two-tier architecture are developed in the sections the table cites.
+This section collects the open problems identified in Sections~\ref{sec:frequency} to~\ref{sec:architecture}, which the roadmap of Section~\ref{sec:roadmap} then places in time. Table~\ref{tab:open} lists them with the section that motivates each and the horizon in which it becomes actionable. Only in-situ propagation validation and Earth-origin interference belong to the first horizon, because the other results depend on measured channels; the horizons are those of Section~\ref{sec:roadmap}: 2026--2028, 2028--2032 and from 2032. The subsections below state what is open and the deliverable for the directions not developed elsewhere; delay-tolerant security, capacity under intermittency, Earth-origin interference, higher-frequency links, a lunar 3GPP profile and the two-tier architecture are developed in the sections the table cites.
 \begin{table*}[!t]
 \caption{Open Research Problems and Proposed Deliverables}
 \label{tab:open}
@@ -1583,7 +1584,7 @@ Table~\ref{tab:acronyms} lists the acronyms used in the paper; each is also spel
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.0}
-\begin{tabularx}{\textwidth}{@{}lXlXlX@{}}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}Xl>{\raggedright\arraybackslash}Xl>{\raggedright\arraybackslash}X@{}}
 \toprule
 Acronym & Definition & Acronym & Definition & Acronym & Definition \\
 \midrule

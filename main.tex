@@ -793,7 +793,7 @@ Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at
     xlabel={Slant range $R$ (km)},
     ylabel={Margin $M$ (dB)},
     xmode=log, xmin=100, xmax=600000,
-    ymin=-40, ymax=50,
+    ymin=-40, ymax=50, clip mode=individual,
     grid=both, grid style={gray!25},
     tick label style={font=\footnotesize},
     label style={font=\footnotesize},
@@ -813,14 +813,11 @@ Fig.~\ref{fig:margin} shows the delivered margin as a function of slant range at
 \addplot[black, densely dotted, domain=100:600000] {3};
 \addlegendentry{$M=3$\,dB threshold}
 \draw[gray, densely dashed] (axis cs:1629,-40) -- (axis cs:1629,50);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:1629,5) {NRHO perilune};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=1pt] at (axis cs:1629,50) {NRHO perilune};
 \draw[gray, densely dashed] (axis cs:69363,-40) -- (axis cs:69363,50);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:69363,5) {NRHO apolune};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=8pt] at (axis cs:69363,50) {NRHO apolune};
 \draw[gray, densely dashed] (axis cs:384000,-40) -- (axis cs:384000,50);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:384000,5) {Earth--Moon};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=1pt] at (axis cs:384000,50) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
 \caption{Delivered margin of the trunk against slant range at S-, X- and Ka-band.}
@@ -840,7 +837,7 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
     ylabel near ticks,
     xmode=log, ymode=log,
     xmin=100, xmax=600000,
-    ymin=1e-3, ymax=100,
+    ymin=1e-3, ymax=100, clip mode=individual,
     grid=both, grid style={gray!25},
     tick label style={font=\footnotesize},
     label style={font=\footnotesize},
@@ -849,7 +846,7 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
                   text opacity=1, row sep=1pt},
 ]
 \fill[gray!18] (axis cs:100,1e-3) rectangle (axis cs:600000,0.01153);
-\node[gray!70!black, font=\scriptsize, anchor=south west, inner sep=2pt] at (axis cs:120,1.2e-3) {$D_t < \lambda$: \eqref{eq:gain} does not apply};
+\node[gray!70!black, font=\scriptsize, anchor=south west, inner sep=2pt, fill=gray!18] at (axis cs:2200,1.2e-3) {$D_t < \lambda$: \eqref{eq:gain} does not apply};
 \addplot[blue, thick, domain=1595:600000, samples=100]
   {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e6*1.585*19.95/10)};
 \addlegendentry{$R_b=1$\,Mbps}
@@ -866,17 +863,13 @@ Fig.~\ref{fig:aperture} shows the transmit aperture required to sustain a \SI{3}
 \addplot[green!55!black, thin, densely dotted, domain=100:160, samples=30, forget plot]
   {4*x*1e3*0.01153/(pi*0.6*0.5)*sqrt(1.38e-23*500*1e8*1.585*19.95/10)};
 \draw[gray, densely dashed] (axis cs:1629,1e-3) -- (axis cs:1629,100);
-\node[gray, font=\scriptsize, rotate=90, anchor=east, inner sep=2pt]
-  at (axis cs:1629,70) {NRHO perilune};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=1pt] at (axis cs:1629,100) {NRHO perilune};
 \draw[gray, densely dashed] (axis cs:17400,1e-3) -- (axis cs:17400,100);
-\node[gray, font=\scriptsize, rotate=90, anchor=east, inner sep=2pt]
-  at (axis cs:17400,70) {LCRNS apolune};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=8pt] at (axis cs:17400,100) {LCRNS apolune};
 \draw[gray, densely dashed] (axis cs:69363,1e-3) -- (axis cs:69363,100);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:69363,0.0135) {NRHO apolune};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=1pt] at (axis cs:69363,100) {NRHO apolune};
 \draw[gray, densely dashed] (axis cs:384400,1e-3) -- (axis cs:384400,100);
-\node[gray, font=\scriptsize, rotate=90, anchor=west, inner sep=2pt]
-  at (axis cs:384400,0.0135) {Earth--Moon};
+\node[gray!40!black, font=\tiny, anchor=south, inner sep=1pt, yshift=8pt] at (axis cs:384400,100) {Earth--Moon};
 \end{axis}
 \end{tikzpicture}
 \caption{Transmit aperture required for a \SI{3}{dB} margin at \SI{26}{GHz} against slant range, for three data rates.}
@@ -923,8 +916,8 @@ Fig.~\ref{fig:gainbw} shows the gain and the half-power beamwidth of a Ka-band a
     label style={font=\scriptsize},
 ]
 \addplot[red, thick, dashed, domain=0.05:40, samples=90] {70*0.01154/x};
-\node[red, font=\scriptsize, anchor=east, inner sep=1pt]
-  at (axis cs:8,2.5) {Beamwidth};
+\node[red, font=\scriptsize, anchor=south west, inner sep=1pt]
+  at (axis cs:0.22,3.8) {Beamwidth};
 \end{axis}
 \end{tikzpicture}
 \caption{Antenna gain and half-power beamwidth against aperture diameter at \SI{26}{GHz}.}

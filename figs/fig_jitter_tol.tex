@@ -19,7 +19,7 @@
 \addplot[highc, thick, densely dashed] table[x=R, y=op_worst] {figs/jitter_tol.dat};
 \addlegendentry{\SI{1550}{nm}, worst range}
 \draw[black!45, dash dot] (axis cs:1,50) -- (axis cs:5e4,50) node[pos=0.98, anchor=south east, font=\scriptsize, text=black!60] {star tracker, \SI{50}{\micro\radian}};
-\draw[black!45, dash dot] (axis cs:1,1) -- (axis cs:5e4,1) node[pos=0.02, anchor=north west, font=\scriptsize, text=black!60] {precision pointing, \SI{1}{\micro\radian}};
+\draw[black!45, dash dot] (axis cs:1,1) -- (axis cs:5e4,1) node[pos=0.02, anchor=south west, font=\scriptsize, text=black!60] {precision pointing, \SI{1}{\micro\radian}};
 \fill[black] (axis cs:62,2.65) circle (1.6pt);
 \node[anchor=north west, font=\scriptsize] at (axis cs:70,2.5) {crossover};
 \end{axis}

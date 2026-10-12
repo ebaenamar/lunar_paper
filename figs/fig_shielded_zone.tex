@@ -16,12 +16,10 @@
 % parallel rays from Earth grazing the mean limb
 \draw[black!60] (-3.6,\R) -- (0,\R); \draw[black!60] (-3.6,-\R) -- (0,-\R);
 \node[anchor=north,text=black!60] at (-1.9,-\R-0.03) {rays from Earth's center, grazing the mean limb};
-\draw[-{Stealth[length=4pt]},black!60] (-2.6,0) -- (-3.6,0); \node[anchor=east,text=black!60,align=right] at (-2.6,-0.05) {to Earth,\\\SI{384400}{km}};
+\draw[-{Stealth[length=4pt]},black!60] (-2.6,0) -- (-3.6,0); \node[anchor=north,text=black!60,align=center] at (-3.1,-0.1) {to Earth,\\\SI{384400}{km}};
 % 23.2 deg arc from the limb point
 \draw[black!70,thick] (90:\R+0.25) arc (90:66.8:\R+0.25);
 \draw[black!40,dashed] (0,0) -- (90:\R+0.45); \draw[black!40,dashed] (0,0) -- (66.8:\R+0.45);
 \node[anchor=south west,text=black!70] at (0.9,\R+0.05) {\SI{23.2}{\degree} beyond the limb};
 \node[anchor=south east,text=black!70] at (-0.05,\R+0.3) {mean limb};
-% libration note
-\node[anchor=north,text=black!60,align=center,text width=7.6cm] at (0.3,-\R-0.55) {Libration moves the limb by about \SI{\pm 7}{\degree}; the zone is fixed from the mean limb. Inside it, No.~22.22 protects radio astronomy and passive services across the whole spectrum; active emission only in the bands of Nos.~22.23 and~22.24 (Section~\ref{sec:cross}).};
 \end{tikzpicture}

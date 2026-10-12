@@ -198,15 +198,15 @@ An engineer trained on terrestrial cellular systems already has a name for every
 \toprule
 \rowcolor{tabhead}\textbf{Terrestrial concept} & \textbf{Lunar counterpart} & \textbf{Assumption that fails} \\
 \midrule
-User equipment & Rover, EVA suit, emplaced instrument & The user population comprises crewed EVA with multi-camera video, teleoperated and autonomous rovers, and fixed science instruments, with requirements that range from continuous low-latency control links of a few hundred kbit/s to bulk returns of several gigabytes per day, so no single terminal profile applies (\S\ref{sec:demand}) \\
-Base station & Lander, deployed mast, or relay satellite & The role is transient and power-limited; for a lander or mast the coverage is bounded by terrain and mast height, and for a relay satellite the served range follows from the relay orbit (\S\ref{sec:coverage}, \S\ref{sec:payload}) \\
-Core network & Local surface core, or an Earth-side core \SI{1.28}{\second} away & A co-located, always-reachable core cannot be assumed, which forces either local termination or store-and-forward operation (\S\ref{sec:protocol}) \\
-Backhaul & Trunk link to Earth & No wireline exists: the backhaul is a wireless link, limited by aperture and pointing from the surface gateway to the relay and by weather and ground-station scheduling on the trunk to Earth (\S\ref{sec:trunk}, \S\ref{sec:sixlinks}) \\
-Cell & Coverage cell & Terrain sets the boundary, so frequency reuse is not the binding constraint and the planning tool is a ray tracer over an elevation model (\S\ref{sec:coverage}) \\
-Handover & Handover within planned overlap & The serving signal holds at full strength until the ridge occludes it, so the measured signal does not indicate the impending loss; handover must be scheduled from a terrain-based visibility prediction and the overlap sized from terrain geometry, and where the deployment provides no overlap the rover buffers traffic until the next contact (\S\ref{sec:mobility}) \\
-HARQ and ARQ & Retransmission terminated at the relay & Terrestrial HARQ timing is exceeded on any relay service link, and the NTN scheduling offsets and per-process HARQ disabling absorb the relay range but not the \SI{2.56}{\second} round trip to Earth, so reliability must be restored hop by hop, by LTP or bundle-layer retransmission on the long-delay segment (\S\ref{sec:protocol}) \\
-GNSS & Lunar PNT service & Earth GNSS signals are weak but usable on the near side and in lunar orbit, as LuGRE and the relay GNSS receivers show, whereas no Earth constellation is visible from the far side, where position and time must be supplied by the lunar relay constellation (\S\ref{sec:timescale}) \\
-Spectrum license & ITU-R allocation and Shielded Zone protection & Within the Shielded Zone the passive services are protected and active emitters are confined to the bands exempted by Nos.~22.23 and~22.24 of the Radio Regulations (\S\ref{sec:spectrum}) \\
+User equipment & Rover, EVA suit, emplaced instrument & No single terminal profile: from control links of hundreds of kbit/s to science returns of GB/day (\S\ref{sec:demand}) \\
+Base station & Lander, deployed mast, or relay satellite & Transient and power-limited; coverage set by terrain, mast height or relay orbit (\S\ref{sec:coverage}, \S\ref{sec:payload}) \\
+Core network & Local surface core, or an Earth-side core \SI{1.28}{\second} away & No always-reachable core: local termination or store-and-forward (\S\ref{sec:protocol}) \\
+Backhaul & Trunk link to Earth & No wireline: a radio link limited by aperture, pointing, weather and station time (\S\ref{sec:trunk}, \S\ref{sec:sixlinks}) \\
+Cell & Coverage cell & Boundary set by terrain; planning by ray tracing over an elevation model (\S\ref{sec:coverage}) \\
+Handover & Handover within planned overlap & Signal holds until a ridge occludes it: handover scheduled from predicted visibility; without overlap, buffer to the next contact (\S\ref{sec:mobility}) \\
+HARQ and ARQ & Retransmission terminated at the relay & HARQ timing exceeded on relay links; reliability restored hop by hop with LTP or bundles (\S\ref{sec:protocol}) \\
+GNSS & Lunar PNT service & Usable on the near side and in orbit; absent on the far side, where relays supply position and time (\S\ref{sec:timescale}) \\
+Spectrum license & ITU-R allocation and Shielded Zone protection & Passive services protected; emitters confined to the exempted bands, Nos.~22.23--22.24 (\S\ref{sec:spectrum}) \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -223,12 +223,12 @@ The relays, orbiters and landers inventoried in Section~\ref{sec:assets} are bui
 \toprule
 \rowcolor{tabhead}\textbf{Function} & \textbf{Deep-space and CCSDS practice} & \textbf{3GPP NR practice} & \textbf{Consequence for a lunar link} \\
 \midrule
-Rate selection & Fixed for the contact from a predicted budget & Adaptive modulation and coding driven by channel-quality reports & On the trunk the report is stale by the round trip, so the rate must be set from predicted geometry rather than from a measurement \\
-Power control & Constant EIRP with a static margin & Closed loop, adjusted per slot~\cite{3gpp_tr_38821} & The loop cannot close within the delay, so the margin absorbs statically what the loop would otherwise track \\
-Doppler handling & Pre-compensated from the ephemeris & Pre-compensated at the terminal from its own position fix and the satellite ephemeris & The ephemeris is available but an Earth GNSS fix is not, so the correction must come from two-way ranging with the relay or from the lunar navigation service \\
-Multiple access & Scheduled contacts, half-duplex exchange between two craft~\cite{ccsds_prox1} & Shared per-slot access among many terminals & With few terminals and no interference limit, access reduces to scheduling over visibility windows \\
-Antenna & Mechanically steered high-gain reflector & Electronically steered array & Higher gain narrows the beam, so the beamwidth that closes the link becomes a platform pointing requirement \\
-Ranging & Integrated into the communications carrier & Dedicated positioning reference signals~\cite{prs_ntn_plans2023} & Ranging and communications share one carrier and one aperture, so navigation and data compete for the same power \\
+Rate selection & Fixed for the contact from a predicted budget & Adaptive modulation and coding from channel-quality reports & Reports stale by the round trip: rate set from predicted geometry \\
+Power control & Constant EIRP with a static margin & Closed loop, adjusted per slot~\cite{3gpp_tr_38821} & Loop cannot close within the delay: static margin \\
+Doppler handling & Pre-compensated from the ephemeris & Pre-compensated at the terminal from its GNSS fix and the ephemeris & No Earth GNSS fix: correction from two-way ranging or the lunar navigation service \\
+Multiple access & Scheduled contacts, half-duplex exchange between two craft~\cite{ccsds_prox1} & Shared per-slot access among many terminals & Few terminals, no interference limit: scheduling over visibility windows \\
+Antenna & Mechanically steered high-gain reflector & Electronically steered array & Narrower beam: pointing becomes a platform requirement \\
+Ranging & Integrated into the communications carrier & Dedicated positioning reference signals~\cite{prs_ntn_plans2023} & One carrier and one aperture: navigation and data share the power \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -245,18 +245,18 @@ The band plan that the lunar infrastructure now under contract follows, S-band f
 \label{tab:governance}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.1cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
 \rowcolor{tabhead}\textbf{Function} & \textbf{Earth and Earth orbit} & \textbf{Moon} & \textbf{Same or different} \\
 \midrule
-Treaty-level allocation & ITU Radio Regulations, Article~5; allocations to services & Same treaty; lunar stations are space stations; links fall under space research and space operation, surface links are space-to-space & \textbf{Same} body, different service class; no IMT identification \\
-Band plan & World Radiocommunication Conference decisions and national tables & SFCG Recommendation 32-2, agency consensus, adopted by LunaNet and by procurement & \textbf{Different}: written by an agency consensus body, enforced by contract \\
-Licensing & National regulator per station & Same regulators license spacecraft and Earth stations; filing templates describe Earth orbits & \textbf{Same}, with lunar orbits notified by practice \\
-Coordination between operators & Formal ITU procedures, first-come-first-served status & No procedure for lunar space-to-space links; SFCG and bilateral agreements & \textbf{Different}: no priority rights exist \\
-Protected party & Communications incumbents & Radio astronomy and passive services inside the Shielded Zone (Nos.~22.22 to~22.25) & \textbf{Inverted} \\
-Interference paradigm & Frequency reuse by distance; interference-limited & Few terminals, no reuse pressure; Earth-origin emissions in shared bands reach the near side & \textbf{Different} in both directions \\
-Regulatory frontier & Conference agenda cycle & WRC-27 Agenda Item~1.15 from Resolution~680; study ranges stop at \SI{28.35}{GHz} & \textbf{Same} machinery, with a ceiling \\
-Above \SI{28}{GHz} & Allocations to \SI{275}{GHz}, passive identifications to \SI{3000}{GHz}; band structure shaped by atmospheric windows & No lunar recommendation; inter-satellite and space research allocations written for Earth orbit; passive bands apply everywhere and bind absolutely in the Shielded Zone & \textbf{Different}: on the Moon the terrestrial band ladder is an atmospheric artifact \\
+Treaty-level allocation & ITU Radio Regulations, Art.~5, by service & Same treaty; space research and space operation services & \textbf{Same}; no IMT identification \\
+Band plan & WRC decisions, national tables & SFCG Rec.~32-2, adopted by LunaNet & \textbf{Different}: agency consensus, enforced by contract \\
+Licensing & National regulator & National regulator; Earth-orbit filing templates & \textbf{Same}; lunar orbits notified by practice \\
+Coordination between operators & Formal ITU procedures, priority by filing date & No formal procedure; SFCG and bilateral agreements & \textbf{Different}: no priority rights \\
+Protected party & Communications incumbents & Passive services in the Shielded Zone & \textbf{Inverted} \\
+Interference paradigm & Reuse by distance; interference-limited & Few terminals; Earth emissions reach the near side & \textbf{Different} \\
+Regulatory frontier & WRC agenda cycle & WRC-27 Agenda Item~1.15; studies stop at \SI{28.35}{GHz} & \textbf{Same}, with a ceiling \\
+Above \SI{28}{GHz} & Allocations to \SI{275}{GHz}, shaped by atmospheric windows & No lunar provisions; passive bands binding in the Shielded Zone & \textbf{Different} \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -1294,12 +1294,12 @@ A lunar network is specified by three standards families at once. The space-link
 \toprule
 \rowcolor{tabhead}\textbf{Function} & \textbf{CCSDS / LunaNet} & \textbf{3GPP} & \textbf{IETF DTN} & \textbf{Difference} \\
 \midrule
-Data unit & Space packet carried in a transfer frame~\cite{ccsds_tm,ccsds_uslp} & Transport block, PDCP PDU & Bundle~\cite{rfc9171} & The bundle carries its own creation timestamp and lifetime in an immutable primary block, so it remains valid through storage and rehoming; frames and PDUs are scoped to one link and are discarded with it \\
-Endpoint name & Spacecraft identifier and virtual channel~\cite{ccsds_uslp} & Subscriber and cell identity & Endpoint identifier~\cite{rfc9171} & An endpoint identifier names a service that need not be reachable when addressed, whereas a subscriber identity presumes current attachment and a spacecraft identifier names a vehicle rather than a service \\
-Retransmission & COP-1 on the space link~\cite{ccsds_tc}; LTP for long delay~\cite{ccsds_ltp} & HARQ and RLC ARQ & LTP red part~\cite{rfc5326} & HARQ timers are counted in millisecond slots, whereas COP-1 and LTP timers follow the link round trip, about \SI{2.56}{s} on the Earth--Moon link and far longer on interplanetary links, so the same word denotes mechanisms whose retransmission budgets differ by three or more orders of magnitude \\
-Path selection & Pre-planned by the ground segment & Path selection in the core network & Contact Graph Routing~\cite{burleigh_cgr} & Contact Graph Routing computes a route over contacts scheduled in the future, whereas the other two select among links available at the moment of the decision \\
-Resource scheduling & Pass scheduled in advance and delivered to ground~\cite{ccsds_sle} & Per-slot scheduling at the base station & Contact plan~\cite{fraire_contact_plan} & Scheduling granularity spans sub-millisecond slots to contact windows of hours, so admission control and queueing occupy different layers in each family \\
-Security scope & Space Data Link Security, per hop~\cite{ccsds_sdls} & Subscriber authentication and bearer protection & BPSec, per bundle~\cite{rfc9172} & BPSec protection remains attached to the bundle across forwarding nodes, whereas link and bearer security terminate at the far end of the hop or at the network edge \\
+Data unit & Space packet carried in a transfer frame~\cite{ccsds_tm,ccsds_uslp} & Transport block, PDCP PDU & Bundle~\cite{rfc9171} & The bundle carries its own timestamp and lifetime and survives storage; frames and PDUs end with the link \\
+Endpoint name & Spacecraft identifier and virtual channel~\cite{ccsds_uslp} & Subscriber and cell identity & Endpoint identifier~\cite{rfc9171} & An endpoint names a service that need not be reachable; the others presume attachment or name a vehicle \\
+Retransmission & COP-1 on the space link~\cite{ccsds_tc}; LTP for long delay~\cite{ccsds_ltp} & HARQ and RLC ARQ & LTP red part~\cite{rfc5326} & HARQ timers in millisecond slots; COP-1 and LTP timers follow the \SI{2.56}{s} round trip \\
+Path selection & Pre-planned by the ground segment & Path selection in the core network & Contact Graph Routing~\cite{burleigh_cgr} & CGR routes over future contacts; the others choose among links available now \\
+Resource scheduling & Pass scheduled in advance and delivered to ground~\cite{ccsds_sle} & Per-slot scheduling at the base station & Contact plan~\cite{fraire_contact_plan} & Granularity from sub-millisecond slots to contact windows of hours \\
+Security scope & Space Data Link Security, per hop~\cite{ccsds_sdls} & Subscriber authentication and bearer protection & BPSec, per bundle~\cite{rfc9172} & BPSec stays with the bundle; link and bearer security end at the hop or the network edge \\
 \bottomrule
 \end{tabularx}
 \end{table*}

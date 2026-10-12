@@ -15,37 +15,68 @@
   lab/.style={font=\scriptsize, text=black!75, align=center},
   flag/.style={font=\scriptsize\bfseries, text=accent, align=center},
   pics/relay/.style={code={
-    \fill[black!75] (-0.13,-0.13) rectangle (0.13,0.13);
-    \fill[black!35] (-0.55,-0.08) rectangle (-0.18,0.08);
-    \fill[black!35] (0.18,-0.08) rectangle (0.55,0.08);
-    \draw[black!75, line width=0.6pt] (0,-0.13) -- (0,-0.32);
-    \draw[black!75, line width=0.6pt] (-0.22,-0.42) arc (200:340:0.235);}},
-  pics/dish/.style={code={
-    \draw[black!75, line width=0.6pt] (0,0) -- (0,0.35);
-    \draw[black!75, line width=0.7pt, fill=white] (-0.3,0.3) arc (180:360:0.3 and 0.14);
-    \draw[black!75, line width=0.7pt] (-0.3,0.3) arc (180:0:0.3 and 0.16);}},
-]
+    % bus with thermal foil, two solar wings with cells, nadir dish
+    \fill[orange!45!yellow!70!black] (-0.13,-0.13) rectangle (0.13,0.13);
+    \draw[black!70, line width=0.4pt] (-0.13,-0.13) rectangle (0.13,0.13);
+    \draw[black!60, line width=0.4pt] (-0.18,0) -- (-0.13,0) (0.13,0) -- (0.18,0);
+    \foreach \sx in {-1,1} {
+      \fill[blue!45!black!75] ({\sx*0.18},-0.09) rectangle ({\sx*0.58},0.09);
+      \foreach \k in {1,2,3} {\draw[white, line width=0.25pt, opacity=0.7] ({\sx*(0.18+0.1*\k)},-0.09) -- ({\sx*(0.18+0.1*\k)},0.09);}
+      \draw[white, line width=0.25pt, opacity=0.7] ({\sx*0.18},0) -- ({\sx*0.58},0);}
+    \draw[black!70, line width=0.5pt] (0,-0.13) -- (0,-0.2);
+    \fill[black!12] (-0.17,-0.36) .. controls (-0.09,-0.20) and (0.09,-0.20) .. (0.17,-0.36) -- cycle;
+    \draw[black!70, line width=0.5pt] (-0.17,-0.36) .. controls (-0.09,-0.20) and (0.09,-0.20) .. (0.17,-0.36) -- cycle;}},
+  pics/bowl/.style={code={
+    % parabolic reflector seen from the side, boresight along +y, with feed struts
+    \fill[black!10] (-0.4,0.2) .. controls (-0.22,-0.07) and (0.22,-0.07) .. (0.4,0.2) -- cycle;
+    \draw[black!70, line width=0.6pt] (-0.4,0.2) .. controls (-0.22,-0.07) and (0.22,-0.07) .. (0.4,0.2) -- cycle;
+    \draw[black!55, line width=0.35pt] (-0.3,0.15) -- (0,0.5) -- (0.3,0.15);
+    \fill[black!70] (0,0.5) circle (0.035);}},
+]]
 % ============================ (a) THE CHAIN ============================
-% lunar surface with a ridge between the user and the gateway
-\fill[black!8] (0,0) -- (2.1,0) -- (2.75,0.95) -- (3.25,0.95) -- (3.7,0) -- (7.6,0) -- (7.6,-0.76) -- (0,-0.76) -- cycle;
+% lunar surface with a ridge between the user and the gateway; regolith with a few craters and rocks
+\fill[black!9] (0,0) -- (2.1,0) -- (2.75,0.95) -- (3.25,0.95) -- (3.7,0) -- (7.6,0) -- (7.6,-0.76) -- (0,-0.76) -- cycle;
+\fill[black!15] (2.1,0) -- (2.75,0.95) -- (3.0,0.95) -- (2.55,0) -- cycle;
 \draw[black!55, line width=0.6pt] (0,0) -- (2.1,0) -- (2.75,0.95) -- (3.25,0.95) -- (3.7,0) -- (7.6,0);
-% rover (user)
-\fill[black!70, rounded corners=1pt] (0.75,0.25) rectangle (1.55,0.6);
-\fill[black!70] (0.85,0.1) circle (0.11) (1.15,0.1) circle (0.11) (1.45,0.1) circle (0.11);
-\draw[black!70, line width=0.6pt] (1.15,0.6) -- (1.15,0.95);
+\foreach \x/\y/\a/\b in {3.05/-0.32/0.32/0.07, 7.05/-0.28/0.28/0.06, 0.25/-0.52/0.18/0.045, 7.25/-0.62/0.16/0.04} {
+  \fill[black!17] (\x,\y) ellipse [x radius=\a, y radius=\b]; \draw[black!35, line width=0.3pt] (\x,\y) ellipse [x radius=\a, y radius=\b];}
+\fill[black!35] (3.85,0) -- (3.92,0.07) -- (4.02,0.05) -- (4.05,0) -- cycle;
+\fill[black!35] (1.85,0) -- (1.9,0.05) -- (1.98,0.04) -- (2.0,0) -- cycle;
+% rover (user): body, solar deck, mast with omnidirectional antenna, rocker wheels
+\fill[black!62, rounded corners=1pt] (0.72,0.27) rectangle (1.58,0.56);
+\fill[blue!45!black!75] (0.66,0.58) -- (1.64,0.58) -- (1.56,0.66) -- (0.74,0.66) -- cycle;
+\draw[black!70, line width=0.6pt] (1.15,0.66) -- (1.15,0.95);
+\draw[black!60, line width=0.5pt] (0.85,0.27) -- (1.0,0.17) -- (1.15,0.27) (1.15,0.27) -- (1.3,0.17) -- (1.45,0.27);
+\foreach \wx in {0.85,1.15,1.45} {\fill[black!78] (\wx,0.1) circle (0.105); \fill[black!35] (\wx,0.1) circle (0.04);}
 \node[lab, anchor=north] at (1.15,-0.05) {rover, suit,\\instrument};
-% gateway (lander with mast and dish)
-\fill[black!60] (5.0,0) rectangle (5.9,0.55);
-\draw[black!70, line width=0.8pt] (5.45,0.55) -- (5.45,1.75);
-\pic at (5.45,1.75) {dish};
+% gateway: lander on legs with a lattice mast and a steerable dish toward relay A
+\fill[black!55] (5.08,0.36) -- (5.82,0.36) -- (5.72,0.78) -- (5.18,0.78) -- cycle;
+\fill[orange!45!yellow!70!black] (5.2,0.45) rectangle (5.7,0.68);
+\draw[black!65, line width=0.6pt] (5.12,0.4) -- (4.92,0.02) (5.78,0.4) -- (5.98,0.02);
+\fill[black!65] (4.84,0) rectangle (5.0,0.04) (5.9,0) rectangle (6.06,0.04);
+\draw[black!70, line width=0.5pt] (5.39,0.78) -- (5.41,1.62) (5.51,0.78) -- (5.49,1.62);
+\foreach \yy in {0.78,0.98,1.18,1.38} {\draw[black!50, line width=0.3pt] (5.39,\yy) -- (5.51,\yy+0.2) (5.51,\yy) -- (5.39,\yy+0.2);}
+\pic[rotate=-36, scale=0.72] at (5.45,1.64) {bowl};
 \node[lab, anchor=north] at (5.45,-0.05) {surface gateway\\lander, mast, habitat};
 % relays
 \pic at (7.3,4.2) {relay};  \node[lab, anchor=north west] at (7.65,3.95) {relay A};
 \pic at (10.6,4.6) {relay}; \node[lab, anchor=west] at (11.2,4.6) {relay B};
-% Earth and station
-\fill[highc!15] (15.3,1.3) circle (0.95); \draw[black!55, line width=0.5pt] (15.3,1.3) circle (0.95);
-\node[lab] at (15.3,1.3) {Earth};
-\pic at (15.3,2.3) {dish};
+% Earth: oceans, continents, clouds and a thin atmosphere; deep-space station on top
+\shade[ball color=blue!55!cyan!85!black] (15.3,1.3) circle (0.95);
+\begin{scope}
+\clip (15.3,1.3) circle (0.95);
+\fill[green!40!black!75, opacity=0.9] (14.85,1.85) .. controls (15.05,2.05) and (15.35,1.95) .. (15.4,1.7) .. controls (15.5,1.45) and (15.75,1.4) .. (15.7,1.1) .. controls (15.65,0.8) and (15.45,0.55) .. (15.25,0.6) .. controls (15.1,0.75) and (15.2,1.05) .. (15.0,1.2) .. controls (14.8,1.35) and (14.7,1.65) .. cycle;
+\fill[green!35!brown!80, opacity=0.9] (15.75,1.95) .. controls (15.95,2.0) and (16.15,1.8) .. (16.1,1.6) .. controls (16.0,1.45) and (15.85,1.6) .. (15.75,1.75) -- cycle;
+\fill[green!40!black!75, opacity=0.9] (14.45,1.1) .. controls (14.55,1.25) and (14.7,1.1) .. (14.65,0.9) .. controls (14.6,0.75) and (14.45,0.8) .. cycle;
+\fill[white, opacity=0.55] (14.6,1.55) .. controls (14.9,1.62) and (15.2,1.5) .. (15.5,1.58) .. controls (15.3,1.48) and (14.9,1.5) .. cycle;
+\fill[white, opacity=0.55] (15.2,0.95) .. controls (15.5,1.02) and (15.8,0.9) .. (16.05,0.98) .. controls (15.8,0.86) and (15.5,0.9) .. cycle;
+\fill[white, opacity=0.8] (15.3,2.25) ellipse (0.35 and 0.07);
+\end{scope}
+\draw[cyan!45, line width=1.1pt, opacity=0.7] (15.3,1.3) circle (0.97);
+\node[lab, anchor=north] at (15.3,0.3) {Earth};
+\fill[black!50] (15.12,2.24) -- (15.48,2.24) -- (15.38,2.52) -- (15.22,2.52) -- cycle;
+\fill[black!65] (15.3,2.56) circle (0.05);
+\pic[rotate=48, scale=1.15] at (15.3,2.56) {bowl};
 \node[lab, anchor=west] at (15.95,2.55) {deep-space\\station};
 % ---- links ----
 % 1 surface access: rover <-> gateway (S-band), blocked by the ridge: draw over the ridge
@@ -62,7 +93,7 @@
 \draw[kaband, both] (7.9,4.25) -- (10.0,4.6);
 \node[num] at (8.95,4.72) {4};
 % 5 trunk: relay B -> Earth (Ka)
-\draw[kaband, both] (11.0,4.4) -- (15.1,2.75);
+\draw[kaband, both] (11.0,4.4) -- (14.93,2.9);
 \node[num] at (13.1,3.56) {5};
 % 6 direct-to-Earth: gateway -> Earth (X-band, dashed)
 \draw[xband, both] (5.8,1.95) .. controls (8.5,1.0) and (12.5,1.0) .. (14.9,2.3);

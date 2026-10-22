@@ -289,9 +289,6 @@ This efficiency requires tight pointing, which the LLCD figures quantify: the te
 The LunaNet specification, the SFCG recommendations and the CCSDS standards set the interoperability requirements. The LunaNet interoperability specification mandates version~7 of the Bundle Protocol together with its security extension, fixes the proximity and direct-to-Earth band plan, and defines real-time and store-and-forward service types without setting a numerical boundary between them~\cite{lnis_v5}. Frequency assignment follows SFCG Recommendation 32-2, which reserves \SI{2483.5}{}--\SI{2500}{MHz} for in-situ navigation with guard bands separating it from the adjacent terrestrial mobile allocation, and applies an occupied-bandwidth rule that directs links wider than \SI{6}{MHz} to Ka-band~\cite{sfcg_rec32}. The space link and file delivery layers follow CCSDS, which has adopted the delay-tolerant protocols as a companion series~\cite{ccsds_bp,ccsds_ltp,ccsds_lunar_standards}. A lunar radio design is thus constrained at the outset in band, bandwidth and protocol, and the parameters that remain free are those of Section~\ref{sec:frequency}.
 
 
-\begin{remark}[Takeaway]
-No lunar mission has yet operated a network. Relay routing, surface cells and handover will fly for the first time together with the crews and robots that depend on them.
-\end{remark}
 
 \section{Lunar Users and Traffic Demand}
 \label{sec:demand}
@@ -361,9 +358,6 @@ The safety-alert class of Table~\ref{tab:traffic} cannot wait for a scheduled co
 \label{fig:delay}
 \end{figure*}
 
-\begin{remark}[Takeaway]
-The delay a traffic class tolerates decides where it can be served, more than its rate does. Much of the real-time traffic of a base cannot cross to Earth at all, so the design of a lunar network starts on the surface.
-\end{remark}
 
 \section{Geometry: Orbits, Terrain, the Earth in the Sky, and the Six Links}
 \label{sec:geometry}
@@ -496,9 +490,6 @@ The Shielded Zone of the Moon comprises the area of the lunar surface lying more
 \label{sec:links}
 Fig.~\ref{fig:overview} names six links, and Table~\ref{tab:links} gives their ranges. The input to the frequency analysis includes, besides the range, the nature of the two ends, because the carrier a link can use depends on what each end can host and point. Four platform classes suffice. An \emph{omnidirectional} end, a rover, a suited astronaut or an emplaced instrument, hosts an antenna of a few decibels of gain and cannot point. A \emph{pointable, mass-limited} end, a relay dish or a lander antenna, hosts a reflector of a fraction of a meter to a meter and points it to a few tenths of a degree with a gimbal. A \emph{fixed or tracked} end, a surface gateway or a relay serving another relay, hosts a larger aperture and tracks a slowly moving target to a hundredth of a degree. A \emph{microradian} end is an optical terminal with a fine-steering mirror and a beacon loop. In these terms, link~1 (surface access) is omnidirectional at both ends. Link~2 (surface to relay) joins a pointable lander or rover dish to a pointable relay; an omnidirectional user cannot close it (Section~\ref{sec:sixlinks}). Link~3 (gateway backhaul) and link~4 (inter-satellite) are pointable or tracked at both ends. Link~5 (trunk) is pointable at the relay and tracked by a very large ground antenna; link~6 (direct-to-Earth) is pointable at the lander and tracked on Earth. Section~\ref{sec:frequency} assigns a frequency to each link from these classes.
 
-\begin{remark}[Takeaway]
-The Moon has no orbit that stays above a site, so continuous service at the pole needs several relays or repeaters on high ground. The relay orbit also fixes the link distance before any radio choice is made.
-\end{remark}
 
 \section{The Frequency Axis: Propagation, Gain, Bandwidth, Hardware and Regulation}
 \label{sec:frequency}
@@ -620,6 +611,10 @@ Fig.~\ref{fig:ladder} puts the five terms together for the three links whose two
 
 The figure supports three conclusions. First, falling transmit power and rising receiver noise offset the aperture gain at high frequency. Amplifier technology therefore sets the practical upper limit of the ladder: with the laboratory tubes of tens of watts it extends from E-band to about \SI{240}{GHz}; with solid-state amplifiers alone it is Q/V-band. Second, for the surface backbone every band above Ka is bandwidth-limited rather than power-limited, and the wider allocations of the high bands give the highest rates. Third, for links 3 and 4 the Ka-band of the SFCG band plan is the highest allocated band, adopted from the trunk to Earth, and yields a lower rate than the bands above it.
 
+\begin{remark}[Ka-Band on Links Without Atmosphere]
+The Ka-band of today's lunar relays was inherited from links to Earth. Between relays and surface gateways there is no atmosphere, so higher bands would carry more data with the same antennas, up to the limits set by amplifiers and pointing (Fig.~\ref{fig:ladder}).
+\end{remark}
+
 \begin{figure*}[!t]
 \centering
 {\sffamily\footnotesize\bfseries (a)}\par
@@ -640,9 +635,6 @@ Asok \emph{et al.}~\cite{asok2027space} quantify the second boundary for \SI{290
 \subsection{Reuse Versus Optimality}
 The ladder analysis is compatible with reusing existing radios on many links. Table~\ref{tab:ladder} includes heritage because S-, X- and Ka-band transponders have deep-space flight history and ground segments that already receive them; Ku-, Ka- and E-band radios and optical inter-satellite terminals are mass-produced for Earth-orbit megaconstellations and can be reused; D-band radios exist for terrestrial backhaul and are being qualified for space. The conclusion is narrower: for the links that lie entirely in vacuum, the band should be chosen on the ladder for what the two ends can point and the platform can power, and the heritage column indicates the present cost of that choice.
 
-\begin{remark}[Takeaway]
-The Ka-band of today's lunar relays was inherited from links to Earth. Between relays and surface gateways there is no atmosphere, so higher bands would carry more data with the same antennas, up to the limits set by amplifiers and pointing.
-\end{remark}
 
 \section{Link Budgets: One Equation, Six Links}
 \label{sec:budgets}
@@ -926,6 +918,10 @@ The cell-planning consequences of terrain, and the 3GPP study that preceded the 
 \subsubsection{Link 2: Surface-to-Relay}
 Link~2 in Table~\ref{tab:links} joins a lander or rover carrying a pointable \SI{0.5}{m} S-band dish to the relay, with a dish of the same size at the relay. With the assumptions above, it closes \SI{1}{Mbps} with a \SI{3}{dB} margin only to about \SI{5900}{km}. It carries \SI{100}{kbps} with \SI{3.5}{dB} of margin at the \SI{17400}{km} LCRNS apolune (Appendix~\ref{app:dct}) and falls to about \SI{7}{kbps} at the \SI{70000}{km} apolune of an NRHO. The link is therefore limited by the aperture that a surface terminal can carry. A rate of \SI{20}{Mbps} corresponds approximately to a \SI{20}{MHz} QPSK carrier. A handset-class user radiating \SI{0.2}{W} from an omnidirectional antenna falls about \SI{55}{dB} short of this rate at \SI{15000}{}--\SI{17400}{km}, even with the \SI{0.5}{m} dish at the relay. Suited astronauts and small rovers therefore reach the relay through a surface gateway, over links~1 and~3.
 
+\begin{remark}[Handheld Terminals and the Contracted Relays]
+Unlike direct-to-device service from low Earth orbit, a handheld terminal cannot reach the lunar relays now contracted: at \SI{15000}{}--\SI{17400}{km} it falls about \SI{55}{dB} short of a \SI{20}{MHz} carrier. Suits and small rovers therefore need a gateway on the surface.
+\end{remark}
+
 \subsubsection{Link 3: Surface-Gateway Backhaul}
 Link~3 in Table~\ref{tab:links} is the backhaul from a surface gateway or habitat to an orbital relay. This link operates at Ka-band (\SI{26}{GHz}) with directional antennas on both ends, and the dominant constraint is the product of aperture and pointing accuracy. For a south-polar gateway the relevant range is the relay's apolune, where it dwells over the pole. Table~\ref{tab:links} lists a pair of \SI{0.5}{m} antennas for this link. With the relay assumptions above and $R_b = \SI{10}{Mbps}$, the pair closes with \SI{5.0}{dB} of margin at the \SI{17400}{km} apolune of the LCRNS reference ELFO~\cite{lcrns_ref_const}. With a \SI{3}{dB} margin the same pair supports \SI{16}{Mbps} there and \SI{63}{Mbps} at the \SI{8700}{km} apolune of the smaller ELFO, comparable to the \SI{1}{}--\SI{50}{Mbps} Ka-band user rates specified for LCRNS~\cite{nasa_lunar_relay_srd}. At the \SI{69400}{km} apolune of the NRHO the margin falls to \SI{-7.0}{dB}. The NRHO range penalty of \SI{12}{dB} is recovered either by a sixteen-fold reduction in data rate or by enlarging both antennas to approximately \SI{0.9}{m} for a \SI{3}{dB} margin. The required aperture product grows with the fourfold range ratio, and each diameter grows with its square root. The backhaul is thus coupled to orbit selection: an NRHO relay requires approximately twice the antenna diameter at both ends compared with an ELFO relay. The larger antennas narrow the Ka-band beam from \SI{1.6}{\degree} to approximately \SI{0.9}{\degree}. They also tighten the pointing requirement, taken as the error that costs \SI{0.5}{dB} at one end, from \SI{0.33}{\degree} to \SI{0.18}{\degree}.
 
@@ -1022,9 +1018,6 @@ Fig.~\ref{fig:flow} fixes the parameters of \eqref{eq:aperture} in order of incr
 
 
 
-\begin{remark}[Takeaway]
-One scaling law between antenna size, distance and wavelength sizes every lunar link. It also shows that, unlike direct-to-device service from low Earth orbit, a handheld terminal cannot reach the lunar relays now contracted; suits and small rovers need a gateway on the surface.
-\end{remark}
 
 \section{The Surface Segment: Coverage, Capacity and Mobility}
 \label{sec:surface}
@@ -1035,6 +1028,10 @@ Sections~\ref{sec:geometry} to~\ref{sec:budgets} treated each link in isolation;
 On the Moon, coverage depends on antenna height and node placement more than on transmit power. Link~1 of Table~\ref{tab:links} closes with \SI{14}{dB} of margin over \SI{10}{km} at \SI{1}{Mbps} with omnidirectional antennas; its coverage is limited by visibility. The first limit is the horizon of Section~\ref{sec:geometry}, and the second is the terrain within it. A line-of-sight path over regolith is served at close to the free-space level, modulated by two-ray interference between the direct ray and the ground reflection. A path behind a ridge is served, if at all, through diffraction over one or more edges, and the diffraction loss grows with frequency. Reference~\cite{baena2027surface} quantifies both limits over a \SI{10}{km} south-polar tile at Connecting Ridge. The study uses the Lunar Orbiter Laser Altimeter (LOLA) elevation model, a two-ray model for line-of-sight paths and multi-edge diffraction for shadowed ones. A single \SI{30}{m} mast on the highest point of the tile serves 35.1~percent of it at UHF, 18.7~percent at S-band and 12.4~percent at Ka-band. About 12~percent of the tile is in line of sight, whereas a free-space (Friis) budget without terrain would serve 100~percent. At the Shackleton rim tile, the served fractions are 42.8, 30.2 and 22.8~percent.
 
 Fig.~\ref{fig:coverage}(a) compares the two tiles and shows the line-of-sight core of Connecting Ridge. Panels~(b) to~(d) vary one parameter at a time at S-band on Connecting Ridge; in every case, a Friis budget without terrain would serve the whole tile. Raising the mast from 10 to \SI{100}{m} raises the S-band served fraction from 4.8 to 44.3~percent, and three nodes on high points serve 33.9~percent. Transmit power has a smaller effect: raising the EIRP from the \SI{23}{dBm} of a suit radio to the \SI{53}{dBm} of a base station, at a \SI{10}{m} mast, raises the fraction only from 12 to 19~percent. The S-band margin over the tile has a bimodal distribution: the served locations have a median margin of \SI{+34}{dB}, with the line-of-sight peak near \SI{+38}{dB}, and the unserved locations a median of \SI{-59}{dB}. Coverage therefore consists of a line-of-sight core with large margin and a diffraction fringe that shrinks with frequency.
+
+\begin{remark}[Mast Height and Transmit Power]
+On lunar terrain, mast height buys far more coverage than transmit power: raising the mast from 10 to \SI{100}{m} multiplies the served fraction by nine, whereas \SI{30}{dB} more EIRP adds 7 percentage points.
+\end{remark}
 
 Along a \SI{1.79}{km} rover traverse at the Shackleton rim, 178 of 179 waypoints are in line of sight. At these waypoints the channel varies only through two-ray interference, between \SI{-12.6}{} and \SI{+5.2}{dB} relative to free space. At the single waypoint where a small ridge blocks the path, the loss rises by \SI{12.5}{dB} within one \SI{10}{m} step; a prediction from the elevation model can anticipate this jump.
 \begin{figure*}[!t]
@@ -1052,6 +1049,10 @@ In its design approach, the access link resembles a terrestrial small cell. The 
 \subsection{Capacity and Multiple Access}
 \label{sec:admissibility}
 Within the cell, users share the carrier as they do on Earth, through orthogonal frequency-division multiple access (OFDMA) under a local scheduler. With few terminals and no interference from neighboring cells, the cell is not interference-limited in the terrestrial sense. The link toward the relay also serves few terminals and is noise-limited, and access to it is a scheduling problem over visibility windows (Table~\ref{tab:rosetta_radio}). The governing quantity is therefore the contact duty cycle, the fraction of time the relay is in view and scheduled. Averaged over the contact plan, the throughput a relay delivers to a site is the link rate times this duty cycle. Reference~\cite{baena2027lunabridge} quantifies the duty cycle for a single LCRNS relay over Malapert Peak. With the 90-day plan of Fig.~\ref{fig:dutycycle}, the relay is in view 83.4~percent of the time; the median gap between contacts is \SI{4.9}{h} and the largest \SI{5.6}{h}. The effective backhaul $C_{\mathrm{eff}}$, the link rate times the contact duty cycle, is about \SI{8.3}{Mbps}. Two conditions determine the delivery of a traffic class. A bundle, the data unit that delay-tolerant networking stores and forwards, survives a gap only if its lifetime exceeds the gap. A class whose lifetime is shorter than the largest gap is therefore gap-limited: an alert with a real-time lifetime of \SI{300}{s} delivers only the duty cycle, 0.83, at any link rate, buffer size or scheduling policy. A class whose lifetime exceeds the largest gap reaches full delivery if its rate fits the effective backhaul. Otherwise it is capacity-limited at $C_{\mathrm{eff}}/R$, so that a \SI{12}{Mbps} video feed delivers 0.69 for any bundle lifetime.
+
+\begin{remark}[Bundle Lifetime and Contact Gaps]
+A bundle survives a contact gap only if its lifetime exceeds the gap. A traffic class whose lifetime is shorter than the largest gap delivers only the contact duty cycle, whatever the link rate, buffer size or scheduling policy.
+\end{remark}
 
 Fig.~\ref{fig:dutycycle} draws both tests on the plane of bundle lifetime and offered rate, for the plan with a \SI{5}{\degree} elevation mask. Below the largest gap a class is gap-limited, and above $C_{\mathrm{eff}}$ it is capacity-limited. The dashed contours give the delivery $P = \min(P_{\mathrm{gap}}(L), C_{\mathrm{eff}}/R)$. The dots are the traffic classes defined in~\cite{baena2027lunabridge}, labeled with their delivery where it falls below 1. The scheduling policy matters only when contacts are congested; under nominal coverage first-in-first-out, strict priority and weighted fair queuing deliver the same set~\cite{baena2027lunabridge}. 
 
@@ -1087,9 +1088,6 @@ Baena \emph{et al.}~\cite{baena2027surface} run a 5G New Radio uplink simulation
 \label{fig:bler}
 \end{figure}
 
-\begin{remark}[Takeaway]
-On the Moon, mast height buys far more coverage than transmit power, and handover can be planned from the terrain map. A message survives a contact gap only if its lifetime exceeds the gap, so no link rate or buffer size rescues a short-lived alert.
-\end{remark}
 
 \section{The Space Segment: Constellations and the Relay}
 \label{sec:space}
@@ -1099,6 +1097,10 @@ The backhaul throughput of a surface cell is limited by the fraction of time a r
 The planned lunar relay constellations are regional, optimized for the south polar region in which the Artemis missions are planned to operate~\cite{lcrns_ref_const,esa_moonlight_csc}. Published coverage analyses indicate that two large-amplitude halo satellites give continuous single-satellite coverage of one polar region (latitudes above \SI{60}{\degree}) and that four approach complete surface coverage~\cite{gao_halo_coverage}. For an eight-satellite ELFO constellation with terrain occlusion at the site, the probability of four or more satellites being visible is 69~percent, rising to 96~percent for a nine-satellite hybrid of ELFO and NRHO~\cite{zhang_elfo_occlusion}.
 
 Communications availability and navigation availability scale differently. Communications requires one visible satellite, whereas a navigation fix requires four in favorable geometry. In a six-satellite ELFO model, four or more satellites are visible at the south pole 99~percent of the time, yet the geometric dilution of precision (GDOP, Section~\ref{sec:dop}) is below 6 only 16~percent of the time~\cite{baweja_dop}. The orbit families sized in~\cite{asok2027space} against one requirement set show the same difference (Fig.~\ref{fig:commnav}). The figure counts the satellites needed for one and for three simultaneous relay paths at the worst point of the cap over 99.9~percent of a \SI{90}{d} propagation, and for navigation at Malapert Peak. The ELFO is the LCRNS reference orbit, the circular orbits are at \SI{2500}{km} (\SI{86}{\degree}) and \SI{1000}{km} (polar), and for the three-plane ELFO the one-path count shown is the smallest tested. The ELFO and the NRHO keep one relay path at the worst point of the cap with two satellites and three paths with four. Navigation with a PDOP of at most 6 at 99.9~percent needs 13 ELFO satellites in three planes over 21 days and 18 over the full 90-day ballistic arc. A circular constellation in a single plane falls short of that navigation availability at the pole at every size tested in~\cite{asok2027space}, because its satellites lie close to one great circle as seen from the site. In three planes it needs 18.
+
+\begin{remark}[Constellation Size for Navigation]
+At the south pole, navigation sets the size of the constellation: one relay path takes two satellites in eccentric orbits, whereas a position fix with a PDOP of at most 6 at 99.9~percent takes 13 to 18 in three planes (Fig.~\ref{fig:commnav}).
+\end{remark}
 
 A global lunar constellation, one that serves all longitudes and latitudes, requires a different architecture from the regional designs above. For radio-frequency links, Cheung and Lee~\cite{cho_relay_coverage} compare a three-orbiter constellation in polar and equatorial orbits with single relays in an Earth--Moon L2 Lissajous orbit and in a distant retrograde orbit. For optical links, they consider a multi-hop architecture through an L2 relay and geosynchronous relay satellites. The IOAG lunar communications architecture study~\cite{ioag_lunar_arch} proposes a relay constellation of three to five orbiters in \SI{12}{hour} orbits: ELFOs with apolune over the north and south poles and a circular equatorial orbit. The constellation can be built up incrementally, south pole first, then the equator and finally the north pole, and at all latitudes it provides contacts of \SI{5}{}--\SI{7}{hours} with maximum gaps of \SI{1.4}{}--\SI{5.8}{hours}. Regional and global service therefore also differ in deployment sequence. The link budget must accommodate the slant range of each stage, which in that design reaches \SI{5892}{km} to the equatorial orbiter and \SI{9672}{km} to an elliptical one.
 
@@ -1134,9 +1136,6 @@ S-band and Ka-band can share one steerable reflector through coaxial or frequenc
 The regenerative payload is the hardware prerequisite for every protocol result in Section~\ref{sec:protocol}. It adds four costs that a bent pipe avoids: demodulation and decoding at the relay's rates, storage sized for the longest Earth outage of a far-side user, radiation-tolerant compute for the bundle node and the routing, and the power to run them. All four compete with the amplifier for the bus power of Section~\ref{sec:frequency}. Published hardware figures for this cost are scarce. The NASA Glenn COMPASS design of a relay satellite in a \SI{12}{h} elliptical frozen polar orbit serving the south pole gives a detailed public equipment list~\cite{oleson2012compass}. It allots \SI{0.3}{TB} of storage for \SI{24}{h} of relay traffic, an average of \SI{28}{Mbps}. Its processors, data recorders and router account for \SI{48}{kg} of the \SI{563}{kg} dry mass and \SI{157}{W} of the \SI{684}{W} nominal load of the communications and avionics subsystems. The design dates from 2007 and assumed card-based radiation-hardened avionics. Later NASA concept work reduced the relay to a spacecraft of about \SI{225}{kg} wet mass with a \SI{1.1}{kW} solar array, sized for an Evolved Expendable Launch Vehicle Secondary Payload Adapter (ESPA) ring. It states on-board storage for store-and-forward as a requirement without giving a capacity~\cite{lcrns_esper2025}. 
 
 
-\begin{remark}[Takeaway]
-Navigation, more than communications, sets how many relays the south pole needs: one relay path takes two satellites, whereas a reliable position fix takes more than a dozen.
-\end{remark}
 
 \section{Positioning, Navigation and Timing}
 \label{sec:pnt}
@@ -1147,6 +1146,10 @@ On Earth, a terminal obtains position and time from a global navigation satellit
 A navigation receiver estimates four unknowns, its three position coordinates and its clock offset, from at least four pseudoranges. Each pseudorange carries an error, and the satellite geometry sets how much of that error reaches the solution. The \emph{dilution of precision} (DOP) is this amplification factor: if each pseudorange has an error with standard deviation $\sigma_\rho$, the position error has standard deviation $\mathrm{PDOP}\cdot\sigma_\rho$. The position DOP (PDOP) covers the three position coordinates. The horizontal and vertical DOPs (HDOP and VDOP) split it between the local horizontal plane and the vertical, so that $\mathrm{PDOP}^2=\mathrm{HDOP}^2+\mathrm{VDOP}^2$. The time DOP (TDOP) covers the clock offset, and the geometric DOP (GDOP) combines position and time, $\mathrm{GDOP}^2=\mathrm{PDOP}^2+\mathrm{TDOP}^2$. Satellites spread across the sky give small DOP values. Satellites clustered in one part of the sky give large ones, because their lines of sight are nearly parallel and the receiver cannot separate the coordinates. With a ranging error of \SI{1}{m}, a PDOP of 6, the threshold used in this paper, gives a position error of about \SI{6}{m} (one standard deviation).
 
 At the lunar south pole, the median GDOP varies non-monotonically as ELFO satellites are added. It is 9.6 for five satellites and 21.5 for six, then 7.3 with eight and 8.9 with ten, against a commonly used acceptability threshold of approximately 6. With four satellites, a user never sees the four required for a fix~\cite{baweja_dop}. The degradation is geometric in origin: the satellites occupy similar orbital planes and are therefore clustered in the same region of the sky. The GDOP is the square root of the trace of $(H^{\mathsf{T}}H)^{-1}$, where each row of the observation matrix $H$ contains the unit line-of-sight vector to one satellite, augmented by a unit entry for the receiver clock bias. $H^{\mathsf{T}}H$ is the analog of the channel Gram matrix in MIMO communications. When the rows of $H$ are nearly parallel, the matrix is ill-conditioned, and the position estimate amplifies the ranging error by a factor bounded by the condition number. A MIMO channel with correlated columns yields a low multiplexing gain for the same reason. The lunar south-polar geometry places all visible satellites in a narrow cone, so $H$ is nearly rank-deficient and the condition number is large. Baweja~\cite{baweja_dop} finds that approximately twelve orbital satellites are needed to bring the median below 6 (a median, against the 99.9~percent availability of Fig.~\ref{fig:commnav}). For a user at \SI{-80}{\degree} latitude, three surface beacons reduce it from 16.2 to 1.6, matching a twenty-four-satellite orbital constellation. The surface beacons break the angular degeneracy by adding rows to $H$ with widely differing line-of-sight directions, which is the geometric equivalent of adding well-separated antenna elements to a MIMO array.
+
+\begin{remark}[Surface Beacons and Polar Geometry]
+At the pole, adding relays improves the position fix slowly, because the visible satellites lie in the same part of the sky. Three surface beacons give the geometry of a twenty-four-satellite orbital constellation~\cite{baweja_dop}.
+\end{remark}
 
 \subsection{GNSS at Lunar Distance}
 \label{sec:gnss}
@@ -1184,9 +1187,6 @@ DSAC (Hg$^{+}$) & $3\times10^{-15}$ & $3\times10^{-16}$/d & \SI{0.01}{ns} & \SI{
 \end{tabularx}
 \end{table}
 
-\begin{remark}[Takeaway]
-At the pole, adding relays improves the position fix slowly, because the visible satellites sit in the same part of the sky. Three beacons on the ground give the geometry of a twenty-four-satellite constellation.
-\end{remark}
 
 \section{Protocols Across Intermittency}
 \label{sec:protocol}
@@ -1270,9 +1270,6 @@ The contact plan must be recomputed whenever the network topology changes. On th
 
 
 
-\begin{remark}[Takeaway]
-The missing piece of a lunar protocol stack is the gateway between the 5G surface and the delay-tolerant relay: no standard defines how a 5G session becomes stored data when the relay sets.
-\end{remark}
 
 \section{Security, Power and Spectrum in Operation}
 \label{sec:cross}
@@ -1382,9 +1379,6 @@ Optical & 1064 / 1550\,nm & Inter-satellite, trunk; Orion O2O at 1550\,nm (no IT
 
 
 
-\begin{remark}[Takeaway]
-Without a certificate authority in reach, revoking a compromised credential remains an open problem. Until nuclear power is available, the lunar night changes the topology every two weeks as solar nodes shut down.
-\end{remark}
 
 \section{Status of Lunar Propagation Measurements}
 \label{sec:measurement}
@@ -1399,9 +1393,6 @@ A first campaign adequate to close this gap would require at least two surface n
 
 Before such a campaign, hardware channel emulation provides an interim substitute: a laboratory emulator applies a modeled channel to live radio signals. In~\cite{baena2027surface}, the ray-traced tiles are exported as tapped-delay channels within the tap and quantization limits of two hardware channel emulators. A full 5G stack can then run over Connecting Ridge and Shackleton channels on software-defined radios. Emulation allows the results of a future measurement campaign to be compared with protocol-level predictions as well as path-loss predictions. The Doppler and range-rate statistics of the service link seen from a polar site have also not been measured in situ.
 
-\begin{remark}[Takeaway]
-Every coverage and surface-link result in this paper, including ours, rests on propagation models that no lunar measurement has validated. A campaign with two surface nodes over one day-night cycle would test them.
-\end{remark}
 
 \section{An Architecture for the Sustained Moon}
 \label{sec:architecture}
@@ -1433,9 +1424,6 @@ A Moon-centric core requires deciding where computation is placed: at the instru
 \label{fig:architecture}
 \end{figure*}
 
-\begin{remark}[Takeaway]
-The constraints that will outlast this generation are physical: the aperture rule, the lunar night and the absence of a synchronous orbit. The choices now being made, from the number of tiers to the ownership of the far-side relay, will be hard to change once deployed.
-\end{remark}
 
 \section{Open Research Problems}
 \label{sec:open}

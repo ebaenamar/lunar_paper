@@ -65,6 +65,8 @@
 \makeatother
 % Columns end where the text ends: no vertical stretching to fill a column
 \raggedbottom
+% Float-only pages start at the top instead of being centered vertically
+\makeatletter\setlength{\@fptop}{0pt}\setlength{\@dblfptop}{0pt}\makeatother
 \begin{document}
 \receiveddate{XX Month, XXXX}
 \reviseddate{XX Month, XXXX}
@@ -215,7 +217,7 @@ Both radio traditions of Section~\ref{sec:bridge} are already in use at the Moon
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.12}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}X}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{3.5cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}X}
 \toprule
 \rowcolor{tabhead}\textbf{Asset} & \textbf{Orbit or location} & \textbf{Bands} & \textbf{Aperture} & \textbf{Rate delivered or specified} \\
 \midrule
@@ -578,9 +580,9 @@ The second hardware variable is the power the platform can supply. A relay small
 \footnotesize
 \renewcommand{\arraystretch}{1.0}
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.45cm}>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}X}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{1.5cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{1.05cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}X}
 \toprule
-\rowcolor{tabhead}\textbf{Band} & \textbf{Gain of a \SI{0.5}{m} dish} & \textbf{Beam\-width, \SI{0.5}{m}} & \textbf{Transmit power and status} & \textbf{Receiver $T_{\mathrm{sys}}$} & \textbf{Lunar allocation status} & \textbf{Zenith loss (dB), Goldstone / \SI{5}{km}~\cite{itur_p676_13}} & \textbf{Heritage and fit} \\
+\rowcolor{tabhead}\textbf{Band} & \textbf{Gain, \SI{0.5}{m}} & \textbf{Beam, \SI{0.5}{m}} & \textbf{Transmit power and status} & \textbf{Receiver $T_{\mathrm{sys}}$} & \textbf{Lunar allocation status} & \textbf{Zenith loss (dB)$^{\mathrm{a}}$} & \textbf{Heritage and fit} \\
 \midrule
 UHF, \SI{0.4}{GHz} & \SI{3}{dBi} (omni used) & --- & 10s W SSPA; flight & \SI{300}{K} & SFCG, outside the Shielded Zone only & 0.02 / 0.01 & Proximity links; outside the zone only \\
 S, \SI{2.5}{GHz} & \SI{20}{dBi} & \SI{17}{\degree} & SSPA 300~W~\cite{giofre2016}; TWT 65--150~W~\cite{menninger2005}; flight & \SI{300}{K} & SFCG surface and navigation bands & 0.03 / 0.01 & Deep space; surface access, PNT \\
@@ -592,10 +594,11 @@ E, \SI{71}{}--\SI{86}{GHz} & \SI{50}{dBi} & \SI{0.5}{\degree} & SSPA 1--4~W~\cit
 W, \SI{92}{}--\SI{114}{GHz} & \SI{52}{dBi} & \SI{0.4}{\degree} & TWT 65~W, ${>}20\%$, laboratory~\cite{chen2022wmpm} & \SI{1000}{K} & None lunar & 0.6--1.5 / 0.1--0.5 & Experimental; ISL \\
 D, \SI{110}{}--\SI{170}{GHz} & \SI{55}{dBi} & \SI{0.3}{\degree} & TWT 10--20~W, laboratory~\cite{basu2021d,chen2025d}; SSPA ${\approx}0.1$~W~\cite{paoloni2026} & \SI{1500}{K} & None lunar; passive bands interleaved & 1.0--2.9 / 0.2--0.4 & 6G and backhaul; ISL, backhaul, surface backbone \\
 Sub-THz, \SI{200}{}--\SI{330}{GHz} & \SI{60}{dBi} & \SI{0.14}{\degree} & TWT 10--107~W, laboratory, mostly pulsed~\cite{field2018,joye2014,pan2023}; airborne 32~W, 9\%~\cite{armstrong2018}; ${\approx}2$~W designs at \SI{300}{GHz}~\cite{paoloni2026} & \SI{2500}{K} & None lunar; passive bands dense & 2.8--6.0 / 0.4--0.9 & Research; ISL, surface backbone \\
-THz, above \SI{300}{GHz} & \SI{65}{dBi} & \SI{0.07}{\degree} & mW SSPA; development~\cite{paoloni2026} & $>\SI{5000}{K}$ & Passive identifications & Opaque except windows (\SI{340}{GHz}: 10.5 / 1.5) & Research \\
-Optical, \SI{1550}{nm} & \SI{105}{dBi} (\SI{10}{cm}) & \SI{19}{\micro\radian} & 0.5--4.5~W, flight~\cite{boroson_llcd,dinu2022,schieler2023tbird} & 25 photons/bit & Outside the Radio Regulations & Cloud-limited & LEO ISL, LLCD, O2O; ISL, trunk \\
+THz, above \SI{300}{GHz} & \SI{65}{dBi} & \SI{0.07}{\degree} & mW SSPA; development~\cite{paoloni2026} & \mbox{${>}\SI{5000}{K}$} & Passive identifications & Opaque except windows (\SI{340}{GHz}: 10.5 / 1.5) & Research \\
+Optical, \SI{1550}{nm} & \SI{105}{dBi} (\SI{10}{cm}) & \SI{19}{\micro\radian} & 0.5--4.5~W, flight~\cite{boroson_llcd,dinu2022,schieler2023tbird} & 25~photons per bit & Outside the Radio Regulations & Cloud-limited & LEO ISL, LLCD, O2O; ISL, trunk \\
 \bottomrule
 \end{tabularx}
+\par\smallskip\raggedright\footnotesize $^{\mathrm{a}}$Gaseous zenith loss at Goldstone / at a dry site at \SI{5}{km} altitude~\cite{itur_p676_13}.
 \end{table*}
 
 
@@ -842,7 +845,7 @@ Chained together, the six links form a network. Table~\ref{tab:chain} follows on
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\bfseries}Xrrr}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}Xrrr}
 \toprule
 \rowcolor{tabhead} & \textbf{Link 1} & \textbf{Link 3} & \textbf{Link 5} \\
 \rowcolor{tabhead} & \textbf{rover--gateway} & \textbf{gateway--relay} & \textbf{relay--Earth} \\
@@ -1057,7 +1060,7 @@ A one-way user must hold its clock between contacts. Table~\ref{tab:holdover} gi
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\bfseries}Xccccc}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash\bfseries}Xccccc}
 \toprule
 \rowcolor{tabhead} & & & \multicolumn{3}{c}{\textbf{Time error after a gap of}} \\
 \rowcolor{tabhead}\textbf{Oscillator} & \textbf{$\sigma_y$} & \textbf{Aging} & \textbf{\SI{1}{h}} & \textbf{\SI{1}{d}} & \textbf{\SI{14}{d}} \\
@@ -1087,7 +1090,7 @@ Delay-tolerant protocols are designed for this regime. The Bundle Protocol versi
 \footnotesize
 \begin{tabularx}{\columnwidth}{@{}>{\bfseries}llR}
 \toprule
-\rowcolor{tabhead}\textbf{Timer} & \textbf{Terrestrial value} & \textbf{Consequence for lunar links} \\
+\rowcolor{tabhead}\textbf{Timer} & \textbf{On Earth} & \textbf{Consequence for lunar links} \\
 \midrule
 TCP initial RTO & 1\,s~\cite{rfc6298} & Spurious retransmission at \SI{2.56}{s} RTT~\cite{wood_tcp_radius} \\
 HARQ round trip & $\sim$1\,ms & Terrestrial timing exceeded on relay links; relay range within NTN scheduling offsets and per-process HARQ disabling~\cite{3gpp_ts_38300}; \SI{2.56}{s} trunk RTT beyond both \\
